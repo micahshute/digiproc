@@ -1,0 +1,6 @@
+require './lib/dsp'
+require './lib/extensions/array_extension'
+require './lib/strategies/fft/radix2_strategy'
+require './lib/fft'
+# require './lib/signals/digital_signal'
+# require './lib/filters/digital_filter.rb'

@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["micahshute"]
   spec.email         = ["micah.shute@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Perform basic Digital Signal Processing tasks, including convolution, fft, filtering.}
+  spec.description   = %q{Allows design of Digital Filters using the Windowing Method, creation of Digital Signals or Analog Signals sampled at a certain interval, convolution, cross-correlation, and visualization of the data. .}
+  spec.homepage      = "https://github.com/micahshute/dsp"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
     spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-    spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+    spec.metadata["source_code_uri"] = "https://github.com/micahshute/dsp"
+    spec.metadata["changelog_uri"] = "https://github.com/micahshute/dsp"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
