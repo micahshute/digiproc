@@ -57,4 +57,30 @@ RSpec.describe Dsp::FFT do
         end
             ).to eq(eqn1_fft)
     end
+
+    it "can process data through a window before fft" do
+        expect(Dsp::FFT.new(data: data).process_with_window.map do |val|
+            val.is_a?(Complex) ? Complex(val.real.round(5), val.imag.round(5)) : val.round(5)
+        end
+            ).to eq(false)
+
+    end
+
+    it "can calculate magnitude of its values" do
+
+    end
+
+    it "can calculate angle of its values" do 
+
+    end
+
+    it "can caclulate db of its values" do
+
+    end
+
+    it "can find the top n maxima in the calculated fft" do
+
+    end
+
+    
 end
