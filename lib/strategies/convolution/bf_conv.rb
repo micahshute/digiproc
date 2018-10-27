@@ -1,4 +1,4 @@
-class BfConvolutionStrategy
+class BFConvolutionStrategy
 
     def self.conv(data1, data2)
         dynamic_data = data1.dup
@@ -17,10 +17,8 @@ class BfConvolutionStrategy
         end
         conv_sum
       end
-    
-      def self.cross_correlation(data1, data2)
-        self.conv(data1, data2.reverse)
-      end
+
+      private
     
       #Gives start and stop values of overlap inclusive
       def self.conv_overlap_area(static_len, dynamic_len, n)

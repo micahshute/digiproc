@@ -8,7 +8,7 @@ class Dsp::FFT
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the data
-    def initialize(strategy: Dsp::Radix2Strategy, data: , size: nil, window: nil)
+    def initialize(strategy: Radix2Strategy, data: , size: nil, window: nil)
         raise ArgumentError.new('Size must be an integer') if not size.nil? and not size.is_a?(Integer) 
         raise ArguemntError.new('Size must be greater than zero') if not size.nil? and size <= 0 
         raise ArgumentError.new('Data must be an array') if not data.is_a? Array

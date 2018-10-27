@@ -1,7 +1,7 @@
 class DigitalSignal
-    # include Convolvable::InstanceMethods, FourierTransformable::InstanceMethods
-    # extend Convolavable::ClassMethods, FourierTransformable::ClassMethods
+    include Convolvable::InstanceMethods
 
+    
     def self.new_from_eqn(eqn: , size: )
         rng = (0...size)
         self.new(data: rng.map{ |n| eqn.call(n) })

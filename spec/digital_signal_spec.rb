@@ -47,7 +47,6 @@ RSpec.describe DigitalSignal do
     it "can return a data value, and returns a 0 outside the range" do
         ds = DigitalSignal.new(data: [1,2,3,4,5])
         expect(ds.i 10).to eq(0)
-        expect(ds.i -3).to eq(0)
         expect(ds.i 10000).to eq(0)
     end
 
