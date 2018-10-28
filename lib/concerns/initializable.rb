@@ -4,8 +4,8 @@ module Initializable
             def initialize_modules(*modules)
                 modules.each do |m|
                     if verify_params(m) == :valid_hash
-                       m.keys.first.instance_method(:initialize, values.first).bind(self).call
-                    elsif verify_params == :valid_module
+                       m.keys.first.instance_method(:initialize).bind(self).call(m.values.first)
+                    elsif verify_params(m) == :valid_module
                         m.instance_method(:initialize).bind(self).call
                     end
                 end

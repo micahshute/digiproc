@@ -9,3 +9,9 @@ task :default => :spec
 task :environment do 
     require_relative './config/environment'
 end
+
+desc "Test data structures in console environment"
+task :console => :environment do
+    require 'pry'
+    pry.start
+end

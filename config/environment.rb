@@ -4,8 +4,11 @@ require './lib/strategies/fft/radix2_strategy'
 require './lib/strategies/convolution/bf_conv'
 
 #Modules
+require './lib/concerns/requires_data'
 require './lib/concerns/initializable'
 require './lib/concerns/convolvable'
+require './lib/concerns/fourier_transformable'
+
 
 #Namespace
 require './lib/dsp'

@@ -6,3 +6,5 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 gemspec
 
 gem "gruff", "~> 0.7.0"
+
+gem "pry", "~> 0.11.3", :group => :development

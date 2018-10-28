@@ -16,6 +16,14 @@ RSpec.describe DigitalSignal do
         ->(n){ n % 4 }
     end
 
+    let(:periodic_signal) do
+        DigitalSignal.new_from_eqn(eqn: cos_pi_over_ten, size: 32)
+    end
+
+    let(:mod_signal) do
+        DigitalSignal.new_from_eqn(eqn: n_mod_4, size: 32)
+    end
+
 
     it "allows creation of a digital signal with an arary of data" do 
         data = linspace.map{ |n| cos_pi_over_ten.call(n)}
@@ -52,15 +60,26 @@ RSpec.describe DigitalSignal do
 
 
     it "can be convolved with another digital signal" do
-        expect(true).to eq(false)
+        expect(periodic_signal.conv(mod_signal)).to be
+        ds1 = DigitalSignal.new(data: [1,2,3,4])
+        ds2 = DigitalSignal.new(data: [1,2,3,4])
+        expect(ds1.conv(ds2)).to eq([1, 4, 10, 20, 25, 24, 16])
     end
 
-    it "can be convolved with an array" do
-        expect(true).to eq(false)
+    it "#ds_conv convoles and produces a new DigitalSignal" do
+        expect(periodic_signal.ds_conv(mod_signal).is_a? DigitalSignal).to be(true)
+        expect(periodic_signal.ds_conv(mod_signal).data).to eq(Dsp.conv(periodic_signal.data, mod_signal.data))
+        expect(periodic_signal.ds_conv(mod_signal).data).to eq(periodic_signal.conv(mod_signal))
+    end
+
+    it "ds_conv and conv can accept a dignal or an array" do
+        expect(periodic_signal.ds_conv(mod_signal).data).to eq(periodic_signal.ds_conv(mod_signal.data).data)
+        expect(periodic_signal.conv(mod_signal)).to eq(periodic_signal.conv(mod_signal.data))
     end
 
     it "can create an fft of itself" do
-        expect(true).to eq(false)
+        expect(periodic_signal.fft.is_a?(Dsp::FFT)).to eq(true)
+        expect(periodic_signal.fft.calculate).to eq(Dsp::FFT.new(data: periodic_signal.data).calculate)
     end
 
     it "can calculate magnitude of its values" do 

@@ -1,5 +1,6 @@
 class DigitalSignal
-    include Convolvable::InstanceMethods
+    attr_accessor :data
+    include Convolvable::InstanceMethods, Initializable, FourierTransformable
 
     
     def self.new_from_eqn(eqn: , size: )
@@ -17,13 +18,12 @@ class DigitalSignal
         data.map!{ |val| val.nil? ? 0 : val }
         self.new(data: data)
     end
-
-    attr_accessor :data
     
     
     def initialize(data: )
-        raise ArgumentError.new("Data must be an array, not #{data.class}") if not data.is_a? Array
+        raise ArgumentError.new("Data must be an Array, not a #{data.class}") if not data.is_a? Array
         @data = data
+        initialize_modules(FourierTransformable => {data: data})
     end
 
     def i(*n)
@@ -43,6 +43,10 @@ class DigitalSignal
 
     def values_between(start,stop)
         data[start, stop - start + 1]
+    end
+
+    def ds_conv(signal)
+        DigitalSignal.new(data: self.conv(signal))
     end
 
 end
