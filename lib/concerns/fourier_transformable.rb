@@ -13,4 +13,40 @@ module FourierTransformable
         @fft = Dsp::FFT.new(data: data.dup)
     end
 
+    def fft_db
+        setup_fft
+        @fft.fft.db
+    end
+
+    def fft_magnitude
+        setup_fft
+        @fft.magnitude
+    end
+
+    def fft_data
+        setup_fft
+        @fft.fft
+    end
+
+    def fft_angle
+        setup_fft
+        @fft.angle
+    end
+
+    def fft_real
+        setup_fft
+        @fft.real
+    end
+
+    def fft_imaginary
+        setup_fft
+        @fft.fft.imaginary
+    end
+
+    private
+
+    def setup_fft
+        self.fft.calculate if self.fft.fft.nil?
+    end
+
 end

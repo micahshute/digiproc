@@ -25,9 +25,11 @@ Or install it yourself as:
 
 __Limitations to be aware of__:
  - All signals must be causual -> negative values of n are not supported
- - The FFT, as of now, uses a Radix 2 algorithm, so the overall size must be a power of 2. Any dataset is zero-filled automatically to meet this necessity. This gives less control over the exact size if needed and may cause slower runtimes (however the radix 2 algorithm is &#1012;(nlgn)). This zero-fill will increase the resolution of the FFT output.
+ - The FFT, as of now, uses a Radix 2 algorithm. So, the overall size must be a power of 2 - any dataset is zero-filled automatically to meet this necessity. This gives you less control over the exact size if needed and may cause slower runtimes (however the radix 2 algorithm is &#1012;(nlgn)). This zero-fill _will_ increase the resolution of the FFT output, however.
  - All filter data and windows must have an even number of datapoints. If not, this will be done automatically. This is to facilitate the ability to create any type of filter using the windowing method. (Odd numbers of values can preclude certain types of filters)
  - Inverse FFT not yet implemented
+ - All filters are FIR and are implemented via the windowing method. Although you can get pretty good results depending on your application, this is an older method compared to the optimal Parks-McClellan algorithm.
+ - IIR Filter design is not included
 
 ## Development
 

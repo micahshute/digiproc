@@ -27,14 +27,10 @@ class DigitalSignal
     end
 
     def i(*n)
-        case n.length
-        when 1
-            return value_at(n.first)
-        when 2
-            return values_between(n.first, n.last)
-        else
-            return n.map{ |val| data[val] }
-        end
+        indices = n.map{ |input| input.respond_to?(:to_a) ? input.to_a : input}
+        indices.flatten!
+        indices.map!{ |val| self.value_at val }
+        return indices.length == 1 ? indices.first : indices
     end
 
     def value_at(n)
@@ -43,6 +39,10 @@ class DigitalSignal
 
     def values_between(start,stop)
         data[start, stop - start + 1]
+    end
+
+    def ds_convolve(signal)
+        DigitalSignal.new(data: self.conv(signal))
     end
 
     def ds_conv(signal)

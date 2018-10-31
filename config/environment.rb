@@ -17,8 +17,9 @@ require './lib/dsp'
 #Extensions
 require './lib/extensions/core_extensions'
 
-Array.include Dsp::CoreExtensions::Array::DotProduct
-Array.include Dsp::CoreExtensions::Array::Sum 
+Array.include Dsp::CoreExtensions::ArrayExtension::DotProduct
+Array.include Dsp::CoreExtensions::ArrayExtension::Sum 
+Math.extend Dsp::CoreExtensions::MathExtension::Decible
 
 require './lib/extensions/array_extension'
 

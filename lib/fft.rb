@@ -46,7 +46,25 @@ class Dsp::FFT
 
     def dB
         self.magnitude.map do |m|
-            20 * Math.log(m, 10)
+            Math.db(m)
+        end
+    end
+
+    def angle
+        self.fft.map do |f|
+            f.angle
+        end
+    end
+
+    def real
+        self.fft.map do |f|
+            f.real
+        end
+    end
+
+    def imaginary
+        self.fft.map do |f|
+            f.imaginary
         end
     end
 
