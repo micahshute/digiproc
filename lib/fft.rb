@@ -1,3 +1,4 @@
+require 'gruff'
 class Dsp::FFT
     
     def self.calculate(data)
@@ -8,7 +9,7 @@ class Dsp::FFT
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the data
-    def initialize(strategy: Radix2Strategy, data: , size: nil, window: nil)
+    def initialize(strategy: Radix2Strategy, data: , size: nil, window: RectangularWindow)
         raise ArgumentError.new('Size must be an integer') if not size.nil? and not size.is_a?(Integer) 
         raise ArguemntError.new('Size must be greater than zero') if not size.nil? and size <= 0 
         raise ArgumentError.new('Data must be an array') if not data.is_a? Array
@@ -25,7 +26,7 @@ class Dsp::FFT
         end
 
         @strategy = strategy.new(data: data)
-        #@window = window.new(size: data_size)
+        @window = window.new(size: data_size)
     end
 
     def calculate
@@ -68,7 +69,7 @@ class Dsp::FFT
         end
     end
 
-    def largest_db_maxima(num)
+    def maxima(num)
         data = self.dB
         rising = (data[1] - data[0]) > 0
         all_maxima = []
@@ -91,7 +92,7 @@ class Dsp::FFT
         maxima
     end
 
-    def local_db_maxima(num)
+    def local_maxima(num)
         data = self.dB
         rising = (data[1] - data[0]) > 0
         maxima = []

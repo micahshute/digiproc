@@ -1,7 +1,13 @@
 
+
 #Strategies
 require './lib/strategies/fft/radix2_strategy'
 require './lib/strategies/convolution/bf_conv'
+require './lib/strategies/window/window'
+require './lib/strategies/window/blackman_window'
+require './lib/strategies/window/hamming_window'
+require './lib/strategies/window/hanning_window'
+require './lib/strategies/window/rectangular_window'
 
 #Modules
 require './lib/concerns/requires_data'

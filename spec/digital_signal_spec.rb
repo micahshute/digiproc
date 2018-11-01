@@ -42,11 +42,11 @@ RSpec.describe DigitalSignal do
 
     let (:power_spectrum_short_a) do
         [
-            Complex(111556, 0), Complex(-30478.0197358128, -30478.0197358128),	Complex(0, 3051.78775020902),
+            Complex(111556, 0.0), Complex(-30478.0197358128, -30478.0197358128),	Complex(0.0, 3051.78775020902),
             Complex(18767.9848609230, -18767.9848609230), Complex(-3604, 0), Complex(9383.93804147773, 9383.93804147773), 
             Complex(0, -27212.2122497910), Complex(-4873.90316658790, 4873.90316658790), Complex(324, 0), Complex(-4873.90316658790, -4873.90316658790),
             Complex(0, 27212.2122497910), Complex(9383.93804147773, -9383.93804147773), Complex(-3604, 0), Complex(18767.9848609230, 18767.9848609230),
-            Complex(0 - 3051.78775020902), Complex(-30478.0197358128, 30478.0197358128)
+            Complex(0, -3051.78775020902), Complex(-30478.0197358128, 30478.0197358128)
         ]
         .map{ |val| Complex(val.real.round(7), val.imag.round(7)) }
     end
@@ -133,7 +133,7 @@ RSpec.describe DigitalSignal do
     it "#ds_cross_correlation returns a DigitalSignal of its cross-correlation with an array or a correlatable" do
         expect(periodic_signal.ds_cross_correlation(mod_signal).is_a? DigitalSignal).to eq(true)
         expect(periodic_signal.ds_cross_correlation(mod_signal.data).is_a? DigitalSignal).to eq(true)
-        expect(short_signal_a.ds_cross_correltaion(short_signal_b).data).to eq(xcorr_short_a_b)
+        expect(short_signal_a.ds_cross_correlation(short_signal_b).data).to eq(xcorr_short_a_b)
         expect(short_signal_a.ds_cross_correlation(short_signal_b.data).data).to eq(xcorr_short_a_b)
     end
 
@@ -145,7 +145,7 @@ RSpec.describe DigitalSignal do
     it "ds_xcorr is an alias for ds_cross_correlation" do
         expect(periodic_signal.ds_xcorr(mod_signal).is_a? DigitalSignal).to eq(true)
         expect(periodic_signal.ds_xcorr(mod_signal).data).to eq(Dsp.cross_correlation(periodic_signal.data, mod_signal.data))
-        expect(mod_signal.ds_xcorr(periodic_signal.data).data).to eq(Dsp.cross_correlation(mod_signal.data, periodic_signal.dat))
+        expect(mod_signal.ds_xcorr(periodic_signal.data).data).to eq(Dsp.cross_correlation(mod_signal.data, periodic_signal.data))
     end
 
     it "#auto_correlation returns an array of the signal's auto correlation" do
@@ -167,27 +167,27 @@ RSpec.describe DigitalSignal do
     it "#ds_acorr is an alias for ds_auto_correlation" do
         expect(periodic_signal.ds_acorr.is_a? DigitalSignal).to eq(true)
         expect(periodic_signal.ds_acorr.data).to eq(periodic_signal.ds_auto_correlation.data)
-        expect(short_signal_a.acorr.data).to eq(acorr_short_a)
+        expect(short_signal_a.ds_acorr.data).to eq(acorr_short_a)
     end
 
 
     it "#power_spectral_density can return its power spectral density (fft of autocorrelation) as an Dsp::FFT class" do
         expect(periodic_signal.power_spectral_density.is_a? Dsp::FFT).to eq(true)
-        expect(short_signal_a.power_spectral_density.fft).to eq(power_spectrum_short_a)
+        expect(short_signal_a.power_spectral_density.fft.map { |val| val.is_a?(Complex) ? Complex(val.real.round(7), val.imaginary.round(7)) : Complex(val.round(5), 0)}).to eq(power_spectrum_short_a)
     end
 
     it "#psd is an alias for #power_spectral_density" do
         expect(periodic_signal.psd.is_a? Dsp::FFT).to eq(true)
-        expect(short_signal_a.psd.fft).to eq(power_spectrum_short_a)
+        expect(short_signal_a.psd.fft.map { |val| val.is_a?(Complex) ? Complex(val.real.round(7), val.imaginary.round(7)) : Complex(val.round(5), 0)}).to eq(power_spectrum_short_a)
     end
 
     it "#cross_spectral_density takes a signal and can return a Dsp::FFT" do
         expect(periodic_signal.cross_spectral_density(short_signal_a.data).is_a? Dsp::FFT).to eq(true)
-        expect(short_signal_a.cross_spectral_density(short_signal_a).fft).to eq(power_spectrum_short_a)
+        expect(short_signal_a.cross_spectral_density(short_signal_a).fft.map { |val| val.is_a?(Complex) ? Complex(val.real.round(7), val.imaginary.round(7)) : Complex(val.round(5), 0)}).to eq(power_spectrum_short_a)
     end
 
     it "#csd is an alias for @cross_spectral_density" do
-        expect(periodic_signal.psd(short_signal_a).is_a? Dsp::FFT).to eq(true)
-        expect(short_signal_a.psd(short_signal_a.data).fft).to eq(power_spectrum_short_a)
+        expect(periodic_signal.csd(short_signal_a).is_a? Dsp::FFT).to eq(true)
+        expect(short_signal_a.csd(short_signal_a.data).fft.map { |val| val.is_a?(Complex) ? Complex(val.real.round(7), val.imaginary.round(7)) : Complex(val.round(5), 0)}).to eq(power_spectrum_short_a)
     end
 end

@@ -4,6 +4,14 @@ RSpec.describe Dsp::FFT do
         ->(n){ Math.cos(n * (1.0/10) * Math::PI)}
     end
 
+    let(:eqn2) do
+        ->(n){ Math.cos(n * 8.0 / 64 * Math::PI)}
+    end
+
+    let(:eqn3) do
+        ->(n){ Math.cos(n * 20.0 / 64 * Math::PI)}
+    end
+
     let(:eqn1_size) do
         64
     end
@@ -104,7 +112,7 @@ RSpec.describe Dsp::FFT do
         Dsp::FFT.new(data: data)
     end
 
-    it "correctly calculates the fft" do 
+    it "#calculate correctly calculates the fft" do 
         data = range.map{ |n| eqn1.call(n) }
         expect(Dsp::FFT.new(data: data).calculate.map do |val|
             val.is_a?(Complex) ? Complex(val.real.round(5), val.imag.round(5)) : val.round(5)
@@ -112,7 +120,7 @@ RSpec.describe Dsp::FFT do
             ).to eq(eqn1_fft)
     end
 
-    it "can process data through a window before fft" do
+    it "#process_with window can process data through a window before fft" do
         expect(Dsp::FFT.new(data: data).process_with_window.map do |val|
             val.is_a?(Complex) ? Complex(val.real.round(5), val.imag.round(5)) : val.round(5)
         end
@@ -120,24 +128,41 @@ RSpec.describe Dsp::FFT do
 
     end
 
-    it "can calculate magnitude of its values" do
+    it "#magnitude can calculate magnitude of its values" do
         fft.calculate
         expect(fft.magnitude.map{ |val| val.round(5)}).to eq(eqn1_fft_mag)
     end
 
-    it "can calculate angle of its values" do 
+    it "#angle can calculate angle of its values" do 
         fft.calculate
         expect(fft.angle.map{ |val| val.round(5)}).to eq(eqn1_fft_angle)
     end
 
-    it "can caclulate db of its values" do
+    it "#dB can caclulate db of its values" do
         fft.calculate
         expect(fft.dB.map{ |val| val.round(2)}).to eq(eqn1_fft_mag.map{ |val| 20 * Math.log(val,10)}.map{ |val| val.round(2)})
     end
 
-    it "can find the top n maxima in the calculated fft" do
-
+    it "#maxima can find the top n maxima in the calculated fft" do
+        e1 = range_zero_start.map{ |n| eqn3.call(n) }
+        e2 = range_zero_start.map{ |n| eqn2.call(n) }
+        eqn = e1.plus e2
+        eqnft = Dsp::FFT.new(data: eqn)
+        eqnft.calculate
+        expect(eqnft.fft.length).to eq(64)
+        eqnft.graph_db
+        expect(eqnft.maxima(4).map{ |h| h.keys.first }).to eq([4, 10, 54, 60])
     end
 
+
+    it "#local_maxima can find the top n local maxima in the calculated fft" do
+        e1 = range_zero_start.map{ |n| eqn3.call(n) }
+        e2 = range_zero_start.map{ |n| eqn2.call(n) }
+        eqn = e1.plus e2
+        eqnft = Dsp::FFT.new(data: eqn)
+        eqnft.calculate
+        expect(eqnft.fft.length).to eq(64)
+        expect(eqnft.local_maxima(4).map{ |h| h.keys.first }).to eq([4, 10, 54, 60])
+    end
     
 end

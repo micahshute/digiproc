@@ -49,4 +49,39 @@ class DigitalSignal
         DigitalSignal.new(data: self.conv(signal))
     end
 
+    def ds_cross_correlation(signal)
+        DigitalSignal.new(data: self.cross_correlation(signal))
+    end
+
+    def ds_xcorr(sig)
+        ds_cross_correlation(sig)
+    end
+
+    def ds_auto_correlation
+        DigitalSignal.new(data: self.auto_correlation)
+    end
+
+    def ds_acorr
+        ds_auto_correlation
+    end
+
+    def power_spectral_density
+        ft = Dsp::FFT.new(data: self.acorr)
+        ft.calculate
+        ft
+    end
+
+    def psd
+        self.power_spectral_density
+    end
+
+    def cross_spectral_density(signal)
+        ft = Dsp::FFT.new(data: self.xcorr(signal))
+        ft.calculate
+        ft
+    end
+
+    def csd(signal)
+        self.cross_spectral_density(signal)
+    end
 end

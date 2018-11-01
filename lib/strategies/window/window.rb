@@ -2,7 +2,6 @@ class WindowStrategy
 
     PI = Math::PI
 
-    include Convolvable::InstanceMethods,  
 
     attr_accessor :size
     attr_reader :values, :equation, :data
