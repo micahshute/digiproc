@@ -1,3 +1,6 @@
+require 'ostruct'
+#Namespace
+require './lib/dsp'
 
 
 #Strategies
@@ -14,10 +17,11 @@ require './lib/concerns/requires_data'
 require './lib/concerns/initializable'
 require './lib/concerns/convolvable'
 require './lib/concerns/fourier_transformable'
+require './lib/concerns/data_properties'
+require './lib/functions'
 
 
-#Namespace
-require './lib/dsp'
+
 
 
 #Extensions

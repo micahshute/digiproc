@@ -99,7 +99,7 @@ RSpec.describe DigitalSignal do
 
     it "#ds_conv convoles with a DigitalSignal and produces a new DigitalSignal" do
         expect(periodic_signal.ds_conv(mod_signal).is_a? DigitalSignal).to be(true)
-        expect(periodic_signal.ds_conv(mod_signal).data).to eq(Dsp.conv(periodic_signal.data, mod_signal.data))
+        expect(periodic_signal.ds_conv(mod_signal).data).to eq(Dsp::Functions.conv(periodic_signal.data, mod_signal.data))
         expect(periodic_signal.ds_conv(mod_signal).data).to eq(periodic_signal.conv(mod_signal))
     end
 
@@ -138,19 +138,19 @@ RSpec.describe DigitalSignal do
     end
 
     it "xcorr is an alias for #cross_correlaion" do
-        expect(periodic_signal.xcorr(mod_signal)).to eq(Dsp.cross_correlation(periodic_signal.data, mod_signal.data))
-        expect(mod_signal.xcorr(periodic_signal.data)).to eq(Dsp.cross_correlation(mod_signal.data, periodic_signal.data))
+        expect(periodic_signal.xcorr(mod_signal)).to eq(Dsp::Functions.cross_correlation(periodic_signal.data, mod_signal.data))
+        expect(mod_signal.xcorr(periodic_signal.data)).to eq(Dsp::Functions.cross_correlation(mod_signal.data, periodic_signal.data))
     end
 
     it "ds_xcorr is an alias for ds_cross_correlation" do
         expect(periodic_signal.ds_xcorr(mod_signal).is_a? DigitalSignal).to eq(true)
-        expect(periodic_signal.ds_xcorr(mod_signal).data).to eq(Dsp.cross_correlation(periodic_signal.data, mod_signal.data))
-        expect(mod_signal.ds_xcorr(periodic_signal.data).data).to eq(Dsp.cross_correlation(mod_signal.data, periodic_signal.data))
+        expect(periodic_signal.ds_xcorr(mod_signal).data).to eq(Dsp::Functions.cross_correlation(periodic_signal.data, mod_signal.data))
+        expect(mod_signal.ds_xcorr(periodic_signal.data).data).to eq(Dsp::Functions.cross_correlation(mod_signal.data, periodic_signal.data))
     end
 
     it "#auto_correlation returns an array of the signal's auto correlation" do
         expect(short_signal_a.auto_correlation).to eq(acorr_short_a)
-        expect(periodic_signal.auto_correlation).to eq(Dsp.cross_correlation(periodic_signal.data, periodic_signal.data))
+        expect(periodic_signal.auto_correlation).to eq(Dsp::Functions.cross_correlation(periodic_signal.data, periodic_signal.data))
     end
 
     it "#ds_auto_correlation returns a DigitalSignal of the signal's auto correlation" do

@@ -20,8 +20,8 @@ RSpec.describe Dsp do
   end
 
   it "performs convolution correctly" do
-    expect(Dsp.conv(dataset1, dataset2)).to eq(d1d2_conv)
-    expect(Dsp.conv(dataset2, dataset1)).to eq(d1d2_conv)
+    expect(Dsp::Functions.conv(dataset1, dataset2)).to eq(d1d2_conv)
+    expect(Dsp::Functions.conv(dataset2, dataset1)).to eq(d1d2_conv)
   end
 
   it "performs convolution the same regardless of arg input order" do
@@ -38,12 +38,12 @@ RSpec.describe Dsp do
       d2 << r.rand(100)
     end
 
-    expect(Dsp.conv(d1,d2)).to eq(Dsp.conv(d2,d1))
+    expect(Dsp::Functions.conv(d1,d2)).to eq(Dsp::Functions.conv(d2,d1))
   end
 
   it "performs cross correlation correctly" do
-    expect(Dsp.cross_correlation(dataset1, dataset2)).to eq(d1d2_xcorr)
-    expect(Dsp.cross_correlation(dataset2, dataset1)).to eq(d1d2_xcorr.reverse)
+    expect(Dsp::Functions.cross_correlation(dataset1, dataset2)).to eq(d1d2_xcorr)
+    expect(Dsp::Functions.cross_correlation(dataset2, dataset1)).to eq(d1d2_xcorr.reverse)
   end
 
   it "cross correlation is reversed if inputs are put in reversed order" do
@@ -61,7 +61,7 @@ RSpec.describe Dsp do
       d2 << r.rand(100)
     end
 
-    expect(Dsp.cross_correlation(d1,d2)).to eq(Dsp.cross_correlation(d2,d1).reverse)
+    expect(Dsp::Functions.cross_correlation(d1,d2)).to eq(Dsp::Functions.cross_correlation(d2,d1).reverse)
 
   end
 
