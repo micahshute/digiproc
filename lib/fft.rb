@@ -70,48 +70,50 @@ class Dsp::FFT
     end
 
     def maxima(num)
-        data = self.dB
-        rising = (data[1] - data[0]) > 0
-        all_maxima = []
-        maxima = []
-        maxima << {0 => data[0]} && all_maxima << data[0] if not rising
-        for i in 2...data.length / 2 do
-            if rising
-                if data[i] < data[i-1]
-                    last_peak = all_maxima.last.nil? ? -1 * Float::INFINITY : all_maxima.last
-                    all_maxima << data[i - 1]
-                    maxima << {i => data[i - 1]} if data[i - 1] > last_peak && maxima.length < num
-                    rising = false
-                end
-            else
-                if data[i] > data[i-1]
-                    rising = true
-                end
-            end
-        end
-        maxima
+        Dsp::DataProperties.maxima(self.fft.map{ |value| value.abs }, num)
+        # data = self.dB
+        # rising = (data[1] - data[0]) > 0
+        # all_maxima = []
+        # maxima = []
+        # maxima << {0 => data[0]} && all_maxima << data[0] if not rising
+        # for i in 2...data.length / 2 do
+        #     if rising
+        #         if data[i] < data[i-1]
+        #             last_peak = all_maxima.last.nil? ? -1 * Float::INFINITY : all_maxima.last
+        #             all_maxima << data[i - 1]
+        #             maxima << {i => data[i - 1]} if data[i - 1] > last_peak && maxima.length < num
+        #             rising = false
+        #         end
+        #     else
+        #         if data[i] > data[i-1]
+        #             rising = true
+        #         end
+        #     end
+        # end
+        # maxima
     end
 
     def local_maxima(num)
-        data = self.dB
-        rising = (data[1] - data[0]) > 0
-        maxima = []
-        maxima << {0 => data[0]} if not rising
-        for i in 2...data.length do
-            if rising
-                if data[i] < data[i-1]
-                    maxima << {i => data[i]}
-                    maxima.sort!{ |a,b| a.values.first <=> b.values.first }
-                    maxima.shift if maxima.length > num
-                    rising = false
-                end
-            else
-                if data[i] > data[i-1]
-                    rising = true
-                end
-            end
-        end
-        maxima
+        Dsp::DataProperties.local_maxima(self.fft.map{ |value| value.abs }, num)
+        # data = self.dB
+        # rising = (data[1] - data[0]) > 0
+        # maxima = []
+        # maxima << {0 => data[0]} if not rising
+        # for i in 2...data.length do
+        #     if rising
+        #         if data[i] < data[i-1]
+        #             maxima << {i => data[i]}
+        #             maxima.sort!{ |a,b| a.values.first <=> b.values.first }
+        #             maxima.shift if maxima.length > num
+        #             rising = false
+        #         end
+        #     else
+        #         if data[i] > data[i-1]
+        #             rising = true
+        #         end
+        #     end
+        # end
+        # maxima
     end
 
 

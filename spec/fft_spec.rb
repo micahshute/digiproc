@@ -151,7 +151,7 @@ RSpec.describe Dsp::FFT do
         eqnft.calculate
         expect(eqnft.fft.length).to eq(64)
         eqnft.graph_db
-        expect(eqnft.maxima(4).map{ |h| h.keys.first }).to eq([4, 10, 54, 60])
+        expect(eqnft.maxima(4).map{ |os| os.index }.sort).to eq([4, 10, 54, 60])
     end
 
 
@@ -162,7 +162,7 @@ RSpec.describe Dsp::FFT do
         eqnft = Dsp::FFT.new(data: eqn)
         eqnft.calculate
         expect(eqnft.fft.length).to eq(64)
-        expect(eqnft.local_maxima(4).map{ |h| h.keys.first }).to eq([4, 10, 54, 60])
+        expect(eqnft.local_maxima(4).map{ |os| os.index }.sort).to eq([4, 10, 54, 60])
     end
     
 end

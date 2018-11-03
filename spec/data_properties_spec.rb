@@ -24,16 +24,32 @@ RSpec.describe Dsp::DataProperties do
         {
             test: [1,2,3,4,3,2,2,2,3,4,5,5,5,5,4,3,4,8,7,8,8,8,7,8,7,6,5,6,5,4],
             solution: [
-                {3 => 4}, {10 => 5}, {17 => 8}, {19 => 8}, {23 => 8}, {27 => 6}
+                {3 => 4}, {13 => 5}, {17 => 8}, {21 => 8}, {23 => 8}, {27 => 6}
             ]
 
         }
     end
 
+    let (:max_test_three) do 
+
+        {
+            test: [20, 20, 20, 9, 8, 7,10,7,6,8,6,5,6,5,4,5,4,3,7,4,3,2,3,2,1,2,1,2,1,6,2,1],
+            solution_all: [
+                {2 => 20}, {6 => 10}, {9 => 8}, {12 => 6}, {15 => 5}, {18 => 7}, {22 => 3}, {25 => 2}, {27 => 2}, {29 => 6}
+            ],
+            solution_top_5: [
+                {2 => 20}, {6 => 10}, {9 => 8}, {18 => 7}, {12 => 6}
+            ],
+            solution_local_top_3: [
+                {29 => 6}, {2 => 20}, {18 => 7}
+            ]
+        }
+    end
+
     it "#find_slope returns the proper slope object" do
-        expect(Dsp::DataProperties.find_slope(4,6).is :positive).to eq(true)
-        expect(Dsp::DataProperties.find_slope(19,2).is :negative).to eq(true)
-        expect(Dsp::DataProperties.find_slope(20.0, 20.0).is :zero).to eq(true)
+        expect(Dsp::DataProperties.find_slope(4,6).is? :positive).to eq(true)
+        expect(Dsp::DataProperties.find_slope(19,2).is? :negative).to eq(true)
+        expect(Dsp::DataProperties.find_slope(20.0, 20.0).is? :zero).to eq(true)
         expect(positive_slope).to eq(Dsp::DataProperties::Slope.Positive)
         expect(negative_slope).to eq(Dsp::DataProperties::Slope::Negative)
         expect(zero_slope).to eq(Dsp::DataProperties::Slope::Zero)
@@ -43,18 +59,23 @@ RSpec.describe Dsp::DataProperties do
     end
 
     it "#all_maxima returns a list of all maxima in a data set" do
-        expect(Dsp::DataProperties.all_maxima(max_test_one[:test]).map{|os| {os.index => os.value}}).to eq(max_test_one[:solution])
-        expect(Dsp::DataProperties.all_maxima(max_test_two[:test]).map{|os| { os.index => os.value}}).to eq(max_test_two[:solution])
-
+        expect(Dsp::DataProperties.all_maxima(max_test_one[:test]).map{ |os| {os.index => os.value}}).to eq(max_test_one[:solution])
+        expect(Dsp::DataProperties.all_maxima(max_test_two[:test]).map{ |os| { os.index => os.value}}).to eq(max_test_two[:solution])
+        expect(Dsp::DataProperties.all_maxima(max_test_three[:test]).map{ |os| { os.index => os.value}}).to eq(max_test_three[:solution_all])
     end
 
 
     it "#maxima returns the largest x magnitude maxima in the dataset" do
-        expect(true).to eq(false)
+        expect(Dsp::DataProperties.maxima(max_test_one[:test], 3).map{ |os| {os.index => os.value}}).to eq([{2 => 9},{0 => 8},{6 => 7}])
+        expect(Dsp::DataProperties.maxima(max_test_two[:test], 3).map{ |os| { os.index => os.value}}).to eq(max_test_two[:solution][2,3])
+        expect(Dsp::DataProperties.maxima(max_test_three[:test], 5).map{ |os| { os.index => os.value}}).to eq(max_test_three[:solution_top_5])
     end
 
     it "#local_maxima returns the largest x magnitude maxima which ard the largest compared to their surrounding maxima" do
-        expect(true).to eq(false)
+        expect(Dsp::DataProperties.local_maxima(max_test_three[:test], 3).map{ |os| { os.index => os.value}}).to eq(max_test_three[:solution_local_top_3])
+        expect(Dsp::DataProperties.local_maxima([5], 3).map{ |os| { os.index => os.value}}).to eq([0 => 5])
+        expect(Dsp::DataProperties.local_maxima([5, 2], 3).map{ |os| { os.index => os.value}}).to eq([0 => 5])
+        expect(Dsp::DataProperties.local_maxima([2, 5, 2, 10], 3).map{ |os| { os.index => os.value}}).to eq([{3 => 10},{1 => 5}])
     end
 
 end
