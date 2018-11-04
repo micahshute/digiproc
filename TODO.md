@@ -9,4 +9,6 @@
 - [ ] Add `analytic signal` function 
     - [ ] In where? Used for bandpass signals
 - [ ] Implement Analog signal, allow custom sampling rate, include nyquist freq (based on freq or bandwidth)
+    - [ ] Implement quantization
+    - [ ] Allow companding techniques in quantization process
 - [ ] Look at using rubyvis as graphical tool instead of gruff 
