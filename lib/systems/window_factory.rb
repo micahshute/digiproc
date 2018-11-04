@@ -1,4 +1,4 @@
-class Dsp::WindowFactory
+class Dsp::Systems::WindowFactory
 
     attr_accessor :window
 
