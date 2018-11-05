@@ -26,6 +26,24 @@ class DigitalSignal
         initialize_modules(FourierTransformable => {data: data})
     end
 
+    def process 
+        processed_data = []
+        for i in 0...data.length do
+            processed_data << (yield data[i])
+        end
+        processed_data
+    end
+
+    def process!
+        data = process
+    end
+
+    def process_in_place!
+        for i in 0...data.length do 
+            data[i] = yield data[i]
+        end
+    end
+
     def i(*n)
         indices = n.map{ |input| input.respond_to?(:to_a) ? input.to_a : input}
         indices.flatten!

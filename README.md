@@ -30,6 +30,7 @@ __Limitations to be aware of__:
  - Inverse FFT not yet implemented
  - All filters are FIR and are implemented via the windowing method. Although you can get pretty good results depending on your application, this is an older method compared to the optimal Parks-McClellan algorithm.
  - IIR Filter design is not included
+ - The quantization process in Dsp::AnalogSignal maps an analog signal to -1 to 1 before quantizing the result. A floating point number is accurate up to 7 decimal places, so this process will cause unwanted ACTUAL quantization errors (not simulated quantization errors) for an amplitude range greater than $2 x 10^16$ (ie 20 Quadrillion)
 
 ## Development
 

@@ -11,6 +11,7 @@ require './lib/strategies/window/blackman_window'
 require './lib/strategies/window/hamming_window'
 require './lib/strategies/window/hanning_window'
 require './lib/strategies/window/rectangular_window'
+require './lib/strategies/companding/custom_companding_strategy'
 
 #Modules
 require './lib/concerns/requires_data'
@@ -41,6 +42,6 @@ require './lib/filters/lowpass_filter.rb'
 require './lib/filters/highpass_filter.rb'
 require './lib/filters/bandpass_filter.rb'
 require './lib/filters/bandstop_filter.rb'
-
+require './lib/signals/analog_signal'
 
 

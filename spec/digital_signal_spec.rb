@@ -190,4 +190,16 @@ RSpec.describe DigitalSignal do
         expect(periodic_signal.csd(short_signal_a).is_a? Dsp::FFT).to eq(true)
         expect(short_signal_a.csd(short_signal_a.data).fft.map { |val| val.is_a?(Complex) ? Complex(val.real.round(7), val.imaginary.round(7)) : Complex(val.round(5), 0)}).to eq(power_spectrum_short_a)
     end
+
+    it "#process allows a block to process data and returns an array" do
+        expect(true).to eq(false)
+    end
+
+    it "#process! allows a block to process data, setting data to the returned process" do
+        expect(true).to eq(false)
+    end
+
+    it "#process_in_place! processes data via a block one at a time, changing @data as it goes" do
+        expect(true).to eq(false)
+    end
 end

@@ -15,3 +15,10 @@ task :console => :environment do
     require 'pry'
     pry.start
 end
+
+desc "Loads data for console tests, runs console"
+task :console_tests => :environment do
+    require 'pry'
+    require_relative './console_tests.rb'
+ 
+end
