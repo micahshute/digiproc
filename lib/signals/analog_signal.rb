@@ -11,13 +11,9 @@ class Dsp::AnalogSignal
     def digitize
         samples = sample
         @raw_samples = samples
-        puts "Samples x(n): #{samples.map{ |s| s.round(2) }}"
         samples = compress(samples) if not companding_strategy.nil?
-        puts "Companding Compression y(n): #{samples.map{ |s| s.round(2) }}" if not companding_strategy.nil?
         samples = quantize(samples, self.quantization_bits, self.quant_max, self.quant_min) if self.quantization_bits < Float::INFINITY
-        puts "Quantized Q[x(n)]: #{samples.map{ |s| s.round(2) }}"
         samples = expand(samples) if not companding_strategy.nil?
-        puts "Companding Expansion [z(n)]: #{samples.map{ |s| s.round(2) }}" if not companding_strategy.nil?
         @quantized_samples = samples
         samples
     end
@@ -39,7 +35,6 @@ class Dsp::AnalogSignal
 
     def quantize(samples, bits, max, min)
         sample_bits = quantize_bit_reprisentation(samples, bits, max, min)
-        puts "Bit values are: #{sample_bits}"
         process(sample_bits, map_to_eqn(bits**2 / 2.0 , -(bits**2) / 2.0 , max, min))
     end
 
