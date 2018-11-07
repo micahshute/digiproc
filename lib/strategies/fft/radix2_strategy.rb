@@ -5,8 +5,8 @@ class Radix2Strategy
 
     attr_reader :data
 
-    def initialize(data: )
-        @data = data
+    def initialize(time_data: )
+        @data = time_data
         zero_fill
     end
 

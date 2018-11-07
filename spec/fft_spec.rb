@@ -109,19 +109,19 @@ RSpec.describe Dsp::FFT do
     end
 
     let(:fft) do
-        Dsp::FFT.new(data: data)
+        Dsp::FFT.new(time_data: data)
     end
 
     it "#calculate correctly calculates the fft" do 
         data = range.map{ |n| eqn1.call(n) }
-        expect(Dsp::FFT.new(data: data).calculate.map do |val|
+        expect(Dsp::FFT.new(time_data: data).calculate.map do |val|
             val.is_a?(Complex) ? Complex(val.real.round(5), val.imag.round(5)) : val.round(5)
         end
             ).to eq(eqn1_fft)
     end
 
     it "#process_with window can process data through a window before fft" do
-        expect(Dsp::FFT.new(data: data).process_with_window.map do |val|
+        expect(Dsp::FFT.new(time_data: data).process_with_window.map do |val|
             val.is_a?(Complex) ? Complex(val.real.round(5), val.imag.round(5)) : val.round(5)
         end
             ).to eq(false)
@@ -147,7 +147,7 @@ RSpec.describe Dsp::FFT do
         e1 = range_zero_start.map{ |n| eqn3.call(n) }
         e2 = range_zero_start.map{ |n| eqn2.call(n) }
         eqn = e1.plus e2
-        eqnft = Dsp::FFT.new(data: eqn)
+        eqnft = Dsp::FFT.new(time_data: eqn)
         eqnft.calculate
         expect(eqnft.fft.length).to eq(64)
         eqnft.graph_db
@@ -159,10 +159,15 @@ RSpec.describe Dsp::FFT do
         e1 = range_zero_start.map{ |n| eqn3.call(n) }
         e2 = range_zero_start.map{ |n| eqn2.call(n) }
         eqn = e1.plus e2
-        eqnft = Dsp::FFT.new(data: eqn)
+        eqnft = Dsp::FFT.new(time_data: eqn)
         eqnft.calculate
         expect(eqnft.fft.length).to eq(64)
         expect(eqnft.local_maxima(4).map{ |os| os.index }.sort).to eq([4, 10, 54, 60])
+    end
+
+    it "#* can multiply two FTs" do
+        ft_squared = fft * fft 
+        expect(ft_squared).to eq(fft.data.dot fft.data)
     end
     
 end

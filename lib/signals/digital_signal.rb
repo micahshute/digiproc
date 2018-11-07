@@ -23,7 +23,7 @@ class DigitalSignal
     def initialize(data: )
         raise ArgumentError.new("Data must be an Array, not a #{data.class}") if not data.is_a? Array
         @data = data
-        initialize_modules(FourierTransformable => {data: data})
+        initialize_modules(FourierTransformable => {time_data: data})
     end
 
     def process 
@@ -35,13 +35,18 @@ class DigitalSignal
     end
 
     def process!
-        data = process
+        processed_data = []
+        for i in 0...data.length do
+            processed_data << (yield data[i])
+        end
+        self.data = processed_data
     end
 
     def process_in_place!
         for i in 0...data.length do 
-            data[i] = yield data[i]
+            self.data[i] = yield data[i]
         end
+        self.data
     end
 
     def i(*n)
@@ -84,7 +89,7 @@ class DigitalSignal
     end
 
     def power_spectral_density
-        ft = Dsp::FFT.new(data: self.acorr)
+        ft = Dsp::FFT.new(time_data: self.acorr)
         ft.calculate
         ft
     end
@@ -94,7 +99,7 @@ class DigitalSignal
     end
 
     def cross_spectral_density(signal)
-        ft = Dsp::FFT.new(data: self.xcorr(signal))
+        ft = Dsp::FFT.new(time_data: self.xcorr(signal))
         ft.calculate
         ft
     end

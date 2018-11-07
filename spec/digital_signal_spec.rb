@@ -110,16 +110,16 @@ RSpec.describe DigitalSignal do
 
     it "#fft.calculate can create an fft of itself, accessible via @fft" do
         expect(periodic_signal.fft.is_a?(Dsp::FFT)).to eq(true)
-        expect(periodic_signal.fft.calculate).to eq(Dsp::FFT.new(data: periodic_signal.data).calculate)
+        expect(periodic_signal.fft.calculate).to eq(Dsp::FFT.new(time_data: periodic_signal.data).calculate)
         expect(periodic_signal.fft.fft.length).to eq(32)
     end
 
     it "#fft_magnitude can calculate magnitude of its values" do 
-        expect(periodic_signal.fft_magnitude).to eq(Dsp::FFT.new(data: periodic_signal.data).calculate.map{ |val| val.abs})
+        expect(periodic_signal.fft_magnitude).to eq(Dsp::FFT.new(time_data: periodic_signal.data).calculate.map{ |val| val.abs})
     end
 
     it "#fft_angle can calculate angle of its values" do
-        expect(periodic_signal.fft_angle).to eq(Dsp::FFT.new(data: periodic_signal.data).calculate.map{ |val| val.angle })
+        expect(periodic_signal.fft_angle).to eq(Dsp::FFT.new(time_data: periodic_signal.data).calculate.map{ |val| val.angle })
     end
 
     it "#cross_correlation returns an array of its cross-correlation with an array or a correlatable" do
@@ -192,14 +192,29 @@ RSpec.describe DigitalSignal do
     end
 
     it "#process allows a block to process data and returns an array" do
-        expect(true).to eq(false)
+        ds = short_signal_a
+        processed_data = ds.process do |data|
+            data + 10
+        end
+        expect(processed_data).to eq([101, 33, 21, 63, 22, 92, 72])
+        expect(ds.data).to eq(short_signal_a.data)
     end
 
     it "#process! allows a block to process data, setting data to the returned process" do
-        expect(true).to eq(false)
+        ds = short_signal_a
+        processed_data = ds.process! do |data|
+            data + 10
+        end
+        expect(processed_data).to eq([101, 33, 21, 63, 22, 92, 72])
+        expect(ds.data).to eq(processed_data)
     end
 
     it "#process_in_place! processes data via a block one at a time, changing @data as it goes" do
-        expect(true).to eq(false)
+        ds = short_signal_a
+        processed_data = ds.process_in_place! do |data|
+            data + 10
+        end
+        expect(processed_data).to eq([101, 33, 21, 63, 22, 92, 72])
+        expect(ds.data).to eq(processed_data)
     end
 end

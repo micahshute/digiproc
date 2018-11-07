@@ -22,4 +22,5 @@
 - [ ] Investigate changing Dsp to DSP
 - [ ] Review / cleanup / investigate proper scope of methods in Dsp::Functions
     - [ ] If the `#map_to` methods are kept in Dsp::Functions, remove them from `AnalogSignal`
+- [ ] Add IFFT, make FFT class multiplyable, test to ensure it equals convolution in the time domain
 

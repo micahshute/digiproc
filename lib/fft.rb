@@ -1,42 +1,51 @@
 require 'gruff'
 class Dsp::FFT
+
+   
     
-    def self.calculate(data)
-        Radix2Strategy.calculate(data)
+    def self.calculate(time_data)
+        Radix2Strategy.calculate(time_data)
     end
 
-    attr_accessor :strategy, :data, :fft, :window, :processed_data, :data_size
+
+    attr_accessor :strategy, :time_data, :fft, :window, :processed_time_data, :time_data_size, :data
+
+    include Dsp::Multipliable, Convolvable::InstanceMethods
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
-    #zero-padding, it will mostly likely not determine the final size of the data
-    def initialize(strategy: Radix2Strategy, data: , size: nil, window: RectangularWindow)
+    #zero-padding, it will mostly likely not determine the final size of the time_data
+    def initialize(strategy: Radix2Strategy, time_data: , size: nil, window: RectangularWindow, data: nil)
         raise ArgumentError.new('Size must be an integer') if not size.nil? and not size.is_a?(Integer) 
         raise ArguemntError.new('Size must be greater than zero') if not size.nil? and size <= 0 
-        raise ArgumentError.new('Data must be an array') if not data.is_a? Array
-        @data_size = data.length
+        raise ArgumentError.new('time_data must be an array') if not time_data.is_a? Array
+        @time_data_size = time_data.length
         if not size.nil?
-            if size <= data.length
-                @data = data.take(size)
-            else size > data.length
-                zero_fill = Array.new(size - data.length, 0)
-                @data = data.concat zero_fill
+            if size <= time_data.length
+                @time_data = time_data.take(size)
+            else size > time_data.length
+                zero_fill = Array.new(size - time_data.length, 0)
+                @time_data = time_data.concat zero_fill
             end
         else
-            @data = data
+            @time_data = time_data
+            @data = nil
         end
 
-        @strategy = strategy.new(data: data)
-        @window = window.new(size: data_size)
+        @strategy = strategy.new(time_data: time_data)
+        @window = window.new(size: time_data_size)
+        @data = data
     end
 
     def calculate
        @fft = self.strategy.calculate
+       @data = @fft
     end
 
     def process_with_window
-        @processed_data = data.take(data_size) * self.window.values
-        self.strategy.data = @processed_data
+        @processed_time_data = time_data.take(time_data_size) * self.window.values
+        self.strategy.time_data = @processed_time_data
         @fft = self.strategy.calculate
+        @data = @fft
     end
 
     def magnitude
@@ -69,51 +78,12 @@ class Dsp::FFT
         end
     end
 
-    def maxima(num)
-        Dsp::DataProperties.maxima(self.fft.map{ |value| value.abs }, num)
-        # data = self.dB
-        # rising = (data[1] - data[0]) > 0
-        # all_maxima = []
-        # maxima = []
-        # maxima << {0 => data[0]} && all_maxima << data[0] if not rising
-        # for i in 2...data.length / 2 do
-        #     if rising
-        #         if data[i] < data[i-1]
-        #             last_peak = all_maxima.last.nil? ? -1 * Float::INFINITY : all_maxima.last
-        #             all_maxima << data[i - 1]
-        #             maxima << {i => data[i - 1]} if data[i - 1] > last_peak && maxima.length < num
-        #             rising = false
-        #         end
-        #     else
-        #         if data[i] > data[i-1]
-        #             rising = true
-        #         end
-        #     end
-        # end
-        # maxima
+    def maxima(num = 1)
+        Dsp::DataProperties.maxima(self.magnitude, num)
     end
 
-    def local_maxima(num)
-        Dsp::DataProperties.local_maxima(self.fft.map{ |value| value.abs }, num)
-        # data = self.dB
-        # rising = (data[1] - data[0]) > 0
-        # maxima = []
-        # maxima << {0 => data[0]} if not rising
-        # for i in 2...data.length do
-        #     if rising
-        #         if data[i] < data[i-1]
-        #             maxima << {i => data[i]}
-        #             maxima.sort!{ |a,b| a.values.first <=> b.values.first }
-        #             maxima.shift if maxima.length > num
-        #             rising = false
-        #         end
-        #     else
-        #         if data[i] > data[i-1]
-        #             rising = true
-        #         end
-        #     end
-        # end
-        # maxima
+    def local_maxima(num = 1)
+        Dsp::DataProperties.local_maxima(self.magnitude, num)
     end
 
 
@@ -151,9 +121,9 @@ class Dsp::FFT
         end
     end
 
-    def graph_data
+    def graph_time_data
         g = Gruff::Line.new
-        g.data :data, @data
+        g.data :data, @time_data
     end
 
 

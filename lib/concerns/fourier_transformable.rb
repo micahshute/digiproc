@@ -8,9 +8,9 @@ module FourierTransformable
 
     attr_accessor :fft_strategy, :fft
 
-    def initialize(data: , fft_strategy: Radix2Strategy)
+    def initialize(time_data: , fft_strategy: Radix2Strategy)
         @fft_strategy = Radix2Strategy
-        @fft = Dsp::FFT.new(data: data.dup)
+        @fft = Dsp::FFT.new(time_data: time_data.dup)
     end
 
     def fft_db
