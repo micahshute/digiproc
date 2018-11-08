@@ -4,6 +4,7 @@ require './lib/dsp'
 
 
 #Strategies
+require './lib/strategies/strategies'
 require './lib/strategies/fft/radix2_strategy'
 require './lib/strategies/convolution/bf_conv'
 require './lib/strategies/window/window'
@@ -12,7 +13,7 @@ require './lib/strategies/window/hamming_window'
 require './lib/strategies/window/hanning_window'
 require './lib/strategies/window/rectangular_window'
 require './lib/strategies/companding/custom_companding_strategy'
-require './lib/strategies/gaussian/gaussian_genertor'
+require './lib/strategies/gaussian/gaussian_generator'
 
 #Modules
 require './lib/concerns/requires_data'
@@ -22,7 +23,7 @@ require './lib/concerns/fourier_transformable'
 require './lib/concerns/multipliable'
 require './lib/concerns/data_properties'
 require './lib/functions'
-
+require './lib/probability/probability'
 
 
 
@@ -45,5 +46,6 @@ require './lib/filters/highpass_filter.rb'
 require './lib/filters/bandpass_filter.rb'
 require './lib/filters/bandstop_filter.rb'
 require './lib/signals/analog_signal'
+require './lib/probability/gaussian_distribution'
 
 
