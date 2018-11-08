@@ -12,6 +12,7 @@ require './lib/strategies/window/hamming_window'
 require './lib/strategies/window/hanning_window'
 require './lib/strategies/window/rectangular_window'
 require './lib/strategies/companding/custom_companding_strategy'
+require './lib/strategies/gaussian/gaussian_genertor'
 
 #Modules
 require './lib/concerns/requires_data'

@@ -37,4 +37,23 @@ module Dsp::Functions
         max.to_f - min
     end
 
+
+    @fact_memo = {}
+
+    def self.fact(n)
+        raise ArguemntError.new("n must be positive") if n < 0
+        return 1 if n <= 1
+        return @fact_memo[n] if not @fact_memo[n].nil?
+        x = n * fact(n - 1)
+        @fact_memo[n] = x
+        return x
+    end
+
+    def self.populate_large_factorial_memoization
+        for i in 1..10 do 
+            fact(10000 * i)
+        end 
+    end
+
+
 end
