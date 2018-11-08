@@ -27,4 +27,8 @@ class Dsp::Strategies::GaussianGeneratorBoxMullerStrategy
         end
     end
 
+    def rand2
+        self.class.rand2
+    end
+
 end

@@ -1,20 +1,17 @@
 module Dsp::Probability
-    @gaussian_generator = nil
+    #Interchangable strategy
+    #Strategy requirements: 
+        #can be initialized with no arguments (gives mean = 0 and stddev = 1), or with a mean and stddev
+        #instance method: #rand returns normal distribution with mean = 0, stddev = 1
+    @gaussian_generator = Dsp::Strategies::GaussianGeneratorBoxMullerStrategy.new
+
 
     def self.normal_random_generator(mean = 0, stddev = 1)
-        Dsp::Strategies::GaussianGeneratorBoxMullerStrategy(mean, stddev)
+       @gaussian_generator.class.new(mean, stddev)
     end
 
     def self.nrand
-        @gaussian_generator = Dsp::Strategies::GaussianGeneratorBoxMullerStrategy.new if @gaussian_generator.nil? 
         @gaussian_generator.rand
-    end
-
-    def self.nrand2(mean, stddev, generator = Dsp::Strategies::GaussianGeneratorBoxMullerStrategy)    
-        two_norms = generator.rand2
-        first = mean + stddev * two_norms[0] 
-        second = (mean + stddev * two_norms[1])
-        return first, second
     end
 
     def self.mean(data)
@@ -24,7 +21,7 @@ module Dsp::Probability
     def self.variance(data)
         mu = mean(data)
         summation = data.map{ |val| (val - mu) ** 2 }.sum
-        (summation.to_f / (data.length - 1))
+        summation.to_f / (data.length - 1)
     end
  
 
@@ -47,6 +44,7 @@ module Dsp::Probability
         summation.to_f / (data1.length - 1)
     end
 
+    #Calculates Pearson's correlation coefficient
     def self.correlation_coefficient(data1, data2)
         covar = covariance(data1, data2)
         var1 = variance(data1)
@@ -54,6 +52,17 @@ module Dsp::Probability
         return covar.to_f / ((var1 ** 0.5) * (var2 ** 0.5))
     end
 
+    def self.var(d)
+        variance(d)
+    end
+
+    def self.cov(d1, d2)
+        covariance(d1,d2)
+    end
+
+    def self.corr_coeff(d1, d2)
+        correlation_coefficient(d1, d2)
+    end
 
     
 end
