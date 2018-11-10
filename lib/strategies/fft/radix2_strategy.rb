@@ -5,9 +5,9 @@ class Radix2Strategy
 
     attr_reader :data
 
-    def initialize(time_data: )
-        @data = time_data
-        zero_fill
+    def initialize(data = nil)
+        @data = data
+        zero_fill if not data.nil?
     end
 
     def calculate(data = @data)

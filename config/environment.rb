@@ -5,6 +5,8 @@ require './lib/dsp'
 
 #Strategies
 require './lib/strategies/strategies'
+require './lib/strategies/fft/inverse_fft_conjugate_strategy'
+require './lib/strategies/fft/brute_force_dft_strategy'
 require './lib/strategies/fft/radix2_strategy'
 require './lib/strategies/convolution/bf_conv'
 require './lib/strategies/window/window'

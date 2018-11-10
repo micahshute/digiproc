@@ -7,7 +7,7 @@ class Dsp::FFT
     end
 
     def self.new_from_values()
-
+        return nil
     end
 
     attr_accessor :strategy, :time_data, :fft, :window, :processed_time_data, :time_data_size, :data
@@ -33,7 +33,7 @@ class Dsp::FFT
             @data = nil
         end
 
-        @strategy = strategy.new(time_data: time_data)
+        @strategy = strategy.new(time_data)
         @window = window.new(size: time_data_size)
         @data = data
     end
@@ -90,9 +90,10 @@ class Dsp::FFT
 
     def *(obj)
         if obj.responds_to?(:data) 
-            return self.data * obj.data
+            return self.data.dot obj.data
         elsif obj.is_a? Array 
-            return 
+            return self.data.dot obj
+        end
     end
 
 

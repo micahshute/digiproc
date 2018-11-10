@@ -26,19 +26,26 @@
 # puts "Normalized Quantization RMS Error: #{x4.normalized_quantization_rms_error.round(3)}"
 # binding.pry
 
-signal = ->(t){Math.cos(2 * Math::PI * t)} #cos at 1 Hz
-sample_times = (0..1000).map{ |int| int / 100.0} #Sample for 10 seconds every 0.01 seconds (100 times per period over 10 periods)
-data = sample_times.map{ |time| signal.call(time) }
-ft = []
-for k in 0...data.length do
-    tot = 0
-    data.each_with_index do |x_n, n|
-        tot += x_n * Math::E ** (Complex(0,-1) * 2.0 * Math::PI * k * n / data.length.to_f)
-    end
-    ft << tot
-end
+# signal = ->(t){Math.cos(2 * Math::PI * t)} #cos at 1 Hz
+# sample_times = (0..1000).map{ |int| int / 100.0} #Sample for 10 seconds every 0.01 seconds (100 times per period over 10 periods)
+# data = sample_times.map{ |time| signal.call(time) }
+# ft = []
+# for k in 0...data.length do
+#     tot = 0
+#     data.each_with_index do |x_n, n|
+#         tot += x_n * Math::E ** (Complex(0,-1) * 2.0 * Math::PI * k * n / data.length.to_f)
+#     end
+#     ft << tot
+# end
 
-fft = Dsp::FFT.new(data: data).calculate
+# fft = Dsp::FFT.new(data: data).calculate
+
+
+test = [1,2,3,4]
+ft = Dsp::FFT.new(time_data: test)
+ft.calculate
+iff = Dsp::Strategies::IFFTConjugateStrategy.new(ft.fft)
+iff.calculate
 
 
 binding.pry
