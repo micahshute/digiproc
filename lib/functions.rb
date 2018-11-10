@@ -55,6 +55,10 @@ module Dsp::Functions
         end 
     end
 
+    def self.sinc(x)
+        return 1 if x == 0
+        Math.sin(x) / x.to_f
+    end 
     
 
 

@@ -1,7 +1,7 @@
 class Dsp::AnalogSignal
 
-    attr_accessor :eqn, :sample_rate, :size, :companding_strategy, :signal, :quantization_bits, :quant_max, :quant_min
-    attr_reader :raw_samples, :quantized_samples
+    attr_accessor :sample_rate, :size, :companding_strategy, :signal, :quantization_bits, :quant_max, :quant_min
+    attr_reader :raw_samples, :quantized_samples, :eqn
     def initialize(eqn: ,sample_rate: 0.0001, size: 100, companding_strategy: nil, quantization_bits: Float::Infinity, quant_max: nil, quant_min: nil)
         @eqn, @sample_rate, @size, @quantization_bits, @quant_max, @quant_min = eqn, sample_rate, size, quantization_bits, quant_max, quant_min
         @signal = eqn

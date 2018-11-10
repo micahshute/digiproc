@@ -1,4 +1,4 @@
-class Dsp::Probability::BinomialDistribution
+class Dsp::Probability::TheoreticalBinomialDistribution
 
     attr_accessor :n, :k, :p
 

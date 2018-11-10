@@ -1,4 +1,4 @@
-class Dsp::Probability::GaussianDistribution
+class Dsp::Probability::RealizedGaussianDistribution
 
     attr_accessor :mean, :stddev, :generator, :data
     attr_reader :size

@@ -1,5 +1,5 @@
 
-class FilterFactory
+class Dsp::Factories::FilterFactory
 
     def self.filter_for(type: , wc: nil, wo: nil, bw: nil, transition_width: nil, stopband_attenuation: )
         window = nil

@@ -23,6 +23,12 @@ module Dsp::Probability
         summation = data.map{ |val| (val - mu) ** 2 }.sum
         summation.to_f / (data.length - 1)
     end
+
+    def self.stationary_variance(data)
+        mu = mean(data)
+        summation = data.map{ |val| val ** 2 }.sum
+        (summation.to_f / data.length) - (mu ** 2)
+    end
  
 
     def self.stationary_covariance(data1, data2)
@@ -62,6 +68,23 @@ module Dsp::Probability
 
     def self.corr_coeff(d1, d2)
         correlation_coefficient(d1, d2)
+    end
+
+    def self.erf(x)
+        Math.erf(x)
+    end
+
+    def self.erfc(x)
+        Math.erfc(x)
+    end
+
+    def self.normal_cdf(x, mean = 0, stddev = 1)
+        1 - normal_q(x, mean, stddev)
+    end
+
+    def self.normal_q(x, mean = 0, stddev = 1)
+        xformed_x = (x - mean) / stddev.to_f
+        0.5 * erfc(xformed_x / (2 ** 0.5))
     end
 
     
