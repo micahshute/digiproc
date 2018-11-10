@@ -23,17 +23,17 @@ class Dsp::FFT
         @time_data_size = time_data.length
         if not size.nil?
             if size <= time_data.length
-                @time_data = time_data.take(size)
+                @time_data = time_data.dup.map{ |val| val.dup }.take(size)
             else size > time_data.length
                 zero_fill = Array.new(size - time_data.length, 0)
-                @time_data = time_data.concat zero_fill
+                @time_data = time_data.dup.map{ |val| val.dup }.concat zero_fill
             end
         else
-            @time_data = time_data
+            @time_data = time_data.dup.map{ |val| val.dup}
             @data = nil
         end
 
-        @strategy = strategy.new(time_data)
+        @strategy = strategy.new(time_data.map{|val| val.dup})
         @window = window.new(size: time_data_size)
         @data = data
     end
