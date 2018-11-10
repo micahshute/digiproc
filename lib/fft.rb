@@ -1,16 +1,18 @@
 require 'gruff'
 class Dsp::FFT
 
-   
     
     def self.calculate(time_data)
         Radix2Strategy.calculate(time_data)
     end
 
+    def self.new_from_values()
+
+    end
 
     attr_accessor :strategy, :time_data, :fft, :window, :processed_time_data, :time_data_size, :data
 
-    include Dsp::Multipliable, Convolvable::InstanceMethods
+    include Convolvable::InstanceMethods
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the time_data
@@ -84,6 +86,13 @@ class Dsp::FFT
 
     def local_maxima(num = 1)
         Dsp::DataProperties.local_maxima(self.magnitude, num)
+    end
+
+    def *(obj)
+        if obj.responds_to?(:data) 
+            return self.data * obj.data
+        elsif obj.is_a? Array 
+            return 
     end
 
 
