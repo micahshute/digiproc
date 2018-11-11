@@ -49,7 +49,7 @@ require './lib/filters/bandstop_filter.rb'
 require './lib/signals/analog_signal'
 require './lib/probability/gaussian_distribution'
 require './lib/probability/theoretical_gaussian_distribution'
-
+require './lib/quick_plot'
 
 #Factories
 require './lib/factories/factories'

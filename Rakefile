@@ -22,3 +22,9 @@ task :console_tests => :environment do
     require_relative './console_tests.rb'
  
 end
+
+desc "Env playground, same as console tests but not for testing"
+task :play => :environment do 
+    require 'pry'
+    require_relative './playground.rb'
+end
