@@ -167,7 +167,8 @@ RSpec.describe Dsp::FFT do
 
     it "#* can multiply two FTs" do
         ft_squared = fft * fft 
-        expect(ft_squared).to eq(fft.data.dot fft.data)
+        expect(ft_squared.data).to eq(fft.data.dot fft.data)
+        expect(ft_squared.is_a? Dsp::FFT).to eq(true)
     end
     
 end

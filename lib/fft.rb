@@ -1,4 +1,4 @@
-require 'gruff'
+
 class Dsp::FFT
 
     
@@ -13,7 +13,7 @@ class Dsp::FFT
 
     attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :data
     attr_reader :fft, :data
-    include Convolvable::InstanceMethods
+    include Convolvable::InstanceMethods, Dsp::Plottable
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the time_data
@@ -68,7 +68,7 @@ class Dsp::FFT
     end
 
     def process_with_window
-        @processed_time_data = time_data.take(time_data_size) * self.window.values
+        @processed_time_data = time_data.take(time_data_size).dot self.window.values
         self.strategy.time_data = @processed_time_data
         @fft = self.strategy.calculate
         @data = @fft
@@ -120,32 +120,22 @@ class Dsp::FFT
         end
     end
 
-
-    #TODO: add vertical lines at transitions
-    def graph_db(file_name = "fft_db")
-        if @fft
-            data = self.dB
-            labels = {}
-            for i in 0...data.length
-                labels[i] = '%.2f' % (i.to_f / data.length) if i % (data.length / 5) == 0
-            end
-            g = Gruff::Line.new('1000x1000')
-            g.title = "dB vs Normalized Frequency"
+    def plot_db 
+        self.plot(method: :dB, xsteps: 8) do |g|
+            g.title = "Decibles"
             g.x_axis_label = "Normalized Frequency"
-            g.y_axis_label = "dB"
-            g.y_axis_increment = 20
-            g.line_width = 1
-            g.dot_radius = 1
-            #g.reference_lines = [{index: }, {index: }]
-            # g.label_formatting = "%.2f"
-            g.maximum_x_value = 1
-            g.minimum_x_value = 0
-            g.show_vertical_markers = true
-            g.data :dB, data
-            g.labels = labels
-            g.write("./#{file_name}.png")
-        end 
+            g.y_axis_label = "Magnitude"
+        end
     end
+
+    def plot_magnitude
+        self.plot(method: :magnitude, xsteps: 8) do |g|
+            g.title = "Magnitude"
+            g.x_axis_label = "Normalized Frequency"
+            g.y_axis_label = "Magnitude"
+        end
+    end
+
 
     def graph_magnitude(file_name = "fft")
         if @fft

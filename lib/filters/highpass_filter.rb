@@ -8,7 +8,7 @@ class HighpassFilter < DigitalFilter
             n == 0 ?  (( PI - wc) / PI) :  (-1 * (Math.sin( wc * n) / (PI * n)))
         }
         ideal_filter = calculate_ideal
-        @weights = self.window.values * ideal_filter
+        @weights = self.window.values.dot ideal_filter
         @fft = FFT.new(data: self.weights)
         @fft.calculate
     end

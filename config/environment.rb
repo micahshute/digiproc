@@ -18,6 +18,7 @@ require './lib/strategies/companding/custom_companding_strategy'
 require './lib/strategies/gaussian/gaussian_generator'
 
 #Modules
+require './lib/concerns/plottable'
 require './lib/concerns/requires_data'
 require './lib/concerns/initializable'
 require './lib/concerns/convolvable'
@@ -50,3 +51,7 @@ require './lib/probability/gaussian_distribution'
 require './lib/probability/theoretical_gaussian_distribution'
 
 
+#Factories
+require './lib/factories/factories'
+require './lib/factories/window_factory'
+require './lib/factories/filter_factory'

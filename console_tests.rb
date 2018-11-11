@@ -41,11 +41,4 @@
 # fft = Dsp::FFT.new(data: data).calculate
 
 
-test = [1,2,3,4]
-ft = Dsp::FFT.new(time_data: test)
-ft.calculate
-iff = Dsp::Strategies::IFFTConjugateStrategy.new(ft.fft)
-iff.calculate
-
-
 binding.pry

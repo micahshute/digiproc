@@ -20,7 +20,7 @@ class BandstopFilter < DigitalFilter
             n == 0 ?  (wlp_upper / PI) + (( PI - whp_lower )/ PI ) : ((Math.sin(wlp_upper * n) - Math.sin(whp_lower * n)) / (PI * n))
         }
         ideal_filter = calculate_ideal
-        @weights = self.window.values * ideal_filter
+        @weights = self.window.values.dot ideal_filter
         @fft = FFT.new(data: self.weights)
         @fft.calculate
     end

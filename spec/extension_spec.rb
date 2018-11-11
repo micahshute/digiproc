@@ -1,11 +1,11 @@
 RSpec.describe Array do
 
     it "allows array multiplication" do
-        expect([1,2,3] * [1,2,3]).to eq([1,4,9])
+        expect([1,2,3].dot [1,2,3]).to eq([1,4,9])
     end
 
     it "only allows multiplicaiton of arrays of the same size" do
-        expect{[1,2,3] * [4,5,6,7]}.to raise_error(ArgumentError)
+        expect{[1,2,3].dot [4,5,6,7]}.to raise_error(ArgumentError)
     end
 
     it "allows array addition" do 

@@ -24,7 +24,7 @@ class DigitalFilter
         if size > @weights.length
             zeros = Array.new(size - @weights.length, 0)
             padded = @weights.concat(zeros)
-            @fft = FFT.new(data: padded)
+            @fft = Dsp::FFT.new(data: padded)
             @fft.calculate
         end
     end

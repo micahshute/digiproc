@@ -1,3 +1,3 @@
-# RSpec.describe AnalogSignal do
+RSpec.describe Dsp::AnalogSignal do
 
-# end
+end

@@ -9,8 +9,8 @@ class LowpassFilter < DigitalFilter
             n == 0 ? (wc / PI) : (Math.sin(wc * n) / (PI * n)) 
         }
         ideal_filter = calculate_ideal
-        @weights = self.window.values * ideal_filter
-        @fft = FFT.new(data: self.weights)
+        @weights = self.window.values.dot ideal_filter
+        @fft = Dsp::FFT.new(time_data: self.weights)
         @fft.calculate
     end
 end
