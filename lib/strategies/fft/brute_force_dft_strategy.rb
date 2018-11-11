@@ -3,7 +3,7 @@ class Dsp::BFDFTStrategy
     attr_accessor :data
 
     def initialize(data)
-        @data = data
+        @data = data.dup
     end
 
 

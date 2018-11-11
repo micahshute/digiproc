@@ -12,7 +12,7 @@ class Dsp::Strategies::IFFTConjugateStrategy
         fft_out = strategy.calculate
         n = fft_out.length.to_f
         puts fft_out.to_s
-        conjugate(fft_out){ |real, imag| OpenStruct.new(real: real / n, imaginary: imag / n) }
+        conjugate(fft_out){ |real, imag| OpenStruct.new(real: (real / n), imaginary: (imag / n) ) }
     end
 
 

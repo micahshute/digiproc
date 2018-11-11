@@ -32,8 +32,8 @@ class Radix2Strategy
         y1 = recursive_fft(a1)
         y = Array.new(n, 0)
         for k in 0...(n/2) do
-            y[k] = y0[k] + w * y1[k]
-            y[k + n/2] = y0[k] - w * y1[k]
+            y[k] = (y0[k] + w * y1[k])
+            y[k + n/2] = (y0[k] - w * y1[k])
             w = w * w_n
         end
         y

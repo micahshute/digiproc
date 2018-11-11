@@ -1,7 +1,9 @@
 module Dsp::DataProperties
 
+    extend self 
+
     #returns Array of OpenStruct with #index and #value
-    def self.all_maxima(data)
+    def all_maxima(data)
         raise ArgumentError.new("Data must be an array") if not data.is_a? Array
         slope = Slope::Positive
         max = []
@@ -18,11 +20,11 @@ module Dsp::DataProperties
         max
     end
 
-    def self.maxima(data, num = 1)
+    def maxima(data, num = 1)
         all_maxima(data).sort{ |a, b| b.value <=> a.value }.take num
     end
 
-    def self.local_maxima(data, num=1)
+    def local_maxima(data, num=1)
         all_maxima = all_maxima(data)
         all_maxima.sort do |a, b|
             a_upper = all_maxima.find{ |maxima| maxima.index > a.index }
@@ -46,7 +48,7 @@ module Dsp::DataProperties
         .take(num)
     end
 
-    def self.find_slope(a,b)
+    def find_slope(a,b)
         slope = nil
         if b - a > 0
             slope = Slope::Positive

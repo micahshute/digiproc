@@ -1,7 +1,6 @@
 module Dsp::Functions
 
-    extend Convolvable::ClassMethods
-    include Dsp::DataProperties
+    extend Convolvable::ClassMethods, FourierTransformable::GenericMethods, Dsp::DataProperties
 
     def self.cross_correlation(data1, data2)
         self.conv(data1, data2.reverse)
@@ -9,7 +8,7 @@ module Dsp::Functions
 
     def self.expand_to(samples, max, min)
         target_center = (max + min) / 2.0
-        target__range = max.to_f - min
+        target_range = max.to_f - min
         smax, smin = samples.max, samples.min
         sample_center = (smax + smin) / 2.0
         sample_range = smax.to_f - smin
@@ -49,11 +48,11 @@ module Dsp::Functions
         return x
     end
 
-    def self.populate_large_factorial_memoization
-        for i in 1..10 do 
-            fact(10000 * i)
-        end 
-    end
+    # def self.populate_large_factorial_memoization
+    #     for i in 1..10 do 
+    #         fact(10000 * i)
+    #     end 
+    # end
 
     def self.sinc(x)
         return 1 if x == 0

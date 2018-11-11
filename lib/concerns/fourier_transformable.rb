@@ -1,5 +1,25 @@
 module FourierTransformable
 
+    module GenericMethods
+
+        def fft_strategy
+            Radix2Strategy
+        end
+
+        def ifft_strategy
+            Dsp::Strategies::IFFTConjugateStrategy
+        end
+
+        def fft(data)
+            fft_strategy.new(data.dup).calculate
+        end
+
+        def ifft(data)
+            ifft_strategy.new(data.dup).calculate
+        end
+
+    end
+
     def self.included(base)
         base.class_eval do 
             include RequiresData
