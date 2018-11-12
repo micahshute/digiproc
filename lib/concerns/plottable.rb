@@ -9,8 +9,8 @@ module Dsp::Plottable
             raise TypeError.new("X and Y must be arrays, not #{x.class}, #{y.class}") if (!!x and !!y) and not (x.is_a?(Array) and y.is_a?(Array))
             raise ArgumentError.new("X and Y must be the same size") if (!!x and !!y) and (x.length != y.length)
             g = Gruff::Line.new('1000x1000')
-            g.line_width = 1
-            g.dot_radius = 1
+            g.line_width = 2.5
+            g.dot_radius = 0.1
             # g.minimum_x_value = 0
             g.data :data, data if !!data
             g.dataxy :xydata, x, y if !!x and !!y

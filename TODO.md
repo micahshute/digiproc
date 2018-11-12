@@ -11,7 +11,7 @@
 - [x] Implement Analog signal, allow custom sampling rate, include nyquist freq (based on freq or bandwidth)
     - [x] Implement quantization
     - [x] Allow companding techniques in quantization process
-- [ ] Look at using rubyvis as graphical tool instead of gruff 
+- [ ] Look at using another graphical tool instead of gruff 
 - [x] Ensure FFT class is fully disconnected from FFTStrategy (ie having to zero fill for Radix2)
     - [x] Ensure custom strategies can be built and implemented
 - [x] Same as above for companding strategies and window strategies
@@ -22,5 +22,7 @@
 - [ ] Investigate changing Dsp to DSP
 - [ ] Review / cleanup / investigate proper scope of methods in Dsp::Functions
     - [ ] If the `#map_to` methods are kept in Dsp::Functions, remove them from `AnalogSignal`
-- [ ] Add IFFT, make FFT class multiplyable, test to ensure it equals convolution in the time domain
+- [x] Add IFFT, make FFT class multiplyable, 
+- [ ] test to ensure FFT multiplication equals convolution in the time domain
+- [ ] Add Decorators to Dsp::QuickPlot to allow vertical lines being added, and maybe color schemes too 
 
