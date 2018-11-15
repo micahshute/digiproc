@@ -20,7 +20,7 @@ class BandpassFilter < DigitalFilter
             n == 0 ?  bw / PI : ((Math.sin(bw * n / 2.0)) / (PI * n)) * (2.0 * Math.cos(n * wo))
         }
         ideal_filter = calculate_ideal
-        @weights = self.window.values.dot ideal_filter
+        @weights = self.window.values.times ideal_filter
         @fft = Dsp::FFT.new(time_data: self.weights)
         @fft.calculate
     end

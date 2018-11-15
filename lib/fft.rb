@@ -52,6 +52,12 @@ class Dsp::FFT
         @data = @fft
     end
 
+    def calculate_at_size(size)
+        zero_fill = Array.new(size - @time_data.length, 0)
+        @time_data = time_data.concat zero_fill
+        calculate
+    end
+
     def ifft
         inverse_strategy.new(data).calculate
     end
@@ -76,8 +82,8 @@ class Dsp::FFT
     end
 
     def process_with_window
-        @processed_time_data = time_data.take(time_data_size).dot self.window.values
-        self.strategy.time_data = @processed_time_data
+        @processed_time_data = time_data.take(time_data_size).times self.window.values
+        self.strategy.data = @processed_time_data
         @fft = self.strategy.calculate
         @data = @fft
     end
@@ -122,9 +128,9 @@ class Dsp::FFT
 
     def *(obj)
         if obj.respond_to?(:data) 
-            return self.class.new_from_spectrum(self.data.dot obj.data)
+            return self.class.new_from_spectrum(self.data.times obj.data)
         elsif obj.is_a? Array 
-            return self.class.new_from_specctrum(self.data.dot obj.data)
+            return self.class.new_from_specctrum(self.data.times obj.data)
         end
     end
 

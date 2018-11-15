@@ -150,7 +150,6 @@ RSpec.describe Dsp::FFT do
         eqnft = Dsp::FFT.new(time_data: eqn)
         eqnft.calculate
         expect(eqnft.fft.length).to eq(64)
-        eqnft.graph_db
         expect(eqnft.maxima(4).map{ |os| os.index }.sort).to eq([4, 10, 54, 60])
     end
 
@@ -167,8 +166,23 @@ RSpec.describe Dsp::FFT do
 
     it "#* can multiply two FTs" do
         ft_squared = fft * fft 
-        expect(ft_squared.data).to eq(fft.data.dot fft.data)
+        expect(ft_squared.data).to eq(fft.data.times fft.data)
         expect(ft_squared.is_a? Dsp::FFT).to eq(true)
+    end
+
+    it "#multiplication of fft is the same as convolution in the time domain" do
+        noise_data1 = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
+        noise_data2 = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 5, size: 50).data
+        # noise_data1 = [1,2,3,4]
+        # noise_data2 = [2,3,4,5]
+        dft1 = Dsp::FFT.new(time_data: noise_data1, size: 200)
+        dft2 = Dsp::FFT.new(time_data: noise_data2, size: 200)
+        dftout = dft1 * dft2
+        timeout = dftout.ifft
+        time_real = timeout.map(&:real)
+        time_imag = timeout.map(&:imaginary)
+        expect(time_imag.sum < 0.0001).to equal(true)
+        expect(time_real).to eq(Dsp::Functions.conv(noise_data1, noise_data2))
     end
     
 end

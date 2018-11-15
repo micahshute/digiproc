@@ -38,7 +38,7 @@ module Dsp::Probability
 
     def self.stationary_covariance(data1, data2)
         raise ArgumentError.new("Datasets must be of equal length") if data1.length != data2.length
-        xcs = (data1.dot data2).sum
+        xcs = data1.dot data2
         mu1 = mean(data1)
         mu2 = mean(data2)
         (xcs / (data1.length.to_f)) - (mu1 * mu2) 

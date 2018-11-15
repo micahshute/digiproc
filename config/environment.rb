@@ -34,6 +34,7 @@ require './lib/extensions/core_extensions'
 
 Array.include Dsp::CoreExtensions::ArrayExtension::DotProduct
 Array.include Dsp::CoreExtensions::ArrayExtension::Sum 
+Array.include Dsp::CoreExtensions::ArrayExtension::Multiply
 Math.extend Dsp::CoreExtensions::MathExtension::Decible
 
 require './lib/extensions/array_extension'

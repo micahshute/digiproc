@@ -7,7 +7,7 @@ module Dsp::CoreExtensions
                 self.each_with_index do |o,i|
                     output << o * arr[i]
                 end
-                output
+                output.sum
             end
         end
         module Sum
@@ -20,6 +20,17 @@ module Dsp::CoreExtensions
                 output
             end
         end
+
+        module Multiply
+            def times(arr)
+                raise ArgumentError.new("Array sizes must be equal") if self.size != arr.size
+                output = []
+                self.each_with_index do |o,i|
+                    output << o * arr[i]
+                end
+                output
+            end
+        end    
     end
 
     module MathExtension

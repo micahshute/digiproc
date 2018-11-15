@@ -80,7 +80,7 @@ pi = Math::PI
 # analog_signal = Dsp::AnalogSignal.new(eqn: eqn, sample_rate: 0.0001, size: 10000)
 # digital_signal = analog_signal.to_ds
 
-# sample_time_zero = (digital_signal.data.dot digital_signal.data).sum
+# sample_time_zero = digital_signal.data.dot digital_signal.data
 # samples_per_unit = 1.0 / analog_signal.sample_rate
 # puts "Output at t = tmax: #{sample_time_zero / samples_per_unit}"
 
@@ -143,19 +143,19 @@ pi = Math::PI
 #------------------------------------------------------------------------------
 #PROBLEM 5
 #------------------------------------------------------------------------------
-# r = 10
-# c = 10
-# impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
+r = 10
+c = 10
+impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
 
-# noise = norm_dist.new(mean: 0, stddev: 10, size: 500000)
+noise = norm_dist.new(mean: 0, stddev: 10, size: 10000)
 
-# rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
+rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
 
-# noise_signal = DigitalSignal.new(data: noise.data)
+noise_signal = DigitalSignal.new(data: noise.data)
+# output_spectra = Dsp::FFT.new(time_data: rc_circuit.data, size: noise.size * 2) * Dsp::FFT.new(time_data: noise_signal.data, size: noise.size * 2)
+output_spectra = rc_circuit.fft * noise_signal.fft
 
-# output_spectra = rc_circuit.fft * noise_signal.fft
-
-# output_signal = output_spectra.ifft.map(&:real)
-
-# variance = prob.variance(output_signal)
-# puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance}"
+output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1).last(10)
+puts output_signal
+variance = prob.variance(output_signal)
+puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance}"
