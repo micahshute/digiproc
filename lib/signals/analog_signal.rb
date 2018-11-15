@@ -2,7 +2,7 @@ class Dsp::AnalogSignal
 
     attr_accessor :sample_rate, :size, :companding_strategy, :signal, :quantization_bits, :quant_max, :quant_min
     attr_reader :raw_samples, :quantized_samples, :eqn
-    def initialize(eqn: ,sample_rate: 0.0001, size: 100, companding_strategy: nil, quantization_bits: Float::Infinity, quant_max: nil, quant_min: nil)
+    def initialize(eqn: ,sample_rate: 0.0001, size: 100, companding_strategy: nil, quantization_bits: Float::INFINITY, quant_max: nil, quant_min: nil)
         @eqn, @sample_rate, @size, @quantization_bits, @quant_max, @quant_min = eqn, sample_rate, size, quantization_bits, quant_max, quant_min
         @signal = eqn
         @companding_strategy = (companding_strategy.is_a?(Class) and !!companding_strategy) ? companding_strategy.new : companding_strategy 
@@ -83,7 +83,7 @@ class Dsp::AnalogSignal
         starting_range = range_of(starting_max.to_f, starting_min)
         center_map = target_center - starting_center
         range_map = target_range / starting_range
-        ->(n){ (n + center_map) * range_map }
+        ->(n){ (n - starting_center) * range_map + target_center}
     end
 
     def center_of(max, min)

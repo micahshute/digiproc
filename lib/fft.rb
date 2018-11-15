@@ -11,13 +11,13 @@ class Dsp::FFT
         new(freq_data: data, time_data: time_data)
     end
 
-    attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :data
+    attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :data, :inverse_strategy
     attr_reader :fft, :data
     include Convolvable::InstanceMethods, Dsp::Plottable
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the time_data
-    def initialize(strategy: Radix2Strategy, time_data: nil, size: nil, window: RectangularWindow, freq_data: nil)
+    def initialize(strategy: Radix2Strategy, time_data: nil, size: nil, window: RectangularWindow, freq_data: nil, inverse_strategy: Dsp::Strategies::IFFTConjugateStrategy)
         raise ArgumentError.new("Either time or frequency data must be given") if time_data.nil? and freq_data.nil?
         raise ArgumentError.new('Size must be an integer') if not size.nil? and not size.is_a?(Integer) 
         raise ArguemntError.new('Size must be greater than zero') if not size.nil? and size <= 0 
@@ -28,21 +28,21 @@ class Dsp::FFT
             if not size.nil?
                 if size <= time_data.length
                     @time_data = time_data.dup.map{ |val| val.dup }.take(size)
-                else size > time_data.length
+                else 
                     zero_fill = Array.new(size - time_data.length, 0)
                     @time_data = time_data.dup.map{ |val| val.dup }.concat zero_fill
                 end
             else
                 @time_data = time_data.dup.map{ |val| val.dup}
             end
-            @strategy = strategy.new(time_data.map{ |val| val.dup})
+            @strategy = strategy.new(@time_data.map{ |val| val.dup})
             @window = window.new(size: time_data_size)
         else
             @time_data = time_data
             @strategy = strategy.new
             @window = window.new(size: freq_data.length)
         end
-        
+        @inverse_strategy = inverse_strategy
         @data = freq_data
     end
 
@@ -50,6 +50,14 @@ class Dsp::FFT
         self.strategy.data = time_data if @strategy.data.nil?
         @fft = self.strategy.calculate
         @data = @fft
+    end
+
+    def ifft
+        inverse_strategy.new(data).calculate
+    end
+
+    def ifft_ds
+        DigitalSignal.new(data: ifft)
     end
 
     def data
@@ -75,7 +83,7 @@ class Dsp::FFT
     end
 
     def magnitude
-        @fft.map do |f|
+        data.map do |f|
             f.abs
         end
     end

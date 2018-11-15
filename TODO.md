@@ -25,4 +25,5 @@
 - [x] Add IFFT, make FFT class multiplyable, 
 - [ ] test to ensure FFT multiplication equals convolution in the time domain
 - [ ] Add Decorators to Dsp::QuickPlot to allow vertical lines being added, and maybe color schemes too 
+- [ ] Make an alternative name to `dot` which is confusing because it is not the dot product (it does not sum at the end)
 

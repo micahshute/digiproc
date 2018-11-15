@@ -6,7 +6,7 @@ module Dsp::Functions
         self.conv(data1, data2.reverse)
     end
 
-    def self.expand_to(samples, max, min)
+    def self.map_data_to_range(samples, min, max)
         target_center = (max + min) / 2.0
         target_range = max.to_f - min
         smax, smin = samples.max, samples.min
@@ -18,14 +18,13 @@ module Dsp::Functions
         process(samples, mapping)
     end
 
-    def self.map_to_eqn(starting_max, starting_min, target_max, target_min)
+    def self.map_to_eqn(starting_min, starting_max, target_min, target_max)
         target_center = center_of(target_max, target_min)
         target_range = range_of(target_max, target_min)
         starting_center = center_of(starting_max, starting_min) 
         starting_range = range_of(starting_max.to_f, starting_min)
-        center_map = target_center - starting_center
-        range_map = target_range / starting_range
-        ->(n){ (n + center_map) / range_map }
+        range_map = target_range.to_f / starting_range
+        ->(n){ (n - starting_center) * range_map + target_center}
     end
 
     def self.center_of(max, min)
@@ -34,6 +33,43 @@ module Dsp::Functions
 
     def self.range_of(max, min)
         max.to_f - min
+    end
+
+    def self.zeros(num)
+        Array.new(num, 0)
+    end
+    
+    def self.ones(num)
+        Array.new(num, 1)
+    end
+    
+    def self.linspace(start, stop, number)
+        rng = 0...number
+        interval = (stop - start).to_f / (number - 1)
+        rng.map{ |val| start + interval * val }
+    end
+
+    def monotonic_state(data)
+        last_value = data.first
+        state = [:flat, :increasing, :decreasing]
+        state_index = 0
+        for i in 1...data.length do
+            return state[state_index] if state[state_index].nil? 
+            slope = data[i] - last_value
+            if slope > 0
+                state_index = 1 if state[:state_index] == :flat
+                return nil if state[:state_index] != :increasing
+            elsif slope < 0
+                state_index = 2 if state[:state_index] == :flat
+                return nil if state[:state_index] != :decreasing
+            end
+            last_value = data[i]
+        end
+        return state[:state_index]
+    end
+
+    def monotonic?(data)
+        !!monotonic_state(data)
     end
 
 
@@ -59,6 +95,8 @@ module Dsp::Functions
         Math.sin(x) / x.to_f
     end 
     
-
+    def process(values, eqn)
+        values.map{ |val| eqn.call(val) }
+    end
 
 end

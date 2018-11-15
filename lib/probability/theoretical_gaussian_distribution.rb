@@ -2,9 +2,10 @@ class Dsp::Probability::TheoreticalGaussianDistribution
 
     attr_reader :mean, :stddev, :variance
     
-    def initialize(mean: , stddev: )
+    def initialize(mean: , stddev: , generator_strategy: Dsp::Strategies::GaussianGeneratorBoxMullerStrategy)
         @mean, @stddev = mean, stddev
         @variance = stddev ** 2
+        @generator_strategy = generator_strategy.new(mean, stddev)
     end
 
     def cdf(x)
@@ -22,6 +23,10 @@ class Dsp::Probability::TheoreticalGaussianDistribution
 
     def p_outside(lower, upper)
         cdf(lower) + q(upper)
+    end
+
+    def rand
+        @generator_strategy.rand
     end
 
     

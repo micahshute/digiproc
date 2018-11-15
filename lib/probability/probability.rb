@@ -1,4 +1,5 @@
 module Dsp::Probability
+
     #Interchangable strategy
     #Strategy requirements: 
         #can be initialized with no arguments (gives mean = 0 and stddev = 1), or with a mean and stddev
@@ -28,6 +29,10 @@ module Dsp::Probability
         mu = mean(data)
         summation = data.map{ |val| val ** 2 }.sum
         (summation.to_f / data.length) - (mu ** 2)
+    end
+
+    def self.stddev(data)
+        variance(data) ** (0.5)
     end
  
 
@@ -85,6 +90,19 @@ module Dsp::Probability
     def self.normal_q(x, mean = 0, stddev = 1)
         xformed_x = (x - mean) / stddev.to_f
         0.5 * erfc(xformed_x / (2 ** 0.5))
+    end
+
+    def self.pdf(data)
+        pdf = {}
+        data.each do |datapoint|
+            pt = datapoint.round(2)
+            if pdf[pt].nil?
+                pdf[pt] = 1
+            else
+                pdf[pt] += 1
+            end
+        end
+        pdf
     end
 
     

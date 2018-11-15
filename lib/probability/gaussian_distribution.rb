@@ -17,4 +17,5 @@ class Dsp::Probability::RealizedGaussianDistribution
         initialize_modules(FourierTransformable => {time_data: data})
     end
 
+
 end

@@ -19,6 +19,9 @@ class DigitalSignal
         self.new(data: data)
     end
     
+    def new_from_spectra(fft)
+        Dsp::Functions.ifft(fft)
+    end
     
     def initialize(data: )
         raise ArgumentError.new("Data must be an Array, not a #{data.class}") if not data.is_a? Array

@@ -18,7 +18,7 @@ class Dsp::Factories::FilterFactory
             size = make_odd(5.5 / transition_width)
         end
 
-        case type.downcase
+        case type.to_s.downcase
         when 'lowpass'
             return Filters::lowpass.new(wc: wc, size: size, window: window)
         when 'highpass'
