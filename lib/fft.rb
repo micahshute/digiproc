@@ -53,8 +53,13 @@ class Dsp::FFT
     end
 
     def calculate_at_size(size)
-        zero_fill = Array.new(size - @time_data.length, 0)
-        @time_data = time_data.concat zero_fill
+        if size > self.data.size
+            zero_fill = Array.new(size - @time_data.length, 0)
+            @time_data = time_data.concat zero_fill
+        elsif size < self.data.size
+            @time_data = time_data.take(size)
+        end
+        self.strategy.data = time_data
         calculate
     end
 

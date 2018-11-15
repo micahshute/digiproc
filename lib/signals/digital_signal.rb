@@ -37,6 +37,13 @@ class DigitalSignal
         processed_data
     end
 
+    def fft(size)
+        if @fft.data.size != size
+            @fft.calculate_at_size(size)
+        end
+        @fft
+    end
+
     def process!
         processed_data = []
         for i in 0...data.length do

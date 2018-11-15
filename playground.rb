@@ -9,34 +9,34 @@ pi = Math::PI
 #-------------------------------------------------------------
 #PROBLEM 1
 #---------------------------------------------------------------
-# # Create "white" Gaussian noise, 0 mean
-# dist = norm_dist.new(mean: 0, stddev: 1, size: 16384)
+# Create "white" Gaussian noise, 0 mean
+dist = norm_dist.new(mean: 0, stddev: 1, size: 16384)
 
-# # Create a bandpass filter, make FT dimensions match
-# bpfilter = factory.filter_for(type: "bandpass", wo: Math::PI / 2, bw: Math::PI / 5, transition_width: 0.1, stopband_attenuation: 80)
-# matched_size_ft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384)
+# Create a bandpass filter, make FT dimensions match
+bpfilter = factory.filter_for(type: "bandpass", wo: Math::PI / 2, bw: Math::PI / 5, transition_width: 0.0001, stopband_attenuation: 80)
+filter_dft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384 * 2)
 
-# # Get FT of White noise, calculate No 
-# dist_fft = Dsp::FFT.new(time_data: dist.data)
-# n_o = 2 * (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
+# Get FT of White noise, calculate No 
+dist_fft = Dsp::FFT.new(time_data: dist.data, size: 16384 * 2)
+n_o = 2 * (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
 
-# # Multiply freq domain of noise and filter to get output spectra
-# # Calculate output energy
-# filter_out = dist_fft * matched_size_ft
-# total_noise_out = filter_out.magnitude.map{ |val| (val ** 2) * (1.0 / 16384) }.sum 
-# time_data_out = fns.ifft(filter_out.data).map(&:real)
+# Multiply freq domain of noise and filter to get output spectra
+# Calculate output energy
+filter_out = dist_fft * filter_dft
+total_noise_out = filter_out.magnitude.take(16384).map{ |val| (val ** 2) * (1.0 / 16384) }.sum 
+time_data_out = fns.ifft(filter_out.data).map(&:real).take(16384)
 
-# bw = 1.0 / 10
+bw = 1.0 / 10
 
-# puts "Normal Dist. Input \n\tMean:#{prob.mean(dist.data)}, Stddev: #{prob.stddev(dist.data)}"
-# puts "No = #{n_o}"
-# puts "Total Noise Energy Out: #{total_noise_out}"
-# puts "Output: \n\tMean: #{prob.mean(time_data_out)}, Stddev: #{prob.stddev(time_data_out)}"
-# puts "Calculated Noise Energy Out: #{2 * n_o * bw}"
+puts "Normal Dist. Input \n\tMean:#{prob.mean(dist.data)}, Stddev: #{prob.stddev(dist.data)}"
+puts "No = #{n_o}"
+puts "Total Noise Energy Out: #{total_noise_out}"
+puts "Output: \n\tMean: #{prob.mean(time_data_out)}, Stddev: #{prob.stddev(time_data_out)}"
+puts "Calculated Noise Energy Out: #{ n_o * bw}"
 
 # f =  fns.linspace(0,1,16384)
 
-# plt.plot(x: f, y: matched_size_ft.dB, title: "Bandpass Filter")
+# plt.plot(x: f, y: filter_dft.dB, title: "Bandpass Filter")
 # plt.plot(x: f, y: dist_fft.magnitude, title: "White Noise Spectra" )
 # plt.plot(x: f, y: filter_out.magnitude, title: "White Noise Mag Out of BP Filter", y_label: "Magnitude")
 # plt.plot(x: f, y: filter_out.dB, title: "White Noise dB Out of BP Filter", y_label: "dB")
@@ -54,20 +54,20 @@ pi = Math::PI
 # output = sys.ds_conv noise
 # output_autocorrelation = output.acorr
 
-
+# n_o = 2 * noise.data.dot(noise.data)
 # #Display results
 # expanded_sys = Dsp::FFT.new(time_data: sys.data, size: 4096)
 # calculated_system_equation = ->(w){ (1 - 2 * e ** (Complex(0,-1) * w) + e ** (Complex(0,-2) * w)).abs}
 
-# f = fns.linspace(0,1,4096)
-# w = fns.linspace(0,2*pi, 4096)
-# calculated_system_spectra = w.map{|value| calculated_system_equation.call(value)}
-# plt.plot(x: f, y: expanded_sys.magnitude, title: "System Spectra")
-# plt.plot(x: f, y: (Dsp::FFT.new(time_data: noise.data) * expanded_sys).magnitude, title: "Output Spectra")
-# plt.plot(x: w, y: calculated_system_spectra, title: "Expected System Spectra", data_name: "1 - 2exp(jw) + exp(j2w)")
-# plt.plot(data: output_autocorrelation[4093..4101], title: "Autocorrelation of output")
+# # f = fns.linspace(0,1,4096)
+# # w = fns.linspace(0,2*pi, 4096)
+# # calculated_system_spectra = w.map{|value| calculated_system_equation.call(value)}
+# # plt.plot(x: f, y: expanded_sys.magnitude, title: "System Spectra")
+# # plt.plot(x: f, y: (Dsp::FFT.new(time_data: noise.data) * expanded_sys).magnitude, title: "Output Spectra")
+# # plt.plot(x: w, y: calculated_system_spectra, title: "Expected System Spectra", data_name: "1 - 2exp(jw) + exp(j2w)")
+# # plt.plot(data: output_autocorrelation[4093..4101], title: "Autocorrelation of output")
 
-
+# puts n_o
 # puts "Input noise mean: #{prob.mean(noise.data)}"
 # puts "Output mean: #{prob.mean(output.data)}"
 
@@ -143,19 +143,17 @@ pi = Math::PI
 #------------------------------------------------------------------------------
 #PROBLEM 5
 #------------------------------------------------------------------------------
-r = 10
-c = 10
-impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
+# r = 10
+# c = 10
+# impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
 
-noise = norm_dist.new(mean: 0, stddev: 10, size: 10000)
+# noise = norm_dist.new(mean: 0, stddev: 10, size: 50000)
 
-rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
+# rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
 
-noise_signal = DigitalSignal.new(data: noise.data)
-# output_spectra = Dsp::FFT.new(time_data: rc_circuit.data, size: noise.size * 2) * Dsp::FFT.new(time_data: noise_signal.data, size: noise.size * 2)
-output_spectra = rc_circuit.fft * noise_signal.fft
+# noise_signal = DigitalSignal.new(data: noise.data)
+# output_spectra = rc_circuit.fft(noise.data.length * 2) * noise_signal.fft(noise.data.length * 2)
 
-output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1).last(10)
-puts output_signal
-variance = prob.variance(output_signal)
-puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance}"
+# output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1)
+# variance = prob.variance(output_signal)
+# puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance.round(2)}"

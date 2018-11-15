@@ -2,9 +2,28 @@ module Convolvable
 
     module ClassMethods
 
+        def convolve(data1, data2, strategy = BFConvolutionStrategy)
+            conv(data1, data2, strategy)
+        end
 
         def conv(data1, data2, strategy = BFConvolutionStrategy)
             strategy.conv(data1,data2)
+        end
+
+        def cross_correlation(data1, data2)
+            conv(data1, data2.reverse)
+        end
+
+        def xcorr(data1, data2)
+            cross_correlation(data1, data2)
+        end
+
+        def auto_correlation(data)
+            cross_correlation(data, data)
+        end
+
+        def acorr(data)
+            cross_correlation(data, data)
         end
 
     end
