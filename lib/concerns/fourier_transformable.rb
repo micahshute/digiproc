@@ -26,11 +26,12 @@ module FourierTransformable
         end
     end
 
-    attr_accessor :fft_strategy, :fft
+    attr_accessor :fft
+    attr_reader :fft_strategy
 
     def initialize(time_data: , fft_strategy: Radix2Strategy)
         @fft_strategy = Radix2Strategy
-        @fft = Dsp::FFT.new(time_data: time_data.dup)
+        @fft = Dsp::FFT.new(time_data: time_data.dup, strategy: fft_strategy)
     end
 
     def fft_db
@@ -41,6 +42,17 @@ module FourierTransformable
     def fft_magnitude
         setup_fft
         @fft.magnitude
+    end
+
+    def fft(size)
+        if @fft.data.size != size
+            @fft.calculate_at_size(size)
+        end
+        @fft
+    end
+
+    def fft_strategy=(strategy)
+        @fft.strategy = strategy
     end
 
     def fft_data

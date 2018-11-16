@@ -184,5 +184,9 @@ RSpec.describe Dsp::FFT do
         expect(time_imag.sum < 0.0001).to equal(true)
         expect(time_real).to eq(Dsp::Functions.conv(noise_data1, noise_data2))
     end
+
+    # TODO
+        #Calculate at size method
+        #
     
 end
