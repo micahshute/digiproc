@@ -110,4 +110,8 @@ class DigitalSignal
     def csd(signal)
         self.cross_spectral_density(signal)
     end
+
+    def to_a
+        self.data
+    end
 end

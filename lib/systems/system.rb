@@ -8,4 +8,12 @@ class Dsp::Systems::System
         initialize_modules(FourierTransformable => {time_data: data})
     end
 
+    def to_ds
+        DigitalSignal.new(data: self.data)
+    end
+
+    def to_a
+        self.data
+    end
+
 end
