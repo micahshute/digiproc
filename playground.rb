@@ -14,18 +14,17 @@ dist = norm_dist.new(mean: 0, stddev: 1, size: 16384)
 
 # Create a bandpass filter, make FT dimensions match
 bpfilter = factory.filter_for(type: "bandpass", wo: Math::PI / 2, bw: Math::PI / 5, transition_width: 0.0001, stopband_attenuation: 80)
-filter_dft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384 * 2)
+filter_dft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384 * 4)
 
 # Get FT of White noise, calculate No 
-dist_fft = Dsp::FFT.new(time_data: dist.data, size: 16384 * 2)
-n_o = 2 * (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
+dist_fft = Dsp::FFT.new(time_data: dist.data, size: 16384 * 4)
+n_o = 2 *  (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
 
 # Multiply freq domain of noise and filter to get output spectra
 # Calculate output energy
 filter_out = dist_fft * filter_dft
-total_noise_out = filter_out.magnitude.take(16384).map{ |val| (val ** 2) * (1.0 / 16384) }.sum 
-time_data_out = fns.ifft(filter_out.data).map(&:real).take(16384)
-
+total_noise_out = filter_out.magnitude.map{ |val| (val ** 2) * (1.0/ (4 * 16384)) }.sum 
+time_data_out = fns.ifft(filter_out.data).map(&:real)
 bw = 1.0 / 10
 
 puts "Normal Dist. Input \n\tMean:#{prob.mean(dist.data)}, Stddev: #{prob.stddev(dist.data)}"
