@@ -26,7 +26,7 @@ module FourierTransformable
         end
     end
 
-    attr_accessor :fft
+    attr_writer :fft
     attr_reader :fft_strategy
 
     def initialize(time_data: , fft_strategy: Radix2Strategy)
@@ -44,7 +44,7 @@ module FourierTransformable
         @fft.magnitude
     end
 
-    def fft(size)
+    def fft(size = @fft.data.size)
         if @fft.data.size != size
             @fft.calculate_at_size(size)
         end

@@ -33,4 +33,5 @@
 - [ ] Add power_spectral_density, etc to FourierTransformable module
 - [ ] Figure out why convolution in matlab runs as slow as here, but cross-correlation is much faster
 - [ ] Make transition_width and bandwidth, wo, etc consistant in the filter part of the project (ie right now some are normalized frequencies from 0 to 1 and some are normalized frequencies in radians)
+- [ ] Ensure both Arrays and Vectors are supported for all `data` properties
 

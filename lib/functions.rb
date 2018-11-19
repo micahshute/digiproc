@@ -27,6 +27,33 @@ module Dsp::Functions
         ->(n){ (n - starting_center) * range_map + target_center}
     end
 
+    #Arguents are X-dimensional ponins as array => optional hash value for probability
+    def self.translate_center_to_origin(*args)
+        args = args[0] if args.length == 1 and args.first.is_a? Enumerable
+        points = []
+        probabilities = []
+        dimensions = 0
+        if args.is_a? Hash 
+            args.each do |k,v|
+                points << k
+                probabilities << v
+            end
+        else
+            points = args
+            probabilities = points.map{ 1.0 / points.length }
+        end
+    
+        if probabilities.include?(nil)
+            probabilities.map{ 1.0 / points.length }
+        end
+        dimensions = points.first.length
+        weighted_points = points.map.with_index do |point, index|
+            point.map{|dimension| -1 * dimension * probabilities[index]}
+        end
+        a = weighted_points.reduce(Array.new(dimensions,0), :plus)
+        points.map{ |vector| vector.plus(a) }
+    end
+
     def self.center_of(max, min)
         (max + min) / 2.0
     end

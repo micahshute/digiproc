@@ -32,6 +32,6 @@ end
 namespace :examples do 
     desc "run an example file"
     task :run, [:file] => :environment do |task, args|
-        require_relative "./examples/#{args[:file]}"
+        require_relative "./examples/#{args[:file]}.rb"
     end
 end

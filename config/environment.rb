@@ -1,7 +1,20 @@
+require 'matrix'
 require 'ostruct'
 #Namespace
 require './lib/dsp'
 
+
+#Extensions
+require './lib/extensions/core_extensions'
+
+Array.include Dsp::CoreExtensions::ArrayExtension::DotProduct
+Array.include Dsp::CoreExtensions::ArrayExtension::Sum 
+Array.include Dsp::CoreExtensions::ArrayExtension::Multiply
+Math.extend Dsp::CoreExtensions::MathExtension::Decible
+Vector.include Dsp::CoreExtensions::VectorExtension::Projection::InstanceMethods
+Vector.extend Dsp::CoreExtensions::VectorExtension::Projection::ClassMethods
+
+require './lib/extensions/array_extension'
 
 #Strategies
 require './lib/strategies/strategies'
@@ -16,6 +29,7 @@ require './lib/strategies/window/hanning_window'
 require './lib/strategies/window/rectangular_window'
 require './lib/strategies/companding/custom_companding_strategy'
 require './lib/strategies/gaussian/gaussian_generator'
+require './lib/strategies/orthogonalize/gram_schmidt'
 
 #Modules
 require './lib/concerns/plottable'
@@ -29,15 +43,7 @@ require './lib/functions'
 require './lib/probability/probability'
 
 
-#Extensions
-require './lib/extensions/core_extensions'
 
-Array.include Dsp::CoreExtensions::ArrayExtension::DotProduct
-Array.include Dsp::CoreExtensions::ArrayExtension::Sum 
-Array.include Dsp::CoreExtensions::ArrayExtension::Multiply
-Math.extend Dsp::CoreExtensions::MathExtension::Decible
-
-require './lib/extensions/array_extension'
 
 #Classes
 require './lib/fft'
