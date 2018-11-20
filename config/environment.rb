@@ -30,6 +30,7 @@ require './lib/strategies/window/rectangular_window'
 require './lib/strategies/companding/custom_companding_strategy'
 require './lib/strategies/gaussian/gaussian_generator'
 require './lib/strategies/orthogonalize/gram_schmidt'
+require './lib/strategies/code/gray_code'
 
 #Modules
 require './lib/concerns/plottable'
