@@ -10,28 +10,28 @@ pi = Math::PI
 #PROBLEM 1
 #---------------------------------------------------------------
 # Create "white" Gaussian noise, 0 mean
-dist = norm_dist.new(mean: 0, stddev: 1, size: 16384)
+# dist = norm_dist.new(mean: 0, stddev: 1, size: 16384)
 
-# Create a bandpass filter, make FT dimensions match
-bpfilter = factory.filter_for(type: "bandpass", wo: Math::PI / 2, bw: Math::PI / 5, transition_width: 0.0001, stopband_attenuation: 80)
-filter_dft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384 * 4)
+# # Create a bandpass filter, make FT dimensions match
+# bpfilter = factory.filter_for(type: "bandpass", wo: Math::PI / 2, bw: Math::PI / 5, transition_width: 0.0001, stopband_attenuation: 80)
+# filter_dft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384 * 4)
 
-# Get FT of White noise, calculate No 
-dist_fft = Dsp::FFT.new(time_data: dist.data, size: 16384 * 4)
-n_o = 2 *  (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
+# # Get FT of White noise, calculate No 
+# dist_fft = Dsp::FFT.new(time_data: dist.data, size: 16384 * 4)
+# n_o = 2 *  (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
 
-# Multiply freq domain of noise and filter to get output spectra
-# Calculate output energy
-filter_out = dist_fft * filter_dft
-total_noise_out = filter_out.magnitude.map{ |val| (val ** 2) * (1.0/ (4 * 16384)) }.sum 
-time_data_out = fns.ifft(filter_out.data).map(&:real)
-bw = 1.0 / 10
+# # Multiply freq domain of noise and filter to get output spectra
+# # Calculate output energy
+# filter_out = dist_fft * filter_dft
+# total_noise_out = filter_out.magnitude.map{ |val| (val ** 2) * (1.0/ (4 * 16384)) }.sum 
+# time_data_out = fns.ifft(filter_out.data).map(&:real)
+# bw = 1.0 / 10
 
-puts "Normal Dist. Input \n\tMean:#{prob.mean(dist.data)}, Stddev: #{prob.stddev(dist.data)}"
-puts "No = #{n_o}"
-puts "Total Noise Energy Out: #{total_noise_out}"
-puts "Output: \n\tMean: #{prob.mean(time_data_out)}, Stddev: #{prob.stddev(time_data_out)}"
-puts "Calculated Noise Energy Out: #{ n_o * bw}"
+# puts "Normal Dist. Input \n\tMean:#{prob.mean(dist.data)}, Stddev: #{prob.stddev(dist.data)}"
+# puts "No = #{n_o}"
+# puts "Total Noise Energy Out: #{total_noise_out}"
+# puts "Output: \n\tMean: #{prob.mean(time_data_out)}, Stddev: #{prob.stddev(time_data_out)}"
+# puts "Calculated Noise Energy Out: #{ n_o * bw}"
 
 # f =  fns.linspace(0,1,16384)
 
@@ -139,20 +139,20 @@ puts "Calculated Noise Energy Out: #{ n_o * bw}"
 # puts "Total erros: #{error_count} out of #{total_runs} trials."
 # puts "Pb = #{((error_count.to_f / total_runs) * 100.0).round(2)}%"
 
-#------------------------------------------------------------------------------
-#PROBLEM 5
-#------------------------------------------------------------------------------
-# r = 10
-# c = 10
-# impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
+# ------------------------------------------------------------------------------
+# PROBLEM 5
+# ------------------------------------------------------------------------------
+r = 10
+c = 10
+impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
 
-# noise = norm_dist.new(mean: 0, stddev: 10, size: 50000)
+noise = norm_dist.new(mean: 0, stddev: 10, size: 50000)
 
-# rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
+rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
 
-# noise_signal = DigitalSignal.new(data: noise.data)
-# output_spectra = rc_circuit.fft(noise.data.length * 2) * noise_signal.fft(noise.data.length * 2)
+noise_signal = DigitalSignal.new(data: noise.data)
+output_spectra = rc_circuit.fft(noise.data.length * 2) * noise_signal.fft(noise.data.length * 2)
 
-# output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1)
-# variance = prob.variance(output_signal)
-# puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance.round(2)}"
+output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1)
+variance = prob.variance(output_signal)
+puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance.round(2)}"

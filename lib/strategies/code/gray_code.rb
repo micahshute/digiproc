@@ -21,7 +21,20 @@ class Dsp::Strategies::GrayCode
         gray_code.to_s(2)
     end
 
-    def self.bin_to_gray(binary)
+    def self.to_dec(bin)
+        bits = bin.size
+        gray_code = 0
+        bit_number = bits - 1
+        bit = 0
+        while bit_number >= 0
+        bit ^= bin >> bit_number & 1
+        gray_code |= (1 << bit_number) * bit
+        bit_number -= 1
+        end
+        gray_code.to_s
+    end
+
+    def self.to_gray(binary)
         (binary ^ (binary >> 1)).to_s(2)
     end
 
