@@ -31,6 +31,9 @@ require './lib/strategies/companding/custom_companding_strategy'
 require './lib/strategies/gaussian/gaussian_generator'
 require './lib/strategies/orthogonalize/gram_schmidt'
 require './lib/strategies/code/gray_code'
+require './lib/strategies/code/differential_encoding_strategy'
+require './lib/strategies/code/xor_differential_encoding_strategy'
+require './lib/strategies/modulation/phase_shift_keying_strategy'
 
 #Modules
 require './lib/concerns/plottable'

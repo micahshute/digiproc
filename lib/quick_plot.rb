@@ -3,7 +3,7 @@ class Dsp::QuickPlot
     extend Dsp::Plottable::ClassMethods
 
 
-    def self.plot(x: nil,y: nil, data: nil, title: nil, x_label: nil, y_label: nil, labels: nil, data_name: "data", label_map: nil)
+    def self.plot(x: nil,y: nil, data: nil, title: nil, x_label: nil, y_label: nil, labels: nil, data_name: "data", label_map: nil, dark: false)
         xyname, dataname = nil, nil
         if not x.nil?
             if evenly_spaced?(x)
@@ -18,6 +18,7 @@ class Dsp::QuickPlot
             g.x_axis_label = x_label if not x_label.nil?
             g.y_axis_label = y_label if not y_label.nil?
             g.labels = labels if not labels.nil?
+            g.theme = Dsp::Plottable::Styles::MIDNIGHT if dark
         end
     end
 

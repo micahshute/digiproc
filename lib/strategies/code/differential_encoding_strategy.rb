@@ -1,0 +1,39 @@
+class Dsp::Strategies::DifferentialEncodingStrategy
+
+
+    def self.encode(arr, m = 2, beginning_val = "0")
+        encoded = [beginning_val.to_s]
+        for i in 0...arr.length do 
+            curr_phase = to_phase(m)[arr[i].to_f]
+            last_phase = encoded.last.to_f
+            encoded << ((curr_phase + last_phase) % (2 * Math::PI)).to_s
+        end
+        encoded
+    end
+
+    def self.decode(bits, m = 2)
+        encoded = []  
+        for i in 1...bits.length do 
+            encoded << ((-1 * bits[i - 1].to_f + bits[i].to_f) % (2 * Math::PI)).to_s
+        end
+        encoded.map{|phase| decode_phase(m)[phase.to_f]}
+    end
+
+    def self.phase_shift_eqn(m = nil)
+        ->(l){ l }
+    end
+
+    def self.phase_to_sym(m = nil)
+        ->(l){ l }
+    end
+
+    private 
+    def self.to_phase(m)
+        ->(l){ (((2.0 * (l+1) - 1.0) / m) % 2) * Math::PI }
+    end
+
+    def self.decode_phase(m)
+        ->(code){ (((code / (Math::PI)) * m) + 1.0) / 2.0 - 1.0 }
+    end
+
+end

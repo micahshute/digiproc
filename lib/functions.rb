@@ -76,7 +76,7 @@ module Dsp::Functions
         rng.map{ |val| start + interval * val }
     end
 
-    def monotonic_state(data)
+    def self.monotonic_state(data)
         last_value = data.first
         state = [:flat, :increasing, :decreasing]
         state_index = 0
@@ -95,10 +95,24 @@ module Dsp::Functions
         return state[:state_index]
     end
 
-    def monotonic?(data)
+    def self.monotonic?(data)
         !!monotonic_state(data)
     end
 
+    def self.bin_str_to_i(bin_str)
+        str_arr = bin_str.split("").reverse
+        sum = 0
+        str_arr.each_with_index do |digit, index|
+            sum += digit.to_i * 2 ** index
+        end
+        sum
+    end
+
+    def self.str_xor(str1, str2)
+        bin_str_to_i(str1) ^ bin_str_to_i(str2)
+    end
+
+    
 
     @fact_memo = {}
 
