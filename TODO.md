@@ -36,4 +36,6 @@
 - [ ] Ensure both Arrays and Vectors are supported for all `data` properties
 - [ ] Dsp::AnalogSignal => sample_rate: to sample_interval:
 - [ ] Fix Strategies for DifferentialEncoding (change psk to the one in the PSK class)
+    - [ ] Find out why the PSK Differnetial Decoder starts at time != 0 
+    - [ ] Put the differential decoder in a different class (ie a decoding strategy)
 
