@@ -38,4 +38,8 @@
 - [ ] Fix Strategies for DifferentialEncoding (change psk to the one in the PSK class)
     - [ ] Find out why the PSK Differnetial Decoder starts at time != 0 
     - [ ] Put the differential decoder in a different class (ie a decoding strategy)
+- [ ] Make `DigitalFilter` convolvable, fourierTranformable 
+- [ ] Automatcially match FFT sizes
+- [ ] Fix sizing for ifft, etc
+- [ ] Fix output of ifft (ie small imaginary numbers)
 

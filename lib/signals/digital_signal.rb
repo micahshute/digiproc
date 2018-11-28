@@ -52,6 +52,12 @@ class DigitalSignal
         self.data
     end
 
+    def *(ds)
+        raise ArgumentError.new("Object must have a data array") unless ds.data.respond_to? :times
+        self.data.length < ds.data.length ? self.class.new(data:self.data.times(ds.data.take(self.data.length))) : self.class.new(data: ds.data.times(self.data.take(ds.data.length))) 
+        # self.data.times ds.data
+    end
+
     def i(*n)
         indices = n.map{ |input| input.respond_to?(:to_a) ? input.to_a : input}
         indices.flatten!

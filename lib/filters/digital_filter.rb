@@ -29,6 +29,10 @@ class DigitalFilter
         end
     end
 
+    def to_ds
+        DigitalSignal.new(data: self.weights)
+    end
+
     #TODO: Inorder to implement, must separately recalculate for weight at n = 0
     # def shift_in_freq(normalized_freq)
     #     eqn = ->(n){ Math::E ** Complex(0, -1 * normalized_freq * n)}
