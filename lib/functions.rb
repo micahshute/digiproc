@@ -136,7 +136,7 @@ module Dsp::Functions
         Math.sin(x) / x.to_f
     end 
     
-    def process(values, eqn)
+    def self.process(values, eqn)
         values.map{ |val| eqn.call(val) }
     end
 

@@ -3,7 +3,7 @@ class Dsp::Strategies::PSK
     attr_accessor :m, :modulating_signal , :carrier_signal_eqn, :coding_strategy, :phase_shift_eqn, :signal_to_phase, :coded_signal, :phase_signal, :carrier_frequency, :pulse_length
 
     #modulating_signal takes an array; each element is a symbol
-    def initialize(m: 2 ,carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: Dsp::Strategies::XORDifferentialEncodingStrategy, carrier_frequency: 10000, pulse_length: 0.00015)
+    def initialize(m: 2 ,carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy, carrier_frequency: 10000, pulse_length: 0.00015)
         @m, @carrier_signal_eqn, @modulating_signal, @coding_strategy, @carrier_frequency, @pulse_length = m, carrier_signal_eqn, modulating_signal, coding_strategy, carrier_frequency, pulse_length
         if coding_strategy.nil?
             @phase_shift_eqn = ->(i){ (2 * Math::PI * (i)) / m }

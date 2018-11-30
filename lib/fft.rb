@@ -11,8 +11,12 @@ class Dsp::FFT
         new(freq_data: data, time_data: time_data)
     end
 
-    attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :data, :inverse_strategy
-    attr_reader :fft, :data
+    def data
+        calculate if @data.nil?
+        @data
+    end
+
+    attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :inverse_strategy
     include Convolvable::InstanceMethods, Dsp::Plottable
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
@@ -71,10 +75,6 @@ class Dsp::FFT
         DigitalSignal.new(data: ifft)
     end
 
-    def data
-        calculate if @data.nil?
-        @data
-    end
 
     def time_data
         if @time_data.is_a? Array
@@ -93,10 +93,18 @@ class Dsp::FFT
         @data = @fft
     end
 
+    def fft
+        self.data
+    end
+
     def magnitude
         data.map do |f|
             f.abs
         end
+    end
+
+    def conjugate
+        self.data.map(&:conjugate)
     end
 
     def dB
@@ -106,21 +114,15 @@ class Dsp::FFT
     end
 
     def angle
-        self.fft.map do |f|
-            f.angle
-        end
+        self.data.map(&:angle)
     end
 
     def real
-        self.fft.map do |f|
-            f.real
-        end
+        self.data.map(&:real)
     end
 
     def imaginary
-        self.fft.map do |f|
-            f.imaginary
-        end
+        self.data.map(&:imaginary)
     end
 
     def maxima(num = 1)
@@ -135,7 +137,7 @@ class Dsp::FFT
         if obj.respond_to?(:data) 
             return self.class.new_from_spectrum(self.data.times obj.data)
         elsif obj.is_a? Array 
-            return self.class.new_from_specctrum(self.data.times obj.data)
+            return self.class.new_from_spectrum(self.data.times obj)
         end
     end
 

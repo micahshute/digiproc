@@ -33,6 +33,7 @@ require './lib/strategies/orthogonalize/gram_schmidt'
 require './lib/strategies/code/gray_code'
 require './lib/strategies/code/differential_encoding_strategy'
 require './lib/strategies/code/xor_differential_encoding_strategy'
+require './lib/strategies/code/xor_differential_encoding_zero_angle_strategy'
 require './lib/strategies/modulation/phase_shift_keying_strategy'
 
 #Modules
@@ -60,6 +61,7 @@ require './lib/filters/bandstop_filter.rb'
 require './lib/signals/analog_signal'
 require './lib/probability/gaussian_distribution'
 require './lib/probability/theoretical_gaussian_distribution'
+require './lib/probability/bit_generator'
 require './lib/quick_plot'
 
 #Factories

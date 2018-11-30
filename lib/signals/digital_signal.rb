@@ -98,9 +98,7 @@ class DigitalSignal
     end
 
     def power_spectral_density
-        ft = Dsp::FFT.new(time_data: self.acorr)
-        ft.calculate
-        ft
+        self.fft * self.fft.conjugate
     end
 
     def psd

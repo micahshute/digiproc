@@ -42,4 +42,5 @@
 - [ ] Automatcially match FFT sizes
 - [ ] Fix sizing for ifft, etc
 - [ ] Fix output of ifft (ie small imaginary numbers)
+- [ ] Ensure no freq domain inconsitancies with radian vs cycle^-1 units
 
