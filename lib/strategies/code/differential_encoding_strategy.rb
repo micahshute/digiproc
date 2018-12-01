@@ -2,9 +2,10 @@ class Dsp::Strategies::DifferentialEncodingStrategy
 
 
     def self.encode(arr, m = 2, beginning_val = "0")
-        encoded = [beginning_val.to_s]
+        beginning_val = beginning_val.to_s(2) unless beginning_val.is_a? String
+        encoded = [beginning_val]
         for i in 0...arr.length do 
-            curr_phase = to_phase(m)[arr[i].to_f]
+            curr_phase = to_phase(m)[arr[i].to_i(2).to_f]
             last_phase = encoded.last.to_f
             encoded << ((curr_phase + last_phase) % (2 * Math::PI)).to_s
         end

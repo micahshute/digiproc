@@ -8,15 +8,16 @@ class Dsp::Strategies::XORDifferentialEncodingStrategy
         bits_arr = bits.split("")
         encoded = ["1"]  
         for i in 0...bits_arr.length do 
-            encoded << (encoded.last.to_i ^ bits_arr[i].to_i).to_s
+            encoded << (encoded.last.to_i(2) ^ bits_arr[i].to_i(2)).to_s
         end
         encoded.join
     end
 
     def self.encode(arr, m = 2, beginning_val = "1")
-        encoded = [beginning_val.to_s]
+        beginning_val = beginning_val.to_s(2) unless beginning_val.is_a? String
+        encoded = [beginning_val]
         for i in 0...arr.length do 
-            encoded << (encoded.last.to_i ^ arr[i].to_i).to_s
+            encoded << (encoded.last.to_i(2) ^ arr[i].to_i(2)).to_s
         end
         encoded
     end
@@ -29,7 +30,7 @@ class Dsp::Strategies::XORDifferentialEncodingStrategy
         bits_arr = bits.split("")
         encoded = []  
         for i in 1...bits_arr.length do 
-            encoded << (bits_arr[i - 1].to_i ^ bits_arr[i].to_i).to_s
+            encoded << (bits_arr[i - 1].to_i(2) ^ bits_arr[i].to_i(2)).to_s
         end
         encoded.join
     end
@@ -37,7 +38,7 @@ class Dsp::Strategies::XORDifferentialEncodingStrategy
     def self.decode(bits)
         encoded = []  
         for i in 1...bits.length do 
-            encoded << (bits[i - 1].to_i ^ bits[i].to_i).to_s
+            encoded << (bits[i - 1].to_i(2) ^ bits[i].to_i(2)).to_s
         end
         encoded
     end

@@ -2,22 +2,23 @@ class Dsp::Strategies::PSK
 
     attr_accessor :m, :modulating_signal , :carrier_signal_eqn, :coding_strategy, :phase_shift_eqn, :signal_to_phase, :coded_signal, :phase_signal, :carrier_frequency, :pulse_length
 
-    #modulating_signal takes an array; each element is a symbol
-    def initialize(m: 2 ,carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy, carrier_frequency: 10000, pulse_length: 0.00015)
-        @m, @carrier_signal_eqn, @modulating_signal, @coding_strategy, @carrier_frequency, @pulse_length = m, carrier_signal_eqn, modulating_signal, coding_strategy, carrier_frequency, pulse_length
+    #modulating_signal takes an array; each element is a symbol (should be strings)
+    def initialize(carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy, carrier_frequency: 10000, pulse_length: 0.00015)
+        @carrier_signal_eqn, @modulating_signal, @coding_strategy, @carrier_frequency, @pulse_length = carrier_signal_eqn, modulating_signal, coding_strategy, carrier_frequency, pulse_length
+        @m = 2 ** modulating_signal.first.length 
         if coding_strategy.nil?
-            @phase_shift_eqn = ->(i){ (2 * Math::PI * (i)) / m }
+            @phase_shift_eqn = ->(i){ (2.0 * Math::PI * (i)) / @m }
             @coded_signal = @modulating_signal
         else
-            @phase_shift_eqn = coding_strategy.phase_shift_eqn(m)
-            @coded_signal = coding_strategy.encode modulating_signal, 2, "0"
+            @phase_shift_eqn = coding_strategy.phase_shift_eqn(@m)
+            @coded_signal = coding_strategy.encode modulating_signal, @m, "0"
         end
         @signal_to_phase = {}
-        for i in 0...m do
+        for i in 0...@m do
             @signal_to_phase[i.to_s] = @phase_shift_eqn[i]
         end
 
-        @phase_signal = @coded_signal.map{ |coded_symbol| @phase_shift_eqn[coded_symbol.to_f] }
+        @phase_signal = @coded_signal.map{ |coded_symbol| @phase_shift_eqn[coded_symbol.to_i(2)] }
 
     end
 
@@ -33,7 +34,7 @@ class Dsp::Strategies::PSK
     end 
 
     def decode
-        eqn = coding_strategy.nil? ? decode_eqn : coding_strategy.phase_to_sym(m)
+        eqn = coding_strategy.nil? ? decode_eqn : coding_strategy.phase_to_sym(@m)
         sym = @phase_signal.map{ |phase| eqn[phase] }
         sym = coding_strategy.decode(sym) if not coding_strategy.nil?
         return sym
@@ -70,6 +71,6 @@ class Dsp::Strategies::PSK
     private
 
     def decode_eqn
-        ->(phase){ (phase * m / (2.0 * Math::PI))}
+        ->(phase){ (phase * @m / (2.0 * Math::PI))}
     end
 end 
