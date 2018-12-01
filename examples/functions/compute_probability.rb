@@ -12,7 +12,7 @@
 # qam_pb
 
 qam_eqn = Proc.new do |db|
-    peb_no = 10 ** (db / 10)
+    peb_no = 10 ** (db / 10.0)
     pes_no = peb_no * Math.log(256,2)
     pq = Dsp::Probability.normal_q( Math.sqrt(pes_no * 3.0 / 255))
     psmo2 = (Math.sqrt(256) - 2)
@@ -39,5 +39,5 @@ def findval(eqn, value, desired_val, step = 0.001 , tolerance = 0.000000005)
     end
 end
 
-qam = findval(qam_eqn, 22 , 0.000001)
+qam = findval(qam_eqn, 25 , 0.000001)
 puts "QAM Eb/No = #{qam}"
