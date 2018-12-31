@@ -117,7 +117,7 @@ module Dsp::Functions
     @fact_memo = {}
 
     def self.fact(n)
-        raise ArguemntError.new("n must be positive") if n < 0
+        raise ArgumentError.new("n must be positive") if n < 0
         return 1 if n <= 1
         return @fact_memo[n] if not @fact_memo[n].nil?
         x = n * fact(n - 1)

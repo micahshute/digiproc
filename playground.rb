@@ -142,17 +142,49 @@ pi = Math::PI
 # ------------------------------------------------------------------------------
 # PROBLEM 5
 # ------------------------------------------------------------------------------
-r = 10
-c = 10
-impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
+# r = 10
+# c = 10
+# impulse_resp = ->(t){ (1.0 / (10*10)) * Math::E ** (-t / (10 * 10).to_f) } 
 
-noise = norm_dist.new(mean: 0, stddev: 10, size: 50000)
+# noise = norm_dist.new(mean: 0, stddev: 10, size: 50000)
 
-rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
+# rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
 
-noise_signal = DigitalSignal.new(data: noise.data)
-output_spectra = rc_circuit.fft(noise.data.length * 2) * noise_signal.fft(noise.data.length * 2)
+# noise_signal = DigitalSignal.new(data: noise.data)
+# output_spectra = rc_circuit.fft(noise.data.length * 2) * noise_signal.fft(noise.data.length * 2)
 
-output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1)
-variance = prob.variance(output_signal)
-puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance.round(2)}"
+# output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1)
+# variance = prob.variance(output_signal)
+# puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance.round(2)}"
+
+
+total_rolls = 5000000
+diceProb = Random.new
+rolls = []
+total_rolls.times do
+    roll_of_6 = []
+    5.times do 
+        roll_of_6 << (diceProb.rand(6) + 1)
+    end
+    rolls << roll_of_6
+end
+
+roll_3_of_a_kind = 0
+
+
+for roll in rolls do 
+    roll_hash = {}
+    for die in roll do 
+        if roll_hash[die]
+            roll_hash[die] += 1
+        else
+            roll_hash[die] = 1
+        end
+    end
+    if roll_hash.values.any?{ |r| r >= 3}
+        roll_3_of_a_kind += 1
+    end
+end
+
+puts roll_3_of_a_kind
+puts "#{roll_3_of_a_kind / total_rolls.to_f}"

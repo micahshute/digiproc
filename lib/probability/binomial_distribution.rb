@@ -38,9 +38,9 @@ class Dsp::Probability::TheoreticalBinomialDistribution
 
 
     def coefficient(k)
-        n_fact = Functions.fact(self.n)
-        k_fact = Functions.fact(k)
-        n_fact / (k_fact * (Math.fact(self.n - k)))
+        n_fact = Dsp::Functions.fact(self.n)
+        k_fact = Dsp::Functions.fact(k)
+        n_fact / (k_fact * (Dsp::Functions.fact(self.n - k)))
     end
 
     

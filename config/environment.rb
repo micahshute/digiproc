@@ -62,6 +62,7 @@ require './lib/signals/analog_signal'
 require './lib/probability/gaussian_distribution'
 require './lib/probability/theoretical_gaussian_distribution'
 require './lib/probability/bit_generator'
+require './lib/probability/binomial_distribution'
 require './lib/quick_plot'
 
 #Factories

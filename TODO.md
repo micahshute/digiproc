@@ -29,7 +29,7 @@
 - [x] Add IFFT, make FFT class multiplyable, 
 - [ ] test to ensure FFT multiplication equals convolution in the time domain
 - [ ] Add Decorators to Dsp::QuickPlot to allow vertical lines being added, and maybe color schemes too 
-- [ ] Make an alternative name to `dot` which is confusing because it is not the dot product (it does not sum at the end)
+- [x] Make an alternative name to `dot` which is confusing because it is not the dot product (it does not sum at the end)
 - [ ] Add power_spectral_density, etc to FourierTransformable module
 - [ ] Figure out why convolution in matlab runs as slow as here, but cross-correlation is much faster
 - [ ] Make transition_width and bandwidth, wo, etc consistant in the filter part of the project (ie right now some are normalized frequencies from 0 to 1 and some are normalized frequencies in radians)
