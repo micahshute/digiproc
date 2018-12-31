@@ -158,33 +158,157 @@ pi = Math::PI
 # puts "Varaince for RC = #{100} and Stddev: #{noise.stddev}, Variance = #{variance.round(2)}"
 
 
-total_rolls = 5000000
-diceProb = Random.new
-rolls = []
-total_rolls.times do
-    roll_of_6 = []
-    5.times do 
-        roll_of_6 << (diceProb.rand(6) + 1)
+# total_rolls = 5000000
+# diceProb = Random.new
+# rolls = []
+# total_rolls.times do
+#     roll_of_6 = []
+#     5.times do 
+#         roll_of_6 << (diceProb.rand(6) + 1)
+#     end
+#     rolls << roll_of_6
+# end
+
+# roll_3_of_a_kind = 0
+
+
+# for roll in rolls do 
+#     roll_hash = {}
+#     for die in roll do 
+#         if roll_hash[die]
+#             roll_hash[die] += 1
+#         else
+#             roll_hash[die] = 1
+#         end
+#     end
+#     if roll_hash.values.any?{ |r| r >= 3}
+#         roll_3_of_a_kind += 1
+#     end
+# end
+
+# puts roll_3_of_a_kind
+# puts "#{roll_3_of_a_kind / total_rolls.to_f}"
+
+def get_individual_scores(rolls)
+    score = 0
+    remaining = rolls.values.sum
+
+    rolls.each do |die_num, num_rolls|
+        if die_num == 1
+            score += (100 * num_rolls)
+            remaining -= num_rolls
+        elsif die_num == 5
+            score += (50 * num_rolls)
+            remaining -= num_rolls
+        end
     end
-    rolls << roll_of_6
+    puts "HELP REMAINING IS NIL #{rolls.values}" if remaining.nil?
+    return [score, remaining]
 end
 
-roll_3_of_a_kind = 0
+def remove_if_val_is(val, hash)
+    ret_hash = {}
+    hash.each do |k,v|
+        ret_hash[k] = v unless v == val
+    end
+    ret_hash
+end
+
+def roll(num_of_dice, prob)
+    rolls = []
+    num_of_dice.times do 
+        rolls << (prob.rand(6) + 1)
+    end
+    rolls
+end
+
+total_rolls = 100000
 
 
-for roll in rolls do 
+
+def turn(leftover_score = 0, num_of_dice = 6, diceProb = Random.new)
+    total_score = leftover_score
+    my_roll = roll(num_of_dice, diceProb)
+    score, leftover_dice = eval_score(my_roll)
+    leftover_dice = 6 if leftover_dice == 0
+    if leftover_dice <= 3 and score > 0
+        return [score + total_score, leftover_dice]
+    elsif score == 0
+        return [0, leftover_dice]
+    else
+        # binding.pry if leftover_dice.nil?
+        return turn(score + total_score, leftover_dice, diceProb)
+    end
+end
+
+def eval_score(curr_roll)
+    score = 0;
     roll_hash = {}
-    for die in roll do 
+    for die in curr_roll do 
         if roll_hash[die]
             roll_hash[die] += 1
         else
             roll_hash[die] = 1
         end
     end
-    if roll_hash.values.any?{ |r| r >= 3}
-        roll_3_of_a_kind += 1
+    if roll_hash.values.include?(6)
+        score += 2000;
+        return [score, 0]
+    elsif roll_hash.values.include?(5)
+        score += 1500
+        leftover = remove_if_val_is(5, roll_hash)
+        score_add, leftover_dice = get_individual_scores(leftover)
+        score += score_add 
+        return [score, leftover_dice]
+    elsif roll_hash.values.include?(4)
+        if roll_hash.values.include?(2)
+            score += 2000
+            return [score, 0]
+        else
+            score += 1000
+            leftover = remove_if_val_is(4, roll_hash)
+            score_add, leftover_dice = get_individual_scores(leftover)
+            score += score_add
+            return [score, leftover_dice]
+        end
+    elsif roll_hash.values.include?(3)
+        if roll_hash.size == 2
+            score += 2500
+            return [score, 0]
+        else
+            if roll_hash[1] == 3
+            elsif roll_hash[2] == 3
+                score += 200
+            elsif roll_hash[3] == 3
+                score += 300
+            elsif roll_hash[4] == 3
+                score += 400
+            elsif roll_hash[5] == 3
+                score += 500
+            elsif roll_hash[6] == 3
+                score += 600
+            end
+
+            leftover = remove_if_val_is(3, roll_hash)
+            score_add, leftover_dice = get_individual_scores(leftover)
+            score += score_add
+            return [score, leftover_dice]
+        end
+    else
+        score_add, leftover_dice = get_individual_scores(roll_hash)
+        score += score_add
+        return [score, leftover_dice]
     end
 end
 
-puts roll_3_of_a_kind
-puts "#{roll_3_of_a_kind / total_rolls.to_f}"
+total_score = 0
+total_dice_leftover = 0
+total_rolls.times do
+    score, leftover_dice = turn
+    total_score += score
+    total_dice_leftover += leftover_dice
+end
+
+
+puts "#{total_score / total_rolls.to_f} avg score"
+puts "#{total_dice_leftover / total_rolls.to_f} avg number of dice leftover"
