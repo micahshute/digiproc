@@ -1,6 +1,9 @@
+# DISREGARD THIS EXAMPLE
+
 #Using Gruff Line
 
 #Below does not work, needs to be re-worked
+
 
 g = Gruff::Line.new('1000x1000')
 distr = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 3, size: 100)
