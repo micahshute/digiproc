@@ -45,4 +45,6 @@
 - [ ] Ensure no freq domain inconsitancies with radian vs cycle^-1 units (ie inputs in functions should all be radians or hz)
 - [ ] "INTRODUCTION TO DIGITAL COMMUNICATIONS, ZIEMER, PETERSON" -> pg 239 Figure 4-16 add reciever for M-ary PSK decoding
 - [ ] Put DigitalSignal and Windows (and any other necessary functions not currently in) inside of the Dsp Module
+- [ ] Make a working VerticalLine (and other) plot decorators
+- [ ] Make graphs visually similar across all APIs, make easier custom visual changes
 

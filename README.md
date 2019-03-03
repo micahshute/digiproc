@@ -22,6 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
+Graphing capabillity built on top of [gruff](https://github.com/topfunky/gruff) gem, which uses the [rMagick](https://rubygems.org/gems/rmagick/versions/2.15.4) gem and ImageMagick. 
 
 __Limitations to be aware of__:
  - All signals must be causual -> negative values of n are not supported
