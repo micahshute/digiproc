@@ -17,7 +17,7 @@ class Dsp::FFT
     end
 
     attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :inverse_strategy
-    include Convolvable::InstanceMethods, Dsp::Plottable
+    include Convolvable::InstanceMethods, Dsp::Plottable::InstanceMethods
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the time_data
@@ -141,16 +141,16 @@ class Dsp::FFT
         end
     end
 
-    def plot_db 
-        self.plot(method: :dB, xsteps: 8) do |g|
+    def plot_db(path: "./") 
+        self.plot(method: :dB, xsteps: 8, path: path) do |g|
             g.title = "Decibles"
             g.x_axis_label = "Normalized Frequency"
             g.y_axis_label = "Magnitude"
         end
     end
 
-    def plot_magnitude
-        self.plot(method: :magnitude, xsteps: 8) do |g|
+    def plot_magnitude(path: "./" )
+        self.plot(method: :magnitude, xsteps: 8, path: path) do |g|
             g.title = "Magnitude"
             g.x_axis_label = "Normalized Frequency"
             g.y_axis_label = "Magnitude"

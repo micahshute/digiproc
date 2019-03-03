@@ -1,5 +1,6 @@
 class Dsp::Strategies::DifferentialEncodingStrategy
 
+    # ENCODES SIGNAL PER M-ARY PSK CODING STRATEGY, SEE HW6 ELEG 635
 
     def self.encode(arr, m = 2, beginning_val = "0")
         beginning_val = beginning_val.to_s(2) unless beginning_val.is_a? String
@@ -36,5 +37,7 @@ class Dsp::Strategies::DifferentialEncodingStrategy
     def self.decode_phase(m)
         ->(code){ (((code / (Math::PI)) * m) + 1.0) / 2.0 - 1.0 }
     end
+
+    # TODO: IMPLEMENT DECODING STRATEGY PER FIGURE 4-15 in INTRODUCTION TO DIGITAL COMMUNICATIONS, ZIEMER, PETERSON
 
 end

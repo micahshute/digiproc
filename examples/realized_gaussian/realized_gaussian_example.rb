@@ -5,6 +5,7 @@ fns = Dsp::Functions
 distribution = gauss.new(mean: 0, stddev: 10, size: 100)
 data = distribution.data
 
+#qplot function in quickplot gives a different plot API
 plt.qplot(data: data, path: './examples/realized_gaussian/', filename: 'norm_dist_plot', xsteps: 10, data_name: "normal random numbers") do |g|
     g.title = "Gaussian Random Numbers"
     g.theme = Dsp::Plottable::Styles::MIDNIGHT

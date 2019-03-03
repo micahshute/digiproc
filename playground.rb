@@ -214,6 +214,15 @@ def remove_if_val_is(val, hash)
     ret_hash
 end
 
+def rand_choice
+    r = Random.new.rand(2)
+    if r == 1
+        return 3
+    else
+        return 3
+    end
+end
+
 def roll(num_of_dice, prob)
     rolls = []
     num_of_dice.times do 
@@ -231,7 +240,7 @@ def turn(leftover_score = 0, num_of_dice = 6, diceProb = Random.new)
     my_roll = roll(num_of_dice, diceProb)
     score, leftover_dice = eval_score(my_roll)
     leftover_dice = 6 if leftover_dice == 0
-    if leftover_dice <= 3 and score > 0
+    if leftover_dice <= rand_choice and score > 0
         return [score + total_score, leftover_dice]
     elsif score == 0
         return [0, leftover_dice]

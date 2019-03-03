@@ -36,17 +36,19 @@ pulse_lens.each do |pulse_len|
 
     foi1_from_eqn = ((freq_of_interest1.to_f / max_freq) * xf_plot.length).to_i
     foi2_from_eqn = ((freq_of_interest2.to_f / max_freq) * xf_plot.length).to_i
-    # puts signal.to_ds.fft.magnitude[(foi1_from_eqn / 2 - 1).to_i]
+
+    
     puts "Magnitude at 1/2T : #{xf_plot[foi1_from_eqn]}"
     puts "Magnitude at 1/T  : #{xf_plot[foi2_from_eqn]}"
     puts
+    
     # Plot output from derived equation
-    plt.plot(data: xf_plot, title: "Freq Sig from Eqn, Ts = #{pulse_len} s")
+    plt.plot(data: xf_plot, title: "Freq Sig from Eqn, Ts = #{pulse_len} s", path: "./examples/digital_signals/")
 
     # Plot experiment data
-    plt.plot(data: signal.digitize, title: "Time signal, Ts = #{pulse_len} s")
-    plt.plot(data: signal.to_ds.fft.magnitude, title: "Frequency Signal, Ts = #{pulse_len} s")
-    plt.plot(data: signal.to_ds.psd.data.map(&:real), title: "Power Spectral Density,  Ts = #{pulse_len} s")
+    plt.plot(data: signal.digitize, title: "Time signal, Ts = #{pulse_len} s", path: "./examples/digital_signals/")
+    plt.plot(data: signal.to_ds.fft.magnitude, title: "Frequency Signal, Ts = #{pulse_len} s", path: "./examples/digital_signals/")
+    plt.plot(data: signal.to_ds.psd.data.map(&:real), title: "Power Spectral Density,  Ts = #{pulse_len} s", path: "./examples/digital_signals/")
 end
 
 puts
@@ -82,7 +84,7 @@ pulse_lens.each do |pulse_len|
     plt.plot(data: xf_plot, title: "Coded Freq Sig from Eqn, Ts = #{pulse_len} s")
     
     #Plot test data
-    plt.plot(data: signal.digitize, title: "Coded Time signal, Ts = #{pulse_len} s")
-    plt.plot(data: signal.to_ds.fft.magnitude, title: " Coded Frequency Signal, Ts = #{pulse_len} s")
-    plt.plot(data: signal.to_ds.psd.data.map(&:real), title: "Coded Power Spectral Density,  Ts = #{pulse_len} s")
+    plt.plot(data: signal.digitize, title: "Coded Time signal, Ts = #{pulse_len} s", path: "./examples/digital_signals/")
+    plt.plot(data: signal.to_ds.fft.magnitude, title: " Coded Frequency Signal, Ts = #{pulse_len} s", path: "./examples/digital_signals/")
+    plt.plot(data: signal.to_ds.psd.data.map(&:real), title: "Coded Power Spectral Density,  Ts = #{pulse_len} s", path: "./examples/digital_signals/")
 end

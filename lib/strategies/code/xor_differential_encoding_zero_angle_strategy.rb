@@ -38,7 +38,7 @@ class Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy
     def self.decode(bits)
         encoded = []  
         for i in 1...bits.length do 
-            encoded << (bits[i - 1].to_i(2) ^ bits[i].to_i(2)).to_s(2)
+            encoded << (bits[i - 1].to_i.to_s.to_i(2) ^ bits[i].to_i.to_s.to_i(2)).to_s(2)
         end
         encoded
     end

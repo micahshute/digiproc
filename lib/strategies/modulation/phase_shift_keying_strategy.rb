@@ -3,7 +3,7 @@ class Dsp::Strategies::PSK
     attr_accessor :m, :modulating_signal , :carrier_signal_eqn, :coding_strategy, :phase_shift_eqn, :signal_to_phase, :coded_signal, :phase_signal, :carrier_frequency, :pulse_length
 
     #modulating_signal takes an array; each element is a symbol (should be strings)
-    def initialize(carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy, carrier_frequency: 10000, pulse_length: 0.00015)
+    def initialize(carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: nil, carrier_frequency: 10000, pulse_length: 0.00015)
         @carrier_signal_eqn, @modulating_signal, @coding_strategy, @carrier_frequency, @pulse_length = carrier_signal_eqn, modulating_signal, coding_strategy, carrier_frequency, pulse_length
         @m = 2 ** modulating_signal.first.length 
         if coding_strategy.nil?
@@ -25,7 +25,6 @@ class Dsp::Strategies::PSK
     def output(a: 1)
         eqn = Proc.new do |t|
             theta_index = (t.to_f / @pulse_length.to_f).floor
-            # puts "t: #{t}, pulse length: #{@pulse_length}, div: #{t.to_f / @pulse_length}"
             @carrier_signal_eqn[a, @carrier_frequency, t, @phase_signal[theta_index]]
         end
         sample_rate = 0.01 / @carrier_frequency
@@ -40,6 +39,8 @@ class Dsp::Strategies::PSK
         return sym
     end
 
+    # Based off of reciever Figure 4-15 INTRODUCTION TO DIGITAL COMMUNICATIONS, ZIEMER, PETERSON pg 237
+    # NOTE: SUBOPTIMUM DETECTOR, optimum detector referenced on the above page, different reference
     def reciever_decode
         recieved = output.to_ds.fft.magnitude
         ts = 1 / (@carrier_frequency / 0.01)
@@ -59,7 +60,12 @@ class Dsp::Strategies::PSK
         end
         lpf = factory.filter_for(type: "lowpass", wc: 2 * Math::PI / 4, transition_width: 0.0001, stopband_attenuation: 80)
         outft = Dsp::FFT.new(time_data: output, size: 2 ** 16)
-        all_out = (outft * lpf.fft).ifft.map(&:real)[55000, 1800]
+        
+        # TODO FIND WHERE SIGNAL BEGINS AND OUTPUT THE SIGNAL BASED OFF OF 
+        # SIGNAL SIZE. ALSO, THERE SHOULD BE A RECIEVER METHOD OR SEPERATE CLASS
+        # WHICH OUPUTS THE RAW DATA OF THE RECIEVERS
+        data = (outft * lpf.fft).ifft.map(&:real)
+        all_out = @phase_signal.size > 200 ? data[55000,  200 * sample_interval].concat(data[0, sample_interval * (@phase_signal.size - 200)]) : data[55000,  @phase_signal.size * sample_interval]
         final_out = []
         for i in 0...all_out.length do
             final_out << all_out[i] if (i + 10) %  sample_interval == 0 

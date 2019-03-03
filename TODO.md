@@ -8,7 +8,7 @@
     - [ ] Figure out how to deal with ifft having very small imaginary values
     - [ ] Figure out how to deal with zero padding from Radix2 strategy in outputs. 
 - [x] Add Gaussian distribution generator
-- [ ] Add White noise generator
+- [x] Add White noise generator
 - [ ] Add `analytic signal` function 
     - [ ] In where? Used for bandpass signals
 - [x] Implement Analog signal, allow custom sampling rate, include nyquist freq (based on freq or bandwidth)
@@ -42,5 +42,7 @@
 - [ ] Automatcially match FFT sizes
 - [ ] Fix sizing for ifft, etc
 - [ ] Fix output of ifft (ie small imaginary numbers)
-- [ ] Ensure no freq domain inconsitancies with radian vs cycle^-1 units
+- [ ] Ensure no freq domain inconsitancies with radian vs cycle^-1 units (ie inputs in functions should all be radians or hz)
+- [ ] "INTRODUCTION TO DIGITAL COMMUNICATIONS, ZIEMER, PETERSON" -> pg 239 Figure 4-16 add reciever for M-ary PSK decoding
+- [ ] Put DigitalSignal and Windows (and any other necessary functions not currently in) inside of the Dsp Module
 

@@ -27,10 +27,18 @@ __Limitations to be aware of__:
  - All signals must be causual -> negative values of n are not supported
  - The FFT, as of now, uses a Radix 2 algorithm. So, the overall size must be a power of 2 - any dataset is zero-filled automatically to meet this necessity. This gives you less control over the exact size if needed and may cause slower runtimes (however the radix 2 algorithm is &#1012;(nlgn)). This zero-fill _will_ increase the resolution of the FFT output, however.
  - All filter data and windows must have an even number of datapoints. If not, this will be done automatically. This is to facilitate the ability to create any type of filter using the windowing method. (Odd numbers of values can preclude certain types of filters)
- - Inverse FFT not yet implemented
  - All filters are FIR and are implemented via the windowing method. Although you can get pretty good results depending on your application, this is an older method compared to the optimal Parks-McClellan algorithm.
  - IIR Filter design is not included
  - The quantization process in Dsp::AnalogSignal maps an analog signal to -1 to 1 before quantizing the result. A floating point number is accurate up to 7 decimal places, so this process will cause unwanted ACTUAL quantization errors (not simulated quantization errors) for an amplitude range greater than $2 x 10^16$ (ie 20 Quadrillion)
+
+This is still a work in progress. There are many usuable functions, and many that still require tuning. Functions tested in the `spec` file are very reliable.
+
+
+
+__Run Examples__
+
+Use ```rake examples:run[file]``` to run an example file to see how it works, ie: ```rake examples:run[binomial_distribution/dice]```
+
 
 ## Development
 
@@ -40,7 +48,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/micahshute/dsp. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct. That being said, negative feedback is always welcome. 
+Bug reports and pull requests are welcome on GitHub at https://github.com/micahshute/dsp. 
+
+There is a long list of intended actions in the `TODO.md` file. Tests (rspec) covers many core capabilities, but more need to be written to cover the entire gem.
+
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct. That being said, negative feedback is always welcome. 
 
 ## License
 

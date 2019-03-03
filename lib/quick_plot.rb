@@ -3,7 +3,7 @@ class Dsp::QuickPlot
     extend Dsp::Plottable::ClassMethods
 
 
-    def self.plot(x: nil,y: nil, data: nil, title: nil, x_label: nil, y_label: nil, labels: nil, data_name: "data", label_map: nil, dark: false)
+    def self.plot(x: nil,y: nil, data: nil, title: nil, x_label: nil, y_label: nil, labels: nil, data_name: "data", label_map: nil, dark: false, path: "./plots/")
         xyname, dataname = nil, nil
         if not x.nil?
             if evenly_spaced?(x)
@@ -13,7 +13,7 @@ class Dsp::QuickPlot
             end
         end
         data.nil? ? (xyname = data_name) : (dataname = data_name)
-        qplot(x: x, y: y, data: data, data_name: dataname, xyname: xyname, label_map: label_map, filename: to_filename(title)) do |g|
+        qplot(x: x, y: y, data: data, data_name: dataname, xyname: xyname, label_map: label_map, filename: to_filename(title), path: path) do |g|
             g.title = title if not title.nil?
             g.x_axis_label = x_label if not x_label.nil?
             g.y_axis_label = y_label if not y_label.nil?
@@ -60,7 +60,7 @@ class Dsp::QuickPlot
     end
 
     def self.to_filename(title)
-        title.downcase.gsub(" ", "_")
+        title.nil? ? "Quickplot Graph" : title.downcase.gsub(" ", "_")
     end
 
 end
