@@ -1,6 +1,6 @@
 class Dsp::DigitalSignal
     attr_accessor :data
-    include Convolvable::InstanceMethods, Initializable, FourierTransformable
+    include Dsp::Convolvable::InstanceMethods, Dsp::Initializable, Dsp::FourierTransformable
 
     
     def self.new_from_eqn(eqn: , size: )
@@ -26,7 +26,7 @@ class Dsp::DigitalSignal
     def initialize(data: )
         raise ArgumentError.new("Data must be an Array, not a #{data.class}") if not data.is_a? Array
         @data = data
-        initialize_modules(FourierTransformable => {time_data: data})
+        initialize_modules(Dsp::FourierTransformable => {time_data: data})
     end
 
     def process 

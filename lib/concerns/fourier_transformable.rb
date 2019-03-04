@@ -1,4 +1,4 @@
-module FourierTransformable
+module Dsp::FourierTransformable
 
     module GenericMethods
 

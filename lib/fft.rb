@@ -17,11 +17,11 @@ class Dsp::FFT
     end
 
     attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :inverse_strategy
-    include Convolvable::InstanceMethods, Dsp::Plottable::InstanceMethods
+    include Dsp::Convolvable::InstanceMethods, Dsp::Plottable::InstanceMethods
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the time_data
-    def initialize(strategy: Radix2Strategy, time_data: nil, size: nil, window: Dsp::RectangularWindow, freq_data: nil, inverse_strategy: Dsp::Strategies::IFFTConjugateStrategy)
+    def initialize(strategy: Dsp::Strategies::Radix2Strategy, time_data: nil, size: nil, window: Dsp::RectangularWindow, freq_data: nil, inverse_strategy: Dsp::Strategies::IFFTConjugateStrategy)
         raise ArgumentError.new("Either time or frequency data must be given") if time_data.nil? and freq_data.nil?
         raise ArgumentError.new('Size must be an integer') if not size.nil? and not size.is_a?(Integer) 
         raise ArguemntError.new('Size must be greater than zero') if not size.nil? and size <= 0 

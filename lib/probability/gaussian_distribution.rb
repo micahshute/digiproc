@@ -3,7 +3,7 @@ class Dsp::Probability::RealizedGaussianDistribution
     attr_accessor :mean, :stddev, :generator, :data
     attr_reader :size
 
-    include Convolvable::InstanceMethods, Initializable, FourierTransformable
+    include Dsp::Convolvable::InstanceMethods, Dsp::Initializable, Dsp::FourierTransformable
 
     def initialize(mean: , stddev: , size: ,generator: Dsp::Strategies::GaussianGeneratorBoxMullerStrategy.new)
         @mean, @stddev, @generator, @size = mean, stddev, generator, size
@@ -14,7 +14,7 @@ class Dsp::Probability::RealizedGaussianDistribution
             data << generator.rand
         end
         @data = data
-        initialize_modules(FourierTransformable => {time_data: data})
+        initialize_modules(Dsp::FourierTransformable => {time_data: data})
     end
 
 

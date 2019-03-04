@@ -4,7 +4,7 @@
 # a class `includes` Convolvable::InstanceMethods, it is also including `Dsp::RequiresData` which ensures that the
 # class has a `data` property
 
-module Convolvable
+module Dsp::Convolvable
 
     module ClassMethods
 
@@ -71,7 +71,7 @@ module Convolvable
 
         def convolution_strategy
             # If class is not `Initializable`, use Dsp::BFConvolutionStrategy
-            @convolution_strategy.nil? ? Dsp::BFConvolutionStrategy : @convolution_strategy
+            @convolution_strategy.nil? ? Dsp::Strategies::BFConvolutionStrategy : @convolution_strategy
         end
 
         def cross_correlation(incoming_data)

@@ -2,7 +2,7 @@ class Dsp::Strategies::IFFTConjugateStrategy
 
     attr_accessor :data, :strategy
 
-    def initialize(data, fft_strategy = Radix2Strategy)
+    def initialize(data, fft_strategy = Dsp::Strategies::Radix2Strategy)
         @data = data
         @strategy = fft_strategy.new
     end

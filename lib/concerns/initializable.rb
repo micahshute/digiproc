@@ -1,4 +1,4 @@
-module Initializable
+module Dsp::Initializable
     def self.included(base)
         base.class_eval do 
             def initialize_modules(*modules)

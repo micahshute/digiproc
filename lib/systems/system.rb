@@ -1,11 +1,11 @@
 class Dsp::Systems::System
 
     attr_accessor :data
-    include Convolvable::InstanceMethods, Initializable, FourierTransformable
+    include Dsp::Convolvable::InstanceMethods, Dsp::Initializable, Dsp::FourierTransformable
 
     def initialize(data)
         @data = data
-        initialize_modules(FourierTransformable => {time_data: data})
+        initialize_modules(Dsp::FourierTransformable => {time_data: data})
     end
 
     def to_ds
