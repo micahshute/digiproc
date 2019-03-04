@@ -21,7 +21,7 @@ class Dsp::FFT
 
     #Using size wiht a Radix2Strategy will only ensure a minimum amount of 
     #zero-padding, it will mostly likely not determine the final size of the time_data
-    def initialize(strategy: Radix2Strategy, time_data: nil, size: nil, window: RectangularWindow, freq_data: nil, inverse_strategy: Dsp::Strategies::IFFTConjugateStrategy)
+    def initialize(strategy: Radix2Strategy, time_data: nil, size: nil, window: Dsp::RectangularWindow, freq_data: nil, inverse_strategy: Dsp::Strategies::IFFTConjugateStrategy)
         raise ArgumentError.new("Either time or frequency data must be given") if time_data.nil? and freq_data.nil?
         raise ArgumentError.new('Size must be an integer') if not size.nil? and not size.is_a?(Integer) 
         raise ArguemntError.new('Size must be greater than zero') if not size.nil? and size <= 0 
@@ -72,7 +72,7 @@ class Dsp::FFT
     end
 
     def ifft_ds
-        DigitalSignal.new(data: ifft)
+        Dsp::DigitalSignal.new(data: ifft)
     end
 
 

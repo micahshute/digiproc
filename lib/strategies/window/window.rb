@@ -1,4 +1,4 @@
-class WindowStrategy
+class Dsp::WindowStrategy
 
     PI = Math::PI
 
@@ -25,7 +25,7 @@ class WindowStrategy
     end
 
     def to_signal
-        DigitalSignal.new(data: values)
+        Dsp::DigitalSignal.new(data: values)
     end
 
 end

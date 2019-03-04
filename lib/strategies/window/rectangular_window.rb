@@ -1,4 +1,4 @@
-class RectangularWindow < WindowStrategy
+class Dsp::RectangularWindow < Dsp::WindowStrategy
     def initialize(size: )
         super(size: size)
         calculate

@@ -1,5 +1,5 @@
 #for wo and bw, include the "don't care" areas in the bandstop area
-class BandstopFilter < DigitalFilter
+class Dsp::BandstopFilter < Dsp::DigitalFilter
     attr_accessor :equation
 
     def initialize(size:, window: RectangularWindow, wo: nil, bw: nil, wlp_upper: nil , whp_lower: nil, correct: true )

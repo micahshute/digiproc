@@ -1,4 +1,4 @@
-RSpec.describe DigitalSignal do 
+RSpec.describe Dsp::DigitalSignal do 
 
     let(:linspace) do
         (0...64).to_a
@@ -17,19 +17,19 @@ RSpec.describe DigitalSignal do
     end
 
     let(:periodic_signal) do
-        DigitalSignal.new_from_eqn(eqn: cos_pi_over_ten, size: 32)
+        Dsp::DigitalSignal.new_from_eqn(eqn: cos_pi_over_ten, size: 32)
     end
 
     let(:mod_signal) do
-        DigitalSignal.new_from_eqn(eqn: n_mod_4, size: 32)
+        Dsp::DigitalSignal.new_from_eqn(eqn: n_mod_4, size: 32)
     end
 
     let(:short_signal_a) do
-        DigitalSignal.new(data: [91, 23, 11, 53, 12, 82, 62])
+        Dsp::DigitalSignal.new(data: [91, 23, 11, 53, 12, 82, 62])
     end
 
     let(:short_signal_b) do
-        DigitalSignal.new(data: [5,4,2,3])
+        Dsp::DigitalSignal.new(data: [5,4,2,3])
     end
 
     let (:xcorr_short_a_b) do
@@ -54,7 +54,7 @@ RSpec.describe DigitalSignal do
 
     it "allows creation of a digital signal with an arary of data, #i can access any run or singular datapoints" do 
         data = linspace.map{ |n| cos_pi_over_ten.call(n)}
-        ds = DigitalSignal.new(data: data)
+        ds = Dsp::DigitalSignal.new(data: data)
         expect(ds).to be
         expect(ds.i 10).to eq(data[10])
         expect(ds.i 5..10).to eq(data[5, 6])
@@ -65,7 +65,7 @@ RSpec.describe DigitalSignal do
 
 
     it "allows creation of a digital signal with an equation and size" do
-        ds = DigitalSignal.new_from_eqn(eqn: cos_pi_over_ten, size: 20)
+        ds = Dsp::DigitalSignal.new_from_eqn(eqn: cos_pi_over_ten, size: 20)
         expect(ds).to be
         expect(ds.i 10).to eq(cos_pi_over_ten.call 10)
     end
@@ -73,8 +73,8 @@ RSpec.describe DigitalSignal do
     it "allows creation of a digital signal with an array of equations and ranges" do
         ranges = [0..10, 11..15, 15..20]
         eqns = [cos_pi_over_ten, n, n_mod_4]
-        ds = DigitalSignal.new_from_equations(eqns: eqns, ranges: ranges)
-        ds2 = DigitalSignal.new_from_equations(eqns: eqns, ranges: [0..10, 11..15, 15..20])
+        ds = Dsp::DigitalSignal.new_from_equations(eqns: eqns, ranges: ranges)
+        ds2 = Dsp::DigitalSignal.new_from_equations(eqns: eqns, ranges: [0..10, 11..15, 15..20])
         expect(ds.i 7).to eq(cos_pi_over_ten.call(7))
         expect(ds.i 13).to eq(n.call(13))
         expect(ds.i 17).to eq(n_mod_4.call(17))
@@ -84,7 +84,7 @@ RSpec.describe DigitalSignal do
     end
 
     it "can return a data value, and returns a 0 outside the range" do
-        ds = DigitalSignal.new(data: [1,2,3,4,5])
+        ds = Dsp::DigitalSignal.new(data: [1,2,3,4,5])
         expect(ds.i 10).to eq(0)
         expect(ds.i 10000).to eq(0)
     end
@@ -92,13 +92,13 @@ RSpec.describe DigitalSignal do
 
     it "#conv allows it to be convolved with another digital signal (or any convolvable object)" do
         expect(periodic_signal.conv(mod_signal)).to be
-        ds1 = DigitalSignal.new(data: [1,2,3,4])
-        ds2 = DigitalSignal.new(data: [1,2,3,4])
+        ds1 = Dsp::DigitalSignal.new(data: [1,2,3,4])
+        ds2 = Dsp::DigitalSignal.new(data: [1,2,3,4])
         expect(ds1.conv(ds2)).to eq([1, 4, 10, 20, 25, 24, 16])
     end
 
-    it "#ds_conv convoles with a DigitalSignal and produces a new DigitalSignal" do
-        expect(periodic_signal.ds_conv(mod_signal).is_a? DigitalSignal).to be(true)
+    it "#ds_conv convoles with a Dsp::DigitalSignal and produces a new Dsp::DigitalSignal" do
+        expect(periodic_signal.ds_conv(mod_signal).is_a? Dsp::DigitalSignal).to be(true)
         expect(periodic_signal.ds_conv(mod_signal).data).to eq(Dsp::Functions.conv(periodic_signal.data, mod_signal.data))
         expect(periodic_signal.ds_conv(mod_signal).data).to eq(periodic_signal.conv(mod_signal))
     end
@@ -130,9 +130,9 @@ RSpec.describe DigitalSignal do
     end
 
 
-    it "#ds_cross_correlation returns a DigitalSignal of its cross-correlation with an array or a correlatable" do
-        expect(periodic_signal.ds_cross_correlation(mod_signal).is_a? DigitalSignal).to eq(true)
-        expect(periodic_signal.ds_cross_correlation(mod_signal.data).is_a? DigitalSignal).to eq(true)
+    it "#ds_cross_correlation returns a Dsp::DigitalSignal of its cross-correlation with an array or a correlatable" do
+        expect(periodic_signal.ds_cross_correlation(mod_signal).is_a? Dsp::DigitalSignal).to eq(true)
+        expect(periodic_signal.ds_cross_correlation(mod_signal.data).is_a? Dsp::DigitalSignal).to eq(true)
         expect(short_signal_a.ds_cross_correlation(short_signal_b).data).to eq(xcorr_short_a_b)
         expect(short_signal_a.ds_cross_correlation(short_signal_b.data).data).to eq(xcorr_short_a_b)
     end
@@ -143,7 +143,7 @@ RSpec.describe DigitalSignal do
     end
 
     it "ds_xcorr is an alias for ds_cross_correlation" do
-        expect(periodic_signal.ds_xcorr(mod_signal).is_a? DigitalSignal).to eq(true)
+        expect(periodic_signal.ds_xcorr(mod_signal).is_a? Dsp::DigitalSignal).to eq(true)
         expect(periodic_signal.ds_xcorr(mod_signal).data).to eq(Dsp::Functions.cross_correlation(periodic_signal.data, mod_signal.data))
         expect(mod_signal.ds_xcorr(periodic_signal.data).data).to eq(Dsp::Functions.cross_correlation(mod_signal.data, periodic_signal.data))
     end
@@ -153,8 +153,8 @@ RSpec.describe DigitalSignal do
         expect(periodic_signal.auto_correlation).to eq(Dsp::Functions.cross_correlation(periodic_signal.data, periodic_signal.data))
     end
 
-    it "#ds_auto_correlation returns a DigitalSignal of the signal's auto correlation" do
-        expect(periodic_signal.ds_auto_correlation.is_a? DigitalSignal).to eq(true)
+    it "#ds_auto_correlation returns a Dsp::DigitalSignal of the signal's auto correlation" do
+        expect(periodic_signal.ds_auto_correlation.is_a? Dsp::DigitalSignal).to eq(true)
         expect(periodic_signal.ds_auto_correlation.data).to eq(periodic_signal.auto_correlation)
         expect(short_signal_a.ds_auto_correlation.data).to eq(acorr_short_a)
     end
@@ -165,7 +165,7 @@ RSpec.describe DigitalSignal do
     end
 
     it "#ds_acorr is an alias for ds_auto_correlation" do
-        expect(periodic_signal.ds_acorr.is_a? DigitalSignal).to eq(true)
+        expect(periodic_signal.ds_acorr.is_a? Dsp::DigitalSignal).to eq(true)
         expect(periodic_signal.ds_acorr.data).to eq(periodic_signal.ds_auto_correlation.data)
         expect(short_signal_a.ds_acorr.data).to eq(acorr_short_a)
     end

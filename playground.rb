@@ -47,7 +47,7 @@ pi = Math::PI
 # #Generate white noise
 # noise = norm_dist.new(mean: 0, stddev: 1, size: 4096)
 # #Generate signal
-# sys = DigitalSignal.new(data: [1,-2,1])
+# sys = Dsp::DigitalSignal.new(data: [1,-2,1])
 
 # #Put noise through system, autocorrelate output
 # output = sys.ds_conv noise
@@ -148,9 +148,9 @@ pi = Math::PI
 
 # noise = norm_dist.new(mean: 0, stddev: 10, size: 50000)
 
-# rc_circuit = DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
+# rc_circuit = Dsp::DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
 
-# noise_signal = DigitalSignal.new(data: noise.data)
+# noise_signal = Dsp::DigitalSignal.new(data: noise.data)
 # output_spectra = rc_circuit.fft(noise.data.length * 2) * noise_signal.fft(noise.data.length * 2)
 
 # output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1)

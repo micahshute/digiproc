@@ -1,4 +1,4 @@
-class KaiserWindow < WindowStrategy
+class Dsp::KaiserWindow < Dsp::WindowStrategy
     def initialize(size: , stopband_db: nil, beta: nil)
         raise ArgumentError.new("Must have a stopband or a beta") if stopband_db.nil? && beta.nil?
         super(size: size)

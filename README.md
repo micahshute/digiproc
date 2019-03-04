@@ -24,6 +24,8 @@ Or install it yourself as:
 
 Graphing capabillity built on top of [gruff](https://github.com/topfunky/gruff) gem, which uses the [rMagick](https://rubygems.org/gems/rmagick/versions/2.15.4) gem and ImageMagick. 
 
+__Look at specs and the `examples` folder for examples on how to use these classes in calculations__
+
 __Limitations to be aware of__:
  - All signals must be causual -> negative values of n are not supported
  - The FFT, as of now, uses a Radix 2 algorithm. So, the overall size must be a power of 2 - any dataset is zero-filled automatically to meet this necessity. This gives you less control over the exact size if needed and may cause slower runtimes (however the radix 2 algorithm is &#1012;(nlgn)). This zero-fill _will_ increase the resolution of the FFT output, however.

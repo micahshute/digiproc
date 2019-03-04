@@ -1,4 +1,4 @@
-class HanningWindow < WindowStrategy
+class Dsp::HanningWindow < Dsp::WindowStrategy
     def initialize(size: nil , norm_trans_freq: nil)
         super(size: norm_trans_freq.nil? ? size : find_size(norm_trans_freq))
         size = @size + 2

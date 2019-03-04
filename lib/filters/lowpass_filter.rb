@@ -1,4 +1,4 @@
-class LowpassFilter < DigitalFilter
+class Dsp::LowpassFilter < Dsp::DigitalFilter
 
     attr_accessor :equation
     

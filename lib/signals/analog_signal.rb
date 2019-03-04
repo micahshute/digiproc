@@ -19,7 +19,7 @@ class Dsp::AnalogSignal
     end
 
     def to_ds
-        DigitalSignal.new(data: digitize)
+        Dsp::DigitalSignal.new(data: digitize)
     end
 
     def normalized_quantization_rms_error

@@ -1,19 +1,19 @@
-RSpec.describe DigitalFilter do 
+RSpec.describe Dsp::DigitalFilter do 
 
 end
 
-RSpec.describe LowpassFilter do
+RSpec.describe Dsp::LowpassFilter do
 
 end
 
-RSpec.describe HighpassFilter do
+RSpec.describe Dsp::HighpassFilter do
 
 end
 
-RSpec.describe BandpassFilter do 
+RSpec.describe Dsp::BandpassFilter do 
 
 end
 
-RSpec.describe BandstopFilter do
+RSpec.describe Dsp::BandstopFilter do
 
 end

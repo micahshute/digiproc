@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     dsp (0.1.0)
+      gruff (~> 0.7.0)
 
 GEM
   remote: https://rubygems.org/
@@ -15,6 +16,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     rake (10.5.0)
+    rdoc (6.1.1)
     rmagick (2.16.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
@@ -36,9 +38,9 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.16)
   dsp!
-  gruff (~> 0.7.0)
-  pry (~> 0.11.3)
+  pry
   rake (~> 10.0)
+  rdoc
   rspec (~> 3.0)
 
 BUNDLED WITH

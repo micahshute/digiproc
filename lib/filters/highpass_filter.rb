@@ -1,4 +1,4 @@
-class HighpassFilter < DigitalFilter
+class Dsp::HighpassFilter < Dsp::DigitalFilter
     attr_accessor :equation
 
     def initialize(size:, window: RectangularWindow, wc: , correct: true)

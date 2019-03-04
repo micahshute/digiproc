@@ -1,4 +1,4 @@
-class BandpassFilter < DigitalFilter
+class Dsp::BandpassFilter < Dsp::DigitalFilter
     attr_accessor :equation
 
     def initialize(size:, window: RectangularWindow, wo: nil, bw: nil, wcl: nil , wch: nil, correct: true )

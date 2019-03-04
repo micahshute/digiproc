@@ -40,19 +40,19 @@ class Dsp::Factories::FilterFactory
 
     class Filters        
         def self.lowpass
-            LowpassFilter
+            Dsp::LowpassFilter
         end
 
         def self.highpass
-            HighpassFilter
+            Dsp::HighpassFilter
         end
 
         def self.bandpass
-            BandpassFilter
+            Dsp::BandpassFilter
         end
 
         def self.bandstop
-            BandstopFilter
+            Dsp::BandstopFilter
         end
     end
 

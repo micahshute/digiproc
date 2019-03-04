@@ -1,4 +1,4 @@
-class DigitalSignal
+class Dsp::DigitalSignal
     attr_accessor :data
     include Convolvable::InstanceMethods, Initializable, FourierTransformable
 
@@ -74,15 +74,15 @@ class DigitalSignal
     end
 
     def ds_convolve(signal)
-        DigitalSignal.new(data: self.conv(signal))
+        Dsp::DigitalSignal.new(data: self.conv(signal))
     end
 
     def ds_conv(signal)
-        DigitalSignal.new(data: self.conv(signal))
+        Dsp::DigitalSignal.new(data: self.conv(signal))
     end
 
     def ds_cross_correlation(signal)
-        DigitalSignal.new(data: self.cross_correlation(signal))
+        Dsp::DigitalSignal.new(data: self.cross_correlation(signal))
     end
 
     def ds_xcorr(sig)
@@ -90,7 +90,7 @@ class DigitalSignal
     end
 
     def ds_auto_correlation
-        DigitalSignal.new(data: self.auto_correlation)
+        Dsp::DigitalSignal.new(data: self.auto_correlation)
     end
 
     def ds_acorr

@@ -18,7 +18,7 @@ recieved_signal = data.plus(noise.data)
 #process signal with a blackman window (below shows that this is an optional step)
 processed_signal_data = recieved_signal.times window.data
 
-processed_signal = DigitalSignal.new(data: processed_signal_data)
+processed_signal = Dsp::DigitalSignal.new(data: processed_signal_data)
 
 fft = processed_signal.fft
 
@@ -44,4 +44,4 @@ plt.plot(data: recieved_signal, title: "Recieved data (time domain)", path: './e
 #Signal easily viewed in frequency domain (dB plot)
 fft.plot_db(path: "./examples/fft/")
 #plot unprocessed signal dB
-plt.plot(data: DigitalSignal.new(data: recieved_signal).fft.dB , title: "Unprocessed FFT", path: './examples/fft/')
+plt.plot(data: Dsp::DigitalSignal.new(data: recieved_signal).fft.dB , title: "Unprocessed FFT", path: './examples/fft/')

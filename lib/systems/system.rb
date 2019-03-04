@@ -9,7 +9,7 @@ class Dsp::Systems::System
     end
 
     def to_ds
-        DigitalSignal.new(data: self.data)
+        Dsp::DigitalSignal.new(data: self.data)
     end
 
     def to_a

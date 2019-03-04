@@ -1,4 +1,4 @@
-class DigitalFilter
+class Dsp::DigitalFilter
     PI = Math::PI
 
     attr_accessor :size, :window, :fft, :weights
