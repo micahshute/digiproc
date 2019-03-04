@@ -3,7 +3,7 @@ module FourierTransformable
     module GenericMethods
 
         def fft_strategy
-            Radix2Strategy
+            Dsp::Strategies::Radix2Strategy
         end
 
         def ifft_strategy
@@ -22,15 +22,15 @@ module FourierTransformable
 
     def self.included(base)
         base.class_eval do 
-            include RequiresData
+            include Dsp::RequiresData
         end
     end
 
     attr_writer :fft
     attr_reader :fft_strategy
 
-    def initialize(time_data: , fft_strategy: Radix2Strategy)
-        @fft_strategy = Radix2Strategy
+    def initialize(time_data: , fft_strategy: Dsp::Strategies::Radix2Strategy)
+        @fft_strategy = Dsp::Strategies::Radix2Strategy
         @fft = Dsp::FFT.new(time_data: time_data.dup, strategy: fft_strategy)
     end
 

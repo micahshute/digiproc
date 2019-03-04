@@ -1,4 +1,4 @@
-class CustomCompandingStrategy
+class Dsp::Strategies::CustomCompandingStrategy
 
     attr_accessor :eqn, :inverse
 

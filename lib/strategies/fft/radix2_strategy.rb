@@ -1,4 +1,4 @@
-class Radix2Strategy 
+class Dsp::Strategies::Radix2Strategy 
 
     E = Math::E
     PI = Math::PI

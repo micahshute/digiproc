@@ -1,4 +1,4 @@
-class BFConvolutionStrategy
+class Dsp::Strategies::BFConvolutionStrategy
 
     def self.conv(data1, data2)
         dynamic_data = data1.dup

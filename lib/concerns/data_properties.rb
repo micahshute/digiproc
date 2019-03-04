@@ -1,9 +1,11 @@
+# Module which can perform basic operations on 1D data arrays
+
 module Dsp::DataProperties
 
     extend self 
 
-    #returns Array of OpenStruct with #index and #value
     def all_maxima(data)
+        # all_maxima(data: Array) returns all maximum in an array of `OpenStruct`s with #index and #value
         raise ArgumentError.new("Data must be an array") if not data.is_a? Array
         slope = Slope::Positive
         max = []
@@ -21,10 +23,14 @@ module Dsp::DataProperties
     end
 
     def maxima(data, num = 1)
+        # maxima(data: Array, num = 1: Integer) returns `num` number of largest maxima from the data array returned in #all_maxima
         all_maxima(data).sort{ |a, b| b.value <=> a.value }.take num
     end
 
     def local_maxima(data, num=1)
+        # local_maxima(data: Array, num=1: Integer) calculates all maxima and orders them by how much proportionally they
+        # are to any directly adjacent maxima. It then takes `num` answer and returns an array of `OpenStruct`s with #index and #value
+        # This is particularly useful to use when looking for local maxima in a FFT dB or magnitude plot.
         all_maxima = all_maxima(data)
         all_maxima.sort do |a, b|
             a_upper = all_maxima.find{ |maxima| maxima.index > a.index }
@@ -48,7 +54,14 @@ module Dsp::DataProperties
         .take(num)
     end
 
+    def slope(a,b, range=1)
+        # slope(a: Numeric, b: Numeric, range=1: Numeric ) returns the slope of these two y values, given a change in x values by `range` which defualts to 1. Returns a float
+        return (b - a) / range.to_f
+    end
+
     def find_slope(a,b)
+        # find_slope(a: Int or Double, b: Int or Double) returns Slope::Positive, Slope::Negative, or Slope::Zero
+        # Note: Slope::Positive.is? :positive returns true, Slope::Negative.is? :negative returns true, etc.
         slope = nil
         if b - a > 0
             slope = Slope::Positive
@@ -60,6 +73,7 @@ module Dsp::DataProperties
         slope
     end
 
+    ## Inner slope class made for pleasant syntax in the maxima methods
     class Slope
         def self.Negative
             Negative
