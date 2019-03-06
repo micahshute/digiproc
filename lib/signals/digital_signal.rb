@@ -1,6 +1,6 @@
 class Dsp::DigitalSignal
     attr_accessor :data
-    include Dsp::Convolvable::InstanceMethods, Dsp::Initializable, Dsp::FourierTransformable
+    include Dsp::Convolvable::InstanceMethods, Dsp::FourierTransformable
 
     
     def self.new_from_eqn(eqn: , size: )
