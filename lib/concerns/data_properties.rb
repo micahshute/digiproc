@@ -1,11 +1,12 @@
-## Module which can perform basic operations on 1D data arrays
+## 
+# Module which can perform basic operations on 1D data arrays
 # This module extends itself so all methods can be called via:
 ## Dsp::DataProperties.method_i_want_to_call
 
 module Dsp::DataProperties
 
     extend self 
-
+    ##
     ## all_maxima(data [Array]) => returns Array(OpenStruct<#index, #value>)
     # returns all maximum in an array of `OpenStruct`s with #index and #value, ie:
     ## all_maxima([1,2,3,4,5,4,3,2,6,7,8,7,6,5])   # [#<OpenStruct index=4, value=5>, #<OpenStruct index=10, value=8>] 
@@ -26,6 +27,7 @@ module Dsp::DataProperties
         max
     end
 
+    ##
     # maxima(data [Array], num = 1 [Integer]) returns `num` number of largest maxima from the data array returned in #all_maxima
     ## arr = [1,2,3,4,5,4,3,2,6,7,8,7,6,5]
     ## Dsp::DataProperties.maxima(arr, 1) # => [#<OpenStruct index=10, value=8>]
@@ -33,7 +35,7 @@ module Dsp::DataProperties
         all_maxima(data).sort{ |a, b| b.value <=> a.value }.take num
     end
 
-
+    ##
     # local_maxima(data [Array], num=1 [Integer]) => returns Array(OpenStruct(#index, #value))
     # calculates all maxima and orders them by how much proportionally they
     # are to any directly adjacent maxima. It then takes `num` answer and returns an array of `OpenStruct`s with #index and #value
@@ -64,6 +66,7 @@ module Dsp::DataProperties
         .take(num)
     end
 
+    ##
     # slope(a: Numeric, b: Numeric, range=1: Numeric ) => float
     # returns the slope of these two y values, given a change in x values by `range` which defualts to 1. Returns a float
     ## Dsp::DataProperties.slope(0.5, 1.2, 0.5) #=> 1.4
@@ -71,6 +74,7 @@ module Dsp::DataProperties
         return (b - a) / range.to_f
     end
 
+    ##
     # find_slope(a: Int or Double, b: Int or Double) returns Slope::Positive, Slope::Negative, or Slope::Zero
     # Note: Slope::Positive.is? :positive returns true, Slope::Negative.is? :negative returns true, etc.
     def find_slope(a,b)
@@ -85,33 +89,41 @@ module Dsp::DataProperties
         slope
     end
 
+    ##
     ## Inner slope class made for pleasant syntax in the maxima methods
     class Slope
+
+        ##
         # returns inner class Negative
         def self.Negative
             Negative
         end
 
+        ##
         # returns inner class Positive
         def self.Positive
             Positive
         end
 
+        ##
         # returns inner class Zero
         def self.Zero
             Zero
         end
 
+        ##
         ## Used in the Slope class to indicate a negative slope. 
         # Made for easy syntax purposes
         class Negative
 
+            ##
             # Used for comparison in == 
             # returns :negative
             def self.type
                 :negative
             end
 
+            ##
             # Can test equality in multiple ways:
             ## Dsp::DataProperties::Slope::Negative == OpenStruct.new(type: :negative) # true
             ## Dsp::DataProperties::Slope::Negative == :negative # true
@@ -127,6 +139,7 @@ module Dsp::DataProperties
                 false
             end
 
+            ##
             # Alias to ==
             # Can test equality in multiple ways:
             ## Dsp::DataProperties::Slope::Negative.is? OpenStruct.new(type: :negative) # true
@@ -137,6 +150,7 @@ module Dsp::DataProperties
             end
         end
 
+        ##
         ## Used in the Slope class to indicate a positive slope. 
         # Made for easy syntax purposes
         class Positive
@@ -144,6 +158,7 @@ module Dsp::DataProperties
                 :positive
             end
 
+            ##
             # Can test equality in multiple ways:
             ## Dsp::DataProperties::Slope::Positive == OpenStruct.new(type: :positive) # true
             ## Dsp::DataProperties::Slope::Positive == :positive # true
@@ -159,6 +174,7 @@ module Dsp::DataProperties
                 false
             end
 
+            ##
             # Alias to ==
             # Can test equality in multiple ways:
             ## Dsp::DataProperties::Slope::Piositive.is? OpenStruct.new(type: :negative) # true
@@ -169,6 +185,7 @@ module Dsp::DataProperties
             end
         end
 
+        ##
         ## Used in the Slope class to indicate a zero slope. 
         # Made for easy syntax purposes
         class Zero
@@ -176,6 +193,7 @@ module Dsp::DataProperties
                 :zero
             end
 
+            ##
             # Can test equality in multiple ways:
             ## Dsp::DataProperties::Slope::Zero == OpenStruct.new(type: :zero) # true
             ## Dsp::DataProperties::Slope::Zero == :zero # true
@@ -191,6 +209,7 @@ module Dsp::DataProperties
                 false
             end
 
+            ##
             # Alias to ==
             # Can test equality in multiple ways:
             ## Dsp::DataProperties::Slope::Zero.is? OpenStruct.new(type: :zero) # true

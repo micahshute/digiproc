@@ -1,12 +1,15 @@
+## 
 # Module for Classes which have a property `data` which we can take the Discrete Fourier Transform of.
 # A class which wants to use methods outside of GenricMethods will also include Dsp::Initializable, and you have to use the appropriate methods in your class constructor if you want the Dsp::FFT class to be set up automatically
 # You could manually set it up if your class sets up its own @fft property which is an instance of Dsp::FFT with the class' `data` passed in.
 # See an example of this in action in Dsp::DigitalSignal initializer method. 
 module Dsp::FourierTransformable
 
-    ## Inner module for places where standalone functions are needed, not associated with a class which contains `data`. See Dsp::Functions for use
+    ## 
+    # Inner module for places where standalone functions are needed, not associated with a class which contains `data`. See Dsp::Functions for use
     module GenericMethods
 
+        ##
         # Return a Fast Fourier Transform (FFT) strategy to be used for GenericMethods. Set to Dsp::Strategies::Radix2Strategy
         # It is important to note that the Radix2Strategy increases the size of the FFT return to the closest power of 2. 
         def fft_strategy
@@ -18,6 +21,7 @@ module Dsp::FourierTransformable
             Dsp::Strategies::IFFTConjugateStrategy
         end
 
+        ## 
         ## fft(data [Array of complex Numerics]) => returns Array of data corresponding to the FFT
         # Note that for the Radix2Strategy, the only time the return size will equal the input size is if the input size is a power of 2. 
         # Otherwise the return will be increased to the closest power of 2.
@@ -34,7 +38,8 @@ module Dsp::FourierTransformable
         def fft(data)
             fft_strategy.new(data.dup).calculate
         end
-
+        
+        ##
         ## ifft(data [Array of complex Numerics])
         # Due to using the Radix2Strategy, the ifft will return the exact input if the input is a power of 2.
         # Otherwise, there will be trailing 0s. ie: 
@@ -62,6 +67,7 @@ module Dsp::FourierTransformable
 
     end
 
+    ## 
     # Include Dsp::RequiresData when an instance is instantiated that includes Dsp::FourierTransformable because
     # methods require `data` (an array of Fourier Transformable data) to exist in the class
     def self.included(base)
@@ -73,6 +79,7 @@ module Dsp::FourierTransformable
     attr_writer :fft
     attr_reader :fft_strategy
 
+    ## 
     # Initialize with (time_data: [Array(Numeric)], fft_strategy: [optional, defaults to Dsp::Strategies::Radix2Strategy])
     # Upon instantiation, a new Dsp::FFT class is made with the data passed in as time_data.
     # NOTE this does not happen automatically upon instantiation of the class which includes this module. 
@@ -95,6 +102,7 @@ module Dsp::FourierTransformable
         @fft = Dsp::FFT.new(time_data: time_data.dup, strategy: fft_strategy)
     end
 
+    ##
     ## fft_db #=> Array of decible values of the magnitude of the FFT (Float, not complex)
     # Ensures the fft is calculated, and then returns the dB vals
     def fft_db
@@ -109,6 +117,7 @@ module Dsp::FourierTransformable
         @fft.magnitude
     end
 
+    ##
     ## fft(size [optional Integer]) #=> returns Dsp::FFT instance
     # Will calculate the FFT if it has not yet been calculated
     # size is an optional parameter which allows you to delegate the size of the FFT to be calculated..
@@ -121,11 +130,13 @@ module Dsp::FourierTransformable
         @fft
     end
 
+    ##
     # setter for the FFT strategy
     def fft_strategy=(strategy)
         @fft.strategy = strategy
     end
 
+    ##
     ## fft_data # => Array of FFT vals (complex Numeric)
     # Calculates the fft if not yet calculated, and returns the calculation
     def fft_data
@@ -133,6 +144,7 @@ module Dsp::FourierTransformable
         @fft.fft
     end
 
+    ##
     ## fft_data # => Array of angle vals (radians)
     # Calculate the fft if not yet calculated, and returns Arra of the angle data in radians
     def fft_angle
@@ -140,6 +152,7 @@ module Dsp::FourierTransformable
         @fft.angle
     end
 
+    ##
     ## fft_real # => Array of real vals
     # Calculate the fft if not yet calculated, and retun an Array of the real values
     def fft_real
@@ -147,6 +160,7 @@ module Dsp::FourierTransformable
         @fft.real
     end
 
+    ##
     ## fft_imaginary # => Array of imaginary vals
     # Calculate the fft if not yet calculated, and retun an Array of the imaginary values
     def fft_imaginary
@@ -155,6 +169,7 @@ module Dsp::FourierTransformable
     end
 
     private
+    ##
     # Private method which calculates the fft 
     def setup_fft
         self.fft.calculate if self.fft.fft.nil?
