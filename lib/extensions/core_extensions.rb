@@ -76,9 +76,12 @@ module Dsp::CoreExtensions
     end
 
     module VectorExtension
-
+        ##
+        # Extend functionality to Vector
         module Projection
             module ClassMethods
+                ##
+                # .projcect(vector1, vector2) returns a projection of vector 1 onto vector 2
                 def project(vec1, vec2)
                     vec1 = vec1.is_a?(Vector)? vec1 : Vector.elements(vec1)
                     vec2 = vec2.is_a?(Vector) ? vec2 : Vector.elements(vec2)
@@ -86,6 +89,8 @@ module Dsp::CoreExtensions
                 end
             end
             module InstanceMethods
+                ##
+                # .project_onto(vector) projects self onto the input vector
                 def project_onto(vec)
                     raise ArgumentError.new("Argument must be a Vector") if not vec.is_a? Vector
                     (self.dot(vec) / (vec.r ** 2)) * vec
@@ -94,6 +99,5 @@ module Dsp::CoreExtensions
         end
 
     end
-
 
 end

@@ -1,9 +1,12 @@
 ##
 # Factory class for Windows. Can output Dsp::HanningWindow, Dsp::HammingWindow, and Dsp::BlackmanWindow
-# Decision made based off ofstopband_attenuation
-## Dsp::Factories::WindowFactory.window_for(normalized_transition_width: 0.05, stopband_attenuation: 60) # => outputs Dsp::BlackmanWindow instance
+
 class Dsp::Factories::WindowFactory
 
+    ##
+    # Decision made based off ofstopband_attenuation
+    # @example
+    # Dsp::Factories::WindowFactory.window_for(normalized_transition_width: 0.05, stopband_attenuation: 60) # => outputs Dsp::BlackmanWindow instance
     def self.window_for(normalized_transition_width: , stopband_attenuation: )
         
         if stopband_attenuation < 40

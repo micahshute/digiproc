@@ -8,12 +8,12 @@ class Dsp::Factories::FilterFactory
 
     ##
     # == Give requirements of the filter:
-    # type:: Accepts: 'highpass', 'lowpass', 'bandpass', 'bandstop'
-    # wc:: cutoff frequency in radians
-    # wo:: center frequency in radians
-    # bw:: bandwidth in radians
-    # transition_width:: in NORMALIZED FREQUENCY, ie 0 to 1 scale, where 1 = Sampling Frequency (should be changed to rad for consistency)
-    # stopband_attenuation:: level of stopband in decibles
+    # type:: [String] Accepts: 'highpass', 'lowpass', 'bandpass', 'bandstop'
+    # wc:: [Float] cutoff frequency in radians
+    # wo:: [Float] center frequency in radians
+    # bw:: [Float] bandwidth in radians
+    # transition_width:: [Float] in NORMALIZED FREQUENCY, ie 0 to 1 scale, where 1 = Sampling Frequency (should be changed to rad for consistency)
+    # stopband_attenuation:: [Numeric] level of stopband in decibles
     #  
     # == Also Note:
     # Dsp::LowpassFilter:: requires wc, not wo or bw

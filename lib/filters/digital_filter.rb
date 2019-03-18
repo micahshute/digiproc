@@ -3,13 +3,19 @@ class Dsp::DigitalFilter
 
     attr_accessor :size, :window, :fft, :weights
 
+    ##
+    # == Inputs
+    # size:: [Integer] number of window datapoints
+    # window:: [Dsp::WindowStrategy] 
     def initialize(size: , window: )
         #TODO: allow size to be even
         @size = size.even? ? size + 1 : size
         @window = window.new(size: size)
     end 
 
-    
+    ##
+    # Ensures size is odd, and uses @equation to make a return Array of ideal filter values. 
+    # Used by the child class to multiply by the window to the return value of this method for final weights
     def calculate_ideal
         #TODO: allow size to be even
         @size += 1 if @size.even?
@@ -20,6 +26,10 @@ class Dsp::DigitalFilter
     end
 
 
+    ##
+    # Zero pad @weights  to achieve a size of the input value. 
+    # set @fft to a new Dsp::FFT, and calculate with the new padded data.
+    ## .set_fft_size(size [Integer])
     def set_fft_size(size)
         if size > @weights.length
             zeros = Array.new(size - @weights.length, 0)
@@ -29,8 +39,10 @@ class Dsp::DigitalFilter
         end
     end
 
+    ##
+    # return a Dsp::DigitalSignal whose values are the weights of the filter
     def to_ds
-        DigitalSignal.new(data: self.weights)
+        Dsp::DigitalSignal.new(data: self.weights)
     end
 
     #TODO: Inorder to implement, must separately recalculate for weight at n = 0
