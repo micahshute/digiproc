@@ -1,6 +1,13 @@
 require 'gruff'
+
+##
+# Defines plotting helpers using the `gruff` library.
+# See `examples/quickplot/quickplot_vs_others.rb for good examples of this module and Quickplot (which extends Dsp::Plottable::InstanceMethods)
+
 module Dsp::Plottable
 
+    ##
+    # Defines custom plot styles to be used
     module Styles
         MIDNIGHT = {
             :colors => [
@@ -48,6 +55,11 @@ module Dsp::Plottable
           }
     end
 
+    ## 
+    # Contains generic plotting helpers which can be extended to make more specific plotting helpers, or can be used
+    # in another class to extend their functionality. Dsp::Plottable does extend self::ClassMethods, so they can be used
+    # as standalone plotting functions using Dsp::Plottable.iplot() { |g| ... } or Dsp::Plottable.qplot(...)
+
     module ClassMethods
 
 
@@ -57,6 +69,9 @@ module Dsp::Plottable
         # have corresponding labels. Lastly, it will return an instance
         # of the plot without writing it, so it can be decorated with
         # vertical lines, or any other future decorator. 
+
+        ##
+        # Will yield g and allow the caller to define the plot as they wish. It does very little beforehand to setup the plot
 
         def iplot(xsteps: 4)
             g = Gruff::Line.new('1000x1000')
@@ -79,7 +94,13 @@ module Dsp::Plottable
 
 
 
-
+        ##
+        # Used by Dsp::QuickPlot.
+        ## qplot(x: Array[Numeric], y: Array[Numeric], data: Array[Numeric], data_name: String, xyname: String, filename: String, path: String, xsteps: Integer, label_map: ->(Float) returns Float)  returns a plot at the entered directory or './plots' by default (ensure directory exists)
+        # x and y OR data must exist to make a plot.
+        # `label_map` is used to map the index of the data (or the x value at that point if using xy) to an appropriate label. For example if the x values are between 1 and 10 but data.length is 10000, your label_map could be:
+        ## label_map = ->(index_val){ return index_val / 1000.0 }
+        # The frequency of labels will be determined by `xsteps`
         def qplot(x: nil ,y: nil , data: nil, data_name: "data", xyname: "data",filename: "#{self}_plot", path: "./plots/", xsteps: 4, label_map: nil)
             raise ArgumentError.new("Either x and y or data must exist") if data.nil? and (x.nil? or y.nil?)
             data = data
@@ -156,9 +177,17 @@ module Dsp::Plottable
 
         
     end
+
+    extend self::ClassMethods
     
+    ##
+    # Can be included in classes in which you may want a specific plot for a method output (ie the Discrete Fourier Transform magnitude plot)
     module InstanceMethods
 
+        ##
+        ## plot(method: Symbol, filename: String [default = "plot_#{self.class}"], path: String [default = "./"], xmax: Integer [default = 1], xmin: Integer [default = 0], xsteps: Integer [default = 4])
+        # Can be used to plot the output of a specific method. By specifying the name of the method when you call plot, if the output of that method is a Numeric Array, then a plot will be made.
+        # An example can be seen in Dsp::FFT #plot_db
         def plot(method:, filename: "plot_#{self.class}", path: "./", xmax: 1, xmin: 0, xsteps: 4)
             data = self.send(method)
             raise TypeError.new('Data must be an array, not a #{data.class}') if not data.is_a? Array
@@ -182,6 +211,9 @@ module Dsp::Plottable
             g.write(path + filename + '.png')
         end
 
+        ##
+        # Same as qplot in Dsp::Plottable::InstanceMethods
+        
         def qplot(x: nil ,y: nil , data: nil, data_name: "data", xyname: "data",filename: "#{self}_plot", path: "./plots/", xsteps: 4, label_map: nil)
           raise ArgumentError.new("Either x and y or data must exist") if data.nil? and (x.nil? or y.nil?)
           data = data

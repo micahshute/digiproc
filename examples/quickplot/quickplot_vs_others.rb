@@ -56,3 +56,4 @@ plot_instance.plot(method: :data, xsteps: 10, path: path) do |g|
 end
 
 
+## You can use Dsp::Plottable class methods as well: (TODO)
