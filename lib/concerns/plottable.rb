@@ -96,7 +96,7 @@ module Dsp::Plottable
 
         ##
         # Used by Dsp::QuickPlot.
-        ## qplot(x: Array[Numeric], y: Array[Numeric], data: Array[Numeric], data_name: String, xyname: String, filename: String, path: String, xsteps: Integer, label_map: ->(Float) returns Float)  returns a plot at the entered directory or './plots' by default (ensure directory exists)
+        ## qplot(x: Array[Numeric], y: Array[Numeric], data: Array[Numeric], data_name: String, xyname: String, filename: String, path: String, xsteps: Integer, label_map: ->(Float) returns Float)  #=> returns a plot at the entered directory or './plots' by default (ensure directory exists)
         # x and y OR data must exist to make a plot.
         # `label_map` is used to map the index of the data (or the x value at that point if using xy) to an appropriate label. For example if the x values are between 1 and 10 but data.length is 10000, your label_map could be:
         ## label_map = ->(index_val){ return index_val / 1000.0 }

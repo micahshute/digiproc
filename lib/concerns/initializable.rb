@@ -9,10 +9,11 @@
 module Dsp::Initializable
 
     ##
-    #Adds a `initialize_modules` method to the including class which allows you to call `initialize_modules(*modules)`
+    # Adds a `initialize_modules` method to the including class which allows you to call `initialize_modules(*modules)`
     # where *modules can be Modules or a hash of Module => {params: params_values} for module initialization. 
     # Modules which support initialization have an `initialize` method that can be called in this way
     # See `Dsp::DigitalSignal` for an example
+    ## initialize_modules(Module => { module_initializer_accepts_key: value, another_key: value2})
     def self.included(base)
         base.class_eval do 
             def initialize_modules(*modules)

@@ -1,3 +1,5 @@
+##
+# Creates a Bandpass Filter via teh Windowing method. 
 class Dsp::BandpassFilter < Dsp::DigitalFilter
     attr_accessor :equation
 
