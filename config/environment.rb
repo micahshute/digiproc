@@ -35,6 +35,7 @@ require './lib/strategies/code/differential_encoding_strategy'
 require './lib/strategies/code/xor_differential_encoding_strategy'
 require './lib/strategies/code/xor_differential_encoding_zero_angle_strategy'
 require './lib/strategies/modulation/phase_shift_keying_strategy'
+require './lib/strategies/linear_algebra/gauss_seidel_strategy'
 
 #Modules
 require './lib/concerns/plottable'
