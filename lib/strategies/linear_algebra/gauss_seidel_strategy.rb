@@ -64,7 +64,7 @@ class Dsp::Strategies::GaussSeidelStrategy
             x_n = x_n_plus_1           
             break if should_break
             counter += 1
-            if counter > 10000000 and safety_net 
+            if counter > 1000000 and safety_net 
                 return (@a.inv * b).map{ |el| el.to_f}
             end
         end 
