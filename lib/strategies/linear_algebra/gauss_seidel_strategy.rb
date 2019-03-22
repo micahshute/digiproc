@@ -41,24 +41,31 @@ class Dsp::Strategies::GaussSeidelStrategy
 
     ##
     # Iteratively solves the linear system of equations using the gauss-seidel method
-    # accepts an optional parameter which is the threshold value x(n+1) - x(n) should achieve before returning
+    # accepts an optional parameter which is the threshold value x(n+1) - x(n) should achieve before returning. 
+    # Must be used with a key-value pair ie `gs.calculate(threshold: 0.001)
     # default threshold = 0.001
     # Returns a column vector Matrix => access via matrix_return[row,col]
-    def calculate(threshold = 0.001)
+    # If run with the option `safety_net: true` and the equation diverges, performs A_inverse * B to solve 
+    # ie `gs.calculate(safety_net: true)
+    def calculate(threshold: 0.001, safety_net: false)
         dinv, b, l, u = @dinv, @b, @l, @u
         c = dinv * b
         t = -1 * dinv * (l + u)
-        x_threshold = Matrix.column_vector(Array.new(@a.column_count, threshold)).sum
         x_n = Matrix.column_vector(Array.new(@a.column_count, 0))
-        # x_difference = Matrix.column_vector(Array.new(@a.column_count, Float::INFINITY))
+        counter = 0
         loop do 
             x_n_plus_1 = c + t * x_n
             x_difference = (x_n_plus_1 - x_n).map{ |el| el.abs }
+            # puts x_n_plus_1
             should_break = !x_difference.find{ |el| el > threshold }
             x_n = x_n_plus_1           
             break if should_break
+            counter += 1
+            if counter > 10000000 and safety_net 
+                return (@a.inv * b).map{ |el| el.to_f}
+            end
         end 
-        return x_n
+        return (safety_net and x_n.find{ |el| el.to_f.nan? }) ? (@a.inv * b).map{ |el| el.to_f} : x_n
     end
 
 
