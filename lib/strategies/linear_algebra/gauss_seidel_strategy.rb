@@ -1,11 +1,12 @@
+
 ##
 # This strategy will solve a system of linear equations using the Gauss-Seidel iterative strategy
 # Constructor Inputs: (a_arr, b_arr) correspond to A and B in the equation Ax = B (a should be an nxn 2D array, and b should be a 1D array (even though in the equation it is a column vector))
-#@example
-# a = [[4,1,-1],[2,7,1],[1,-3,12]]
-# b = [3,19,31]
-# gs = Dsp::Strategies::GaussSeidelStrategy.new(a,b)
-# x = gs.calculate
+#
+## a = [[4,1,-1],[2,7,1],[1,-3,12]]
+## b = [3,19,31]
+## gs = Dsp::Strategies::GaussSeidelStrategy.new(a,b)
+## x = gs.calculate # => Matrix[[0.9998668946614292], [2.000021547671973], [3.000054218557957]]
 
 class Dsp::Strategies::GaussSeidelStrategy
 
@@ -42,6 +43,7 @@ class Dsp::Strategies::GaussSeidelStrategy
     # Iteratively solves the linear system of equations using the gauss-seidel method
     # accepts an optional parameter which is the threshold value x(n+1) - x(n) should achieve before returning
     # default threshold = 0.001
+    # Returns a column vector Matrix => access via matrix_return[row,col]
     def calculate(threshold = 0.001)
         dinv, b, l, u = @dinv, @b, @l, @u
         c = dinv * b
