@@ -55,7 +55,9 @@ class Dsp::Strategies::SorStrategy
     # x_1_new = ((1-w) * x_1_old) + w (eqn_for_x_1_new using x_k_olds)
     # Whereas the gauss seidel strategy would just be
     # x_1_new = (eqn_for_x_1_new using x_k_olds)
-    def calculate(w: 0.95, threshold: 0.001, safety_net: false)
+    # Threshold strategy is by default set to test the euclidean norm of the delta x matrix. If euclid_norm is manually
+    # set to false, then it will compare element by element to ensure each term in delta_x is less than the threshold
+    def calculate(w: 0.95, threshold: 0.001, safety_net: false, euclid_norm: true)
         dinv, b, l, u = @dinv, @b, @l, @u
         c = dinv * b
         t = -1 * dinv * (l + u)
@@ -74,7 +76,7 @@ class Dsp::Strategies::SorStrategy
                 x_n_plus_1[i,0] = x_n_i[0,0]
             end
             x_difference = (x_n_plus_1 - x_n).map{ |el| el.abs }
-            should_break = !x_difference.find{ |el| el > threshold }
+            should_break = euclid_norm ? break_euclid?(x_difference, threshold) : break_threshold?(x_difference, threshold)
             x_n = x_n_plus_1           
             break if should_break
             counter += 1
@@ -86,5 +88,14 @@ class Dsp::Strategies::SorStrategy
     end
 
 
+    private
+
+    def break_euclid?(delta_x, norm_threshold)
+        euclid_norm = delta_x.map{ |el| el ** 2 }.sum ** 0.5 < norm_threshold
+    end
+
+    def break_threshold?(delta_x, threshold)
+        !delta_x.find{ |el| el > threshold }
+    end
 
 end
