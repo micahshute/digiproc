@@ -1,14 +1,14 @@
 
 ##
-# This strategy will solve a system of linear equations using the Gauss-Seidel iterative strategy
+# This strategy will solve a system of linear equations using the Jacobi iterative strategy
 # Constructor Inputs: (a_arr, b_arr) correspond to A and B in the equation Ax = B (a should be an nxn 2D array, and b should be a 1D array (even though in the equation it is a column vector))
 #
 ## a = [[4,1,-1],[2,7,1],[1,-3,12]]
 ## b = [3,19,31]
-## gs = Dsp::Strategies::GaussSeidelStrategy.new(a,b)
+## gs = Dsp::Strategies::JacobiStrategy.new(a,b)
 ## x = gs.calculate # => Matrix[[0.9998668946614292], [2.000021547671973], [3.000054218557957]]
 
-class Dsp::Strategies::GaussSeidelStrategy
+class Dsp::Strategies::JacobiStrategy
 
     attr_reader :a, :b, :d, :u, :l, :dinv
 
