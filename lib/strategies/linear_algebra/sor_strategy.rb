@@ -41,13 +41,16 @@ class Dsp::Strategies::SorStrategy
     ##
     # Iteratively solves the linear system of equations using the Successive Over Relaxation method
     # accepts an optional parameter which is the threshold value x(n+1) - x(n) should achieve before returning. 
-    # Must be used with a key-value pair ie `sorm.calculate(threshold: 0.001)
+    # Must be used with a key-value pair ie 
+    ## sorm.calculate(threshold: 0.001)
     # default threshold = 0.001
     # Returns a column vector Matrix => access via matrix_return[row,col]
     # If run with the option `safety_net: true` and the equation diverges, performs A_inverse * B to solve 
-    # ie `sorm.calculate(safety_net: true)
+    # ie 
+    ## sorm.calculate(safety_net: true)
     # You can change the weighting factor w by inputting `w` as an argument, ie:
-    # `sorm.calculate(w: 0.35)` The default value is w = 0.95
+    ## sorm.calculate(w: 0.35) 
+    # The default value is w = 0.95
     # The weighting factor does an average on each iteration of x_n between x_n and x_n+1, ie:
     # x_1_new = ((1-w) * x_1_old) + w (eqn_for_x_1_new using x_k_olds)
     # Whereas the gauss seidel strategy would just be

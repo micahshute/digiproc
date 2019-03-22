@@ -41,11 +41,14 @@ class Dsp::Strategies::GaussSeidelStrategy
     ##
     # Iteratively solves the linear system of equations using the Gauss Seidel method
     # accepts an optional parameter which is the threshold value x(n+1) - x(n) should achieve before returning. 
-    # Must be used with a key-value pair ie `gs.calculate(threshold: 0.001)
+    # Must be used with a key-value pair ie 
+    ## gs.calculate(threshold: 0.001)
     # default threshold = 0.001
     # Returns a column vector Matrix => access via matrix_return[row,col]
-    # If run with the option `safety_net: true` and the equation diverges, performs A_inverse * B to solve 
-    # ie `gs.calculate(safety_net: true)
+    # If run with the option safety_net: true and the equation diverges, performs A_inverse * B to solve 
+    # ie 
+    ## s.calculate(safety_net: true)
+    #
     def calculate(threshold: 0.001, safety_net: false)
         dinv, b, l, u = @dinv, @b, @l, @u
         c = dinv * b
