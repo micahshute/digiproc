@@ -1,14 +1,14 @@
 ##
-# This strategy will solve a system of linear equations using the Gauss Seidel iterative strategy
+# This strategy will solve a system of linear equations using the Successive Over Relaxation iterative strategy
 # Constructor Inputs: (a_arr, b_arr) correspond to A and B in the equation Ax = B (a should be an nxn 2D array, and b should be a 1D array (even though in the equation it is a column vector))
 #
 ## a = [[4,1,-1],[2,7,1],[1,-3,12]]
 ## b = [3,19,31]
-## gs = Dsp::Strategies::GaussSeidelStrategy.new(a,b)
-## x = gs.calculate # => Matrix[[0.9998668946614292], [2.000021547671973], [3.000054218557957]]
+## sorm = Dsp::Strategies::SorStrategy.new(a,b)
+## x = sorm.calculate # => Matrix[[0.9998668946614292], [2.000021547671973], [3.000054218557957]]
 
 
-class Dsp::Strategies::GaussSeidelStrategy
+class Dsp::Strategies::SorStrategy
 
 
     def initialize(a_arr,b_arr)
@@ -39,14 +39,20 @@ class Dsp::Strategies::GaussSeidelStrategy
     end
 
     ##
-    # Iteratively solves the linear system of equations using the Gauss Seidel method
+    # Iteratively solves the linear system of equations using the Successive Over Relaxation method
     # accepts an optional parameter which is the threshold value x(n+1) - x(n) should achieve before returning. 
-    # Must be used with a key-value pair ie `gs.calculate(threshold: 0.001)
+    # Must be used with a key-value pair ie `sorm.calculate(threshold: 0.001)
     # default threshold = 0.001
     # Returns a column vector Matrix => access via matrix_return[row,col]
     # If run with the option `safety_net: true` and the equation diverges, performs A_inverse * B to solve 
-    # ie `gs.calculate(safety_net: true)
-    def calculate(threshold: 0.001, safety_net: false)
+    # ie `sorm.calculate(safety_net: true)
+    # You can change the weighting factor w by inputting `w` as an argument, ie:
+    # `sorm.calculate(w: 0.35)` The default value is w = 0.95
+    # The weighting factor does an average on each iteration of x_n between x_n and x_n+1, ie:
+    # x_1_new = ((1-w) * x_1_old) + w (eqn_for_x_1_new using x_k_olds)
+    # Whereas the gauss seidel strategy would just be
+    # x_1_new = (eqn_for_x_1_new using x_k_olds)
+    def calculate(w: 0.95, threshold: 0.001, safety_net: false)
         dinv, b, l, u = @dinv, @b, @l, @u
         c = dinv * b
         t = -1 * dinv * (l + u)
@@ -60,8 +66,8 @@ class Dsp::Strategies::GaussSeidelStrategy
         loop do 
             x_n_plus_1 = x_n.dup
             for i in 0...x_n.row_count do 
-                x_n_i = c.row(i).to_matrix + t.row(i).to_matrix.transpose * x_n_plus_1
-                # puts "#{c.row(i).to_matrix} + #{t.row(i).to_matrix.transpose} * #{x_n_plus_1} = #{x_n_i}"
+                x_n_i = Matrix[[(1-w) * x_n[i,0]]] + w * (c.row(i).to_matrix + t.row(i).to_matrix.transpose * x_n_plus_1)
+                # puts "#{Matrix[[(1-w) * x_n[0,0]]]} + #{w} * #{c.row(i).to_matrix} + #{t.row(i).to_matrix.transpose} * #{x_n_plus_1} = #{x_n_i}"
                 x_n_plus_1[i,0] = x_n_i[0,0]
             end
             x_difference = (x_n_plus_1 - x_n).map{ |el| el.abs }
@@ -69,7 +75,7 @@ class Dsp::Strategies::GaussSeidelStrategy
             x_n = x_n_plus_1           
             break if should_break
             counter += 1
-            if counter > 1000000 and safety_net 
+            if counter > 100000 and safety_net 
                 return (@a.inv * b).map{ |el| el.to_f}
             end
         end 
