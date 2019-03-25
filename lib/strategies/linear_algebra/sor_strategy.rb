@@ -35,6 +35,7 @@ class Dsp::Strategies::SorStrategy
         @d = Matrix.rows(d_arr)
         @l = Matrix.rows(l_arr)
         @u = Matrix.rows(u_arr)
+        #TODO: Ensure no zeros on diagonal
         @dinv = @d.map{ |el| el == 0 ? 0 : 1.0 / el }
     end
 
