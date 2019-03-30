@@ -38,6 +38,7 @@ require './lib/strategies/modulation/phase_shift_keying_strategy'
 require './lib/strategies/linear_algebra/jacobi_strategy'
 require './lib/strategies/linear_algebra/gauss_seidel_strategy'
 require './lib/strategies/linear_algebra/sor_strategy'
+require './lib/strategies/linear_algebra/sor2_strategy'
 
 #Modules
 require './lib/concerns/plottable'

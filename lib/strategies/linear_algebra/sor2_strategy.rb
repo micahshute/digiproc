@@ -8,7 +8,7 @@
 ## x = sorm.calculate # => Matrix[[0.9998668946614292], [2.000021547671973], [3.000054218557957]]
 
 
-class Dsp::Strategies::SorStrategy
+class Dsp::Strategies::Sor2Strategy
 
 
     def initialize(a_arr,b_arr)
@@ -59,27 +59,22 @@ class Dsp::Strategies::SorStrategy
     # Threshold strategy is by default set to test the euclidean norm of the delta x matrix. If euclid_norm is manually
     # set to false, then it will compare element by element to ensure each term in delta_x is less than the threshold
     def calculate(w: 0.95, threshold: 0.001, safety_net: false, euclid_norm: true)
-        dinv, b, l, u = @dinv, @b, @l, @u
-        c = dinv * b
-        t = -1 * dinv * (l + u)
+        dinv, b, l, u, d = @dinv, @b, @l, @u, @d
+        c = (l + d).inv * b
+        t = -1 * (l + d).inv * u
         x_n = Matrix.column_vector(Array.new(@a.column_count, 0))
         counter = 0
-
+        
         #TODO: Investigate speed difference of using 
         # x_new = c + t*x_old , where:
         # c = (l + d).inv * b
         # t = -1 * (l + d).inv * u
         loop do 
-            x_n_plus_1 = x_n.dup
-            for i in 0...x_n.row_count do 
-                x_n_i = ( Matrix[[(1-w) * x_n[i,0]]] ) + w * (c.row(i).to_matrix + t.row(i).to_matrix.transpose * x_n_plus_1)
-                # puts "#{Matrix[[(1-w) * x_n[0,0]]]} + #{w} * #{c.row(i).to_matrix} + #{t.row(i).to_matrix.transpose} * #{x_n_plus_1} = #{x_n_i}"
-                x_n_plus_1[i,0] = x_n_i[0,0]
-                puts x_n_plus_1[0,0]
-            end
+            x_n_plus_1 = ((1-w) * x_n) + w * (c + t * x_n)
             x_difference = (x_n_plus_1 - x_n).map{ |el| el.abs }
             should_break = euclid_norm ? break_euclid?(x_difference, threshold) : break_threshold?(x_difference, threshold)
-            x_n = x_n_plus_1           
+            x_n = x_n_plus_1   
+            # puts x_n[0,0]        
             break if should_break
             counter += 1
             if counter > 100000 and safety_net 
