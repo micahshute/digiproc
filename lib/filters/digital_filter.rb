@@ -1,3 +1,5 @@
+##
+# Parent class to BandpassFilter, HighpassFilter, LowpassFilter, and BandstopFilter
 class Dsp::DigitalFilter
     PI = Math::PI
 

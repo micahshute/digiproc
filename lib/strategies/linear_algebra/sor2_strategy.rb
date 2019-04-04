@@ -64,17 +64,12 @@ class Dsp::Strategies::Sor2Strategy
         t = -1 * (l + d).inv * u
         x_n = Matrix.column_vector(Array.new(@a.column_count, 0))
         counter = 0
-        
-        #TODO: Investigate speed difference of using 
-        # x_new = c + t*x_old , where:
-        # c = (l + d).inv * b
-        # t = -1 * (l + d).inv * u
+
         loop do 
             x_n_plus_1 = ((1-w) * x_n) + w * (c + t * x_n)
             x_difference = (x_n_plus_1 - x_n).map{ |el| el.abs }
             should_break = euclid_norm ? break_euclid?(x_difference, threshold) : break_threshold?(x_difference, threshold)
-            x_n = x_n_plus_1   
-            # puts x_n[0,0]        
+            x_n = x_n_plus_1         
             break if should_break
             counter += 1
             if counter > 100000 and safety_net 

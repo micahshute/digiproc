@@ -13,6 +13,8 @@ class Dsp::BandpassFilter < Dsp::DigitalFilter
     # wch:: [Float] higher cutoff frequency in radians
     # correct:: [Boolean] perform frequency corrections to make frequency points more accurate. Defaults to true
     #
+    # Must have either `wo` and `bw` or `wcl` and `wch`
+    #
     ## Dsp::BandpassFilter.new(size: 1000, wo: Math::PI / 4, bw: Math::PI / 10) 
 
     def initialize(size:, window: Dsp::RectangularWindow, wo: nil, bw: nil, wcl: nil , wch: nil, correct: true )
