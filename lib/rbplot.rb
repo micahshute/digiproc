@@ -137,7 +137,8 @@ class Dsp::Rbplot
                 file_to_open = "/path/to/file.txt"
                 system %{open "#{file}"}
             elsif linux?
-                system %{xdg-open "#{file}"}
+                system %{cmd /c "start #{file}"}
+                #system %{xdg-open "#{file}"}
             end
         end
 
