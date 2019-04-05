@@ -1,3 +1,5 @@
+##
+# Plotting API built on top of Gruff meant to mimick matplotlib
 class Dsp::Rbplot
 
     MIDNIGHT = {
@@ -34,8 +36,8 @@ class Dsp::Rbplot
       BLUESCALE = {
         :colors => [
           '#0b0b70', #Blue
-          '#181000', #Dark gray
           '#981598', #Purple
+          '#181000', #Dark gray
           '#B50202', #
           '#c8c8c8', #
           '#e8e8e8', #
@@ -46,11 +48,17 @@ class Dsp::Rbplot
       }
 
 
+    ##
+    # Constuctor for a line plot instnace
+    ## x = Dsp::Functions.linspace(1,100,100)
+    ## y = Dsp::Probability.nrand(100)
+    ## plt = Dsp::Rbplot.line(x, y, "random vals")
     def self.line(x = nil, y = nil, label=nil)
         LinePlot.new(x, y, label)
     end
 
-
+    ##
+    # Class for a line plot
     class LinePlot
         include Dsp::OS
         def initialize(x, y, label = "data 1")
@@ -66,35 +74,60 @@ class Dsp::Rbplot
             self.xsteps(5)
         end
 
+        ##
+        # sets filename for the image to be written
+        # downcases, strips, and replaces spaces with dashes
         def filename(name)
             @filename = name.downcase.strip.gsub(' ', '-')
         end
+        ##
+        #Sets title for the graph
+        ## plt.title('Plot Title')
         def title(title)
             @methods[:title] = title
         end
 
+        ##
+        # Sets the x label:
+        ## plt.xlabel('time')
         def xlabel(label)
             @methods[:x_axis_label] = label
         end
 
+        ##
+        # Sets the y label
+        ## plt.ylabel('y axis')
         def ylabel(label)
             @methods[:y_axis_label] = label
         end
 
+        ##
+        # Sets data label for the last inputted line data
+        ## plt.data_label('Set 3')
         def data_label(label)
             @dataxy.last[0] = label
         end
 
+        ##
+        # Sets the labels for each line entered (variable array input)
+        ## plt.legend("Data 1", "Data 2")
         def legend(*labels)
             labels.each.with_index do |l, i|
                 @dataxy[i][0] = l
             end
         end
 
+        ##
+        # Add another line to the plot
+        # y2 = Dsp::Probability.nrand(100)
+        ## plt.add_line(x, y2, "Data 2")
         def add_line(x, y, label="data #{@dataxy.length + 1}")
             @dataxy << [label, x, y]
         end
 
+        ##
+        # Sets the number of labels on the x axis
+        ## plt.xsteps(5)
         def xsteps(steps)
             len = @dataxy.first[1].length
             steps = len if(steps >= len)
@@ -107,10 +140,18 @@ class Dsp::Rbplot
             @methods[:labels] = labels
         end
 
+        ##
+        # Sets the path where the image will be written
+        # Defaults to "./"
+        ## plt.path("./")
         def path(path)
             @path = path
         end
 
+        ##
+        # Sets the theme of the graph
+        # Accepts :dark, :light, or :deep
+        ## plt.theme(:dark)
         def theme(theme)
             case theme
             when :dark
@@ -124,10 +165,16 @@ class Dsp::Rbplot
             end
         end
 
+        ##
+        # Set size of the graph in pixels. Takes two integers
+        ## plt.size(2000, 2000). Defaults upon initialization to 1000,1000
         def size(w,h)
             @size = "#{w}x#{h}"
         end
 
+        ##
+        # Writes the image and opens it with the default program depending on the os
+        ## plt.show
         def show    
             write
             file = @path + @filename + '.png'
@@ -146,6 +193,9 @@ class Dsp::Rbplot
             end
         end
 
+        ##
+        # Writes the image to the saved path, does not open it
+        ## plt.write
         def write
             gline = Gruff::Line.new(@size)
             @methods.each do |m, args|
