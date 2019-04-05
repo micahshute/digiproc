@@ -11,8 +11,13 @@ module Dsp::Probability
        @gaussian_generator.class.new(mean, stddev)
     end
 
-    def self.nrand
-        @gaussian_generator.rand
+    def self.nrand(size = 1)
+        return @gaussian_generator.rand if size == 1
+        rand_nums = []
+        size.times do 
+            rand_nums << @gaussian_generator.rand
+        end
+        return rand_nums
     end
 
     def self.mean(data)

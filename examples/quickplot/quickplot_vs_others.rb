@@ -1,10 +1,12 @@
 # Use gruff directly
 g = Gruff::Line.new('1000x1000')
-distr = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 3, size: 100)
+distr = Dsp::Probability::GaussianDistribution.new(mean: 0, stddev: 3, size: 100)
 g.data("Random data", distr.data)
 g.write('./examples/quickplot/direct_gruff.png')
 
 path = "./examples/quickplot/"
+
+
 # Using QuickPlot
 
 plt = Dsp::QuickPlot
@@ -57,3 +59,22 @@ end
 
 
 ## You can use Dsp::Plottable class methods as well: (TODO)
+
+
+
+## Using Rbplot
+
+x = Dsp::Functions.linspace(1,100,100)
+y1 = Dsp::Probability.nrand(100)
+y2 = Dsp::Probability.nrand(100)
+
+plt = Dsp::Rbplot.line(x,y1)
+plt.title('Test title')
+plt.xlabel('x axis')
+plt.ylabel('y axis')
+plt.xsteps(10)
+plt.add_line(x, y2)
+plt.add_line(x,x.map{ |a| a / 100})
+plt.theme(:dark)
+plt.legend('set1', 'set2', 'set3')
+plt.show

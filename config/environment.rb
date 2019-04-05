@@ -50,7 +50,7 @@ require './lib/concerns/multipliable'
 require './lib/concerns/data_properties'
 require './lib/functions'
 require './lib/probability/probability'
-
+require './lib/concerns/os'
 
 
 
@@ -68,6 +68,7 @@ require './lib/probability/theoretical_gaussian_distribution'
 require './lib/probability/bit_generator'
 require './lib/probability/binomial_distribution'
 require './lib/quick_plot'
+require './lib/rbplot'
 
 #Factories
 require './lib/factories/factories'
