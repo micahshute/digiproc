@@ -136,7 +136,8 @@ class Dsp::Rbplot
             every = (len.to_f / steps).floor
             for i in 0..steps do
                 index = i == 0 ? 0 : (i * every) - 1
-                labels[i * every] = @dataxy.first[1][index].round(2)
+                labels_val = i == 0 ? 1 : i * every
+                labels[labels_val] = @dataxy.first[1][index].round(2)
             end
             @methods[:labels] = labels
         end
