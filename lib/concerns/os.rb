@@ -10,11 +10,11 @@ module Dsp::OS
     end
     
     def unix?
-        !OS.windows?
+        !windows?
     end
     
     def linux?
-        OS.unix? and not OS.mac?
+        unix? and not mac?
     end
     
     def ruby?

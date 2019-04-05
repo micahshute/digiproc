@@ -33,10 +33,10 @@ class Dsp::Rbplot
 
       BLUESCALE = {
         :colors => [
-          '#0b0b70', #
-          '#383838', #
-          '#686868', #
-          '#989898', #
+          '#0b0b70', #Blue
+          '#181000', #Dark gray
+          '#981598', #Purple
+          '#B50202', #
           '#c8c8c8', #
           '#e8e8e8', #
         ],
@@ -67,7 +67,7 @@ class Dsp::Rbplot
         end
 
         def filename(name)
-            @filename = name
+            @filename = name.downcase.strip.gsub(' ', '-')
         end
         def title(title)
             @methods[:title] = title
@@ -137,8 +137,8 @@ class Dsp::Rbplot
                 file_to_open = "/path/to/file.txt"
                 system %{open "#{file}"}
             elsif linux?
-                system %{cmd /c "start #{file}"}
-                #system %{xdg-open "#{file}"}
+                system %{cmd.exe /c "start #{file}"}
+                # system %{xdg-open "#{file}"}
             end
         end
 
@@ -151,7 +151,7 @@ class Dsp::Rbplot
                 gline.dataxy(dxy[0], dxy[1], dxy[2]) 
             end
 
-            @filename ||= @methods[:title]
+            @filename ||= filename(@methods[:title])
             @filename ||= "rbPlot"
             gline.write(@path + @filename + '.png')
         end
