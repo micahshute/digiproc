@@ -84,6 +84,7 @@ class Dsp::Rbplot
         #Sets title for the graph
         ## plt.title('Plot Title')
         def title(title)
+            filename(title)
             @methods[:title] = title
         end
 

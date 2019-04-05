@@ -76,6 +76,10 @@ plt.ylabel('y axis')
 plt.xsteps(10)
 plt.add_line(x, y2)
 plt.add_line(x,x.map{ |a| a / 100})
-plt.theme(:dark)
+plt.theme(:light)
 plt.legend('set1', 'set2', 'set3')
 plt.show
+plt.title('Test title dark')
+plt.theme(:dark)
+plt.show
+
