@@ -100,4 +100,18 @@ module Dsp::CoreExtensions
 
     end
 
+    module FloatExtension
+
+        module OddPatch
+
+            def odd?
+                true
+            end
+
+        end
+
+    end
+
+
+
 end

@@ -1,5 +1,5 @@
 ##
-# Plotting API built on top of Gruff meant to mimick matplotlib
+# Plotting API built on top of Gruff meant to have similar characterstics to matplotlib
 class Dsp::Rbplot
 
     MIDNIGHT = {
@@ -66,6 +66,7 @@ class Dsp::Rbplot
                 line_width: 2.5, 
                 dot_radius: 0.1,
                 theme: BLUESCALE,
+                title: 'RbPlot'
             }
             @dataxy = [[label, x, y]]
             @path = './'
@@ -137,7 +138,8 @@ class Dsp::Rbplot
             for i in 0..steps do
                 index = i == 0 ? 0 : (i * every) - 1
                 labels_val = i == 0 ? 1 : i * every
-                labels[labels_val] = @dataxy.first[1][index].round(2)
+                # labels[labels_val] = @dataxy.first[1][index].round(2)
+                labels[@dataxy.first[1][index]] = @dataxy.first[1][index].round(2)
             end
             @methods[:labels] = labels
         end
@@ -199,6 +201,7 @@ class Dsp::Rbplot
         # Writes the image to the saved path, does not open it
         ## plt.write
         def write
+            
             gline = Gruff::Line.new(@size)
             @methods.each do |m, args|
                 gline.send("#{m}=", args)

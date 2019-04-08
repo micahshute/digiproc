@@ -1,8 +1,1 @@
-require "dsp/version"
-
-module Dsp
-
-    
-
-  
-end
+require_relative "./dsp/version"

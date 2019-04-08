@@ -205,7 +205,7 @@ module Dsp::Probability
     # mean:: [Float] the mean of the normal distribution (defaults to 0)
     # stddev:: [Float] the standard deviation of the normal distribution (defaults to 1)
     ## Dsp::Probability.normal_q(0.5) # =>  0.30853753872598694
-    ## Dsp::Probability.normal_cdf(140, 100, 15) # => 0.0038303805675897395
+    ## Dsp::Probability.normal_q(140, 100, 15) # => 0.0038303805675897395
     def self.normal_q(x, mean = 0, stddev = 1)
         xformed_x = (x - mean) / stddev.to_f
         0.5 * erfc(xformed_x / (2 ** 0.5))

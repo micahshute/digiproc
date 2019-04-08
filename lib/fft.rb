@@ -97,6 +97,10 @@ class Dsp::FFT
         self.data
     end
 
+    def size
+        self.data.length
+    end
+
     def magnitude
         data.map do |f|
             f.abs
