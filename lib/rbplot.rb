@@ -53,7 +53,7 @@ class Dsp::Rbplot
     ## x = Dsp::Functions.linspace(1,100,100)
     ## y = Dsp::Probability.nrand(100)
     ## plt = Dsp::Rbplot.line(x, y, "random vals")
-    def self.line(x = nil, y = nil, label=nil)
+    def self.line(x = nil, y = nil, label="data")
         LinePlot.new(x, y, label)
     end
 
