@@ -96,56 +96,85 @@ class Dsp::DigitalSignal
         return indices.length == 1 ? indices.first : indices
     end
 
+    ##
+    # Get the value at a specific data index. If index falls outside of the `data` array, return 0 
+    # This is useful when simulating a signal multiplied by a unit step which is zero outside the bounds defined in the data array
     def value_at(n)
         data[n].nil? ? 0 : data[n]
     end
 
+    ##
+    # Get values in the data array from a start index to a start index (inclusive). Does not turn data outside array into a 0 value
     def values_between(start,stop)
         data[start, stop - start + 1]
     end
 
+    ##
+    # Convolves data with incoming signal, returns a new Dsp::DigitalSignal whose data is the result of the convolution
     def ds_convolve(signal)
         Dsp::DigitalSignal.new(data: self.conv(signal))
     end
 
+    ##
+    # Alias to ds_convolve
     def ds_conv(signal)
         Dsp::DigitalSignal.new(data: self.conv(signal))
     end
 
+    ## 
+    # Performs cross correlation with an incoming signal, returns a Dsp::DigitalSignal whose data is the result of the cross correlation
     def ds_cross_correlation(signal)
         Dsp::DigitalSignal.new(data: self.cross_correlation(signal))
     end
 
+    ##
+    # Alias for #ds_cross_correlation
     def ds_xcorr(sig)
         ds_cross_correlation(sig)
     end
 
+    ##
+    # Performs an autocorrelation of the `data` array and retursn a Dsp::DigitalSignal whose data is the result of the autocorrelation
     def ds_auto_correlation
         Dsp::DigitalSignal.new(data: self.auto_correlation)
     end
 
+    ##
+    # Alias to #ds_auto_correlation
     def ds_acorr
         ds_auto_correlation
     end
 
+    ##
+    # Returns the Power Spectral Density (PSD) of the signal by multiplying the signal's FFT by the conjugate of the FFT (ie squaring the FFT)
+    # The result is in the frequency spectrum (as a Dsp::FFT object)
     def power_spectral_density
         self.fft * self.fft.conjugate
     end
 
+    ##
+    # Alias to #power_spectral_density
     def psd
         self.power_spectral_density
     end
 
+    ##
+    # Returns the cross_spectral_density of the digital signal with an incoming signal (accepts an array of numeric data)
+    # Returns a Dsp::FFT object 
     def cross_spectral_density(signal)
         ft = Dsp::FFT.new(time_data: self.xcorr(signal))
         ft.calculate
         ft
     end
 
+    ##
+    # Alias for #cross_spectral_density
     def csd(signal)
         self.cross_spectral_density(signal)
     end
 
+    ##
+    # Returns data as an array
     def to_a
         self.data
     end
