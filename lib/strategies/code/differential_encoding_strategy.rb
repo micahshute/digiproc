@@ -1,3 +1,5 @@
+## Class for 
+
 class Dsp::Strategies::DifferentialEncodingStrategy
 
     # ENCODES SIGNAL PER M-ARY PSK CODING STRATEGY, SEE HW6 ELEG 635
