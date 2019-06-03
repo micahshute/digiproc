@@ -1,12 +1,22 @@
-## Class for 
+## Class/Strategy for for encoding a string of bits
+# ENCODES SIGNAL PER M-ARY PSK CODING STRATEGY, SEE HW6 ELEG 635
+# use the generic DPSK equation for M = 2. We will apply the ORIGINAL signal Dn 
+# to the equation βn = (2l−1)π % 2π, l ⩽ M for 
+# the phase mapping, and M then the differential signal will be 
+# created by saying our transmitted bit will be αn = αn−1 + βn
 
 class Dsp::Strategies::DifferentialEncodingStrategy
 
-    # ENCODES SIGNAL PER M-ARY PSK CODING STRATEGY, SEE HW6 ELEG 635
-
+    
+    ##
+    # Encoding an incoming array of bits into an array of encoded phase angles
+    # Requires an input of an array, and has optional arguments of m (number of bits per symbol)
+    # And a beginning value (a starting reference phase angle). Outputs an array of 
+    # phase angles
     def self.encode(arr, m = 2, beginning_val = "0")
         beginning_val = beginning_val.to_s(2) unless beginning_val.is_a? String
         encoded = [beginning_val]
+        arr = arr.map(&:to_s)
         for i in 0...arr.length do 
             curr_phase = to_phase(m)[arr[i].to_i(2).to_f]
             last_phase = encoded.last.to_f
@@ -15,6 +25,8 @@ class Dsp::Strategies::DifferentialEncodingStrategy
         encoded
     end
 
+    # Does not simulate a reciever, it just does the inverse algorithm 
+    # to retrieve the original message
     def self.decode(bits, m = 2)
         encoded = []  
         for i in 1...bits.length do 
@@ -23,10 +35,16 @@ class Dsp::Strategies::DifferentialEncodingStrategy
         encoded.map{|phase| decode_phase(m)[phase.to_f]}
     end
 
+    ##
+    # Required via the protocol for an encoding strategy, but this
+    # algorithm does not require a phase shift so the lambda will return the input
     def self.phase_shift_eqn(m = nil)
         ->(l){ l }
     end
 
+    ##
+    # Required via the protocol for an encoding strategy, but this
+    # algorithm does not require a phase shift so the lambda will return the input
     def self.phase_to_sym(m = nil)
         ->(l){ l }
     end

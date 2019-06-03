@@ -20,6 +20,16 @@ Or install it yourself as:
 
     $ gem install dsp
 
+If you are having trouble downloading the rmagick gem on OSX, try the following:
+
+```
+    brew uninstall imagemagick
+    brew install imagemagick@6
+    export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+    brew link --force imagemagick@6
+    gem install rmagick
+```
+
 ## Usage
 
 Graphing capabillity built on top of [gruff](https://github.com/topfunky/gruff) gem, which uses the [rMagick](https://rubygems.org/gems/rmagick/versions/2.15.4) gem and ImageMagick. 
