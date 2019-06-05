@@ -179,9 +179,9 @@ class Dsp::Rbplot
         ##
         # Writes the image and opens it with the default program depending on the os
         ## plt.show
-        def show    
-            write
-            file = @path + @filename + '.png'
+        def show(path = @path)    
+            write(path)
+            file = path + @filename + '.png'
             if windows?
                 system %{cmd /c "start #{file}"}
             elsif mac?
@@ -200,7 +200,7 @@ class Dsp::Rbplot
         ##
         # Writes the image to the saved path, does not open it
         ## plt.write
-        def write
+        def write(path = @path)
             
             gline = Gruff::Line.new(@size)
             @methods.each do |m, args|
@@ -212,7 +212,7 @@ class Dsp::Rbplot
 
             @filename ||= filename(@methods[:title])
             @filename ||= "rbPlot"
-            gline.write(@path + @filename + '.png')
+            gline.write(path + @filename + '.png')
         end
 
     end

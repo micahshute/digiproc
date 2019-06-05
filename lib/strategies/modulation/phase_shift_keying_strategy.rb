@@ -39,8 +39,10 @@ class Dsp::Strategies::PSK
         return sym
     end
 
+    ##
     # Based off of reciever Figure 4-15 INTRODUCTION TO DIGITAL COMMUNICATIONS, ZIEMER, PETERSON pg 237
     # NOTE: SUBOPTIMUM DETECTOR, optimum detector referenced on the above page, different reference
+    # This simulates a real-life reciever recieving the siglans and decoding them
     def reciever_decode
         recieved = output.to_ds.fft.magnitude
         ts = 1 / (@carrier_frequency / 0.01)

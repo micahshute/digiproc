@@ -13,6 +13,9 @@ class Dsp::Strategies::DifferentialEncodingStrategy
     # Requires an input of an array, and has optional arguments of m (number of bits per symbol)
     # And a beginning value (a starting reference phase angle). Outputs an array of 
     # phase angles
+    # Unline previous encoding strategies, this does not XOR the bits and then phase shift those 
+    # encoded bits. Instead, the bits are transformed into frequencies which are then 
+    # added to dealyed versions of themselves modulo 2pi
     def self.encode(arr, m = 2, beginning_val = "0")
         beginning_val = beginning_val.to_s(2) unless beginning_val.is_a? String
         encoded = [beginning_val]
@@ -25,8 +28,11 @@ class Dsp::Strategies::DifferentialEncodingStrategy
         encoded
     end
 
+    ##
     # Does not simulate a reciever, it just does the inverse algorithm 
     # to retrieve the original message
+    # Currently incorrect
+    # TODO: fix this method
     def self.decode(bits, m = 2)
         encoded = []  
         for i in 1...bits.length do 
