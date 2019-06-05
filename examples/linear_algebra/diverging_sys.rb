@@ -1,3 +1,5 @@
+# Attempt to solve a system of linear equations using these strategies
+
 a = [[2,-3,0],[1,3,-10],[3,0,1]]
 b = [-7,9,13]
 

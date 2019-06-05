@@ -1,3 +1,5 @@
+# Iteratively solve a system of linear equations using these strategies
+
 a = [[10,4,0,0],[0,7,0,3],[9,0,8,1],[1,0,0,1]]
 b = [52,24,61,5]
 
