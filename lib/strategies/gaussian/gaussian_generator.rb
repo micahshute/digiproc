@@ -1,5 +1,12 @@
+##
+# Class for generating random numbers from a Gaussin Population
+# of a given mean or standard deviation
 class Dsp::Strategies::GaussianGeneratorBoxMullerStrategy
     
+    ##
+    # No input args
+    # Returns 2 random numbers from a gaussain population with 
+    # stddev of 1 and mean of 0
     def self.rand2
         uniform_random = Random.new
         r = (-2 * Math.log(1 - uniform_random.rand)) ** 0.5
@@ -9,12 +16,19 @@ class Dsp::Strategies::GaussianGeneratorBoxMullerStrategy
 
     attr_accessor :mean, :stddev
 
+    ## 
+    # == Input Args:
+    # mean (Optional):: Numeric (default 0)
+    # stddev (Optional):: Numeric (default 1)
     def initialize(mean = 0, stddev = 1)
         @mean, @stddev = mean, stddev
         @needs_gen = true
         @next = nil
     end
 
+    # Get a single random number from a Gaussian distribution with a 
+    # mean and stddev as defined by @mean and @stddev
+    # Use the .rand2 method to get 2 random numbers. Save one, return the other
     def rand
         if @needs_gen
             x,y = self.class.rand2
@@ -27,6 +41,7 @@ class Dsp::Strategies::GaussianGeneratorBoxMullerStrategy
         end
     end
 
+    # Calls the .rand2 method
     def rand2
         self.class.rand2
     end

@@ -1,3 +1,12 @@
+##
+# O(n*lgn) FFT algorithm
+# Requires that the number of datapoints be a power of 2
+# if it isn't the calculation will zero pad to the closest 
+# power of 2 above the current data size
+# The size of the outputted DFT will be the size of the zero-padded
+# dataset. Zero-padding causes the "sample locations" of the DFT to
+# be at different locations than if it was not zero padded, but 
+# The resolution of the DFT will INCREASE due to zero padding
 class Dsp::Strategies::Radix2Strategy 
 
     E = Math::E
@@ -5,15 +14,23 @@ class Dsp::Strategies::Radix2Strategy
 
     attr_reader :data
 
+    ##
+    # == Initialize Arg
+    # data (Optional):: Array[Numeric] (defaults to nil)
     def initialize(data = nil)
         @data = data
         zero_fill if not data.nil?
     end
 
+    ## 
+    # == Input arg
+    # data (Optional):: Array[Numiric] (defaults to @data)
     def calculate(data = @data)
         recursive_fft(data)
     end
 
+    # @data writer, and zero fills array to 
+    # obtain a size of the closest power of 2 above current size
     def data=(data)
         @data = data
         zero_fill

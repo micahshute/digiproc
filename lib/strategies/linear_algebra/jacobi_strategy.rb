@@ -12,6 +12,11 @@ class Dsp::Strategies::JacobiStrategy
 
     attr_reader :a, :b, :d, :u, :l, :dinv
 
+    ##
+    # ==Initialize args
+    # a_arr:: 2D array representing your A matrix
+    # b_arr:: 1D array representing your B matrix
+    # Where B = Ax defines your series of linear equations
     def initialize(a_arr,b_arr)
         # TODO: Raise exception if a_arr is not square and b_arr row_count != a_arr row count
         @b = Matrix.column_vector(b_arr)

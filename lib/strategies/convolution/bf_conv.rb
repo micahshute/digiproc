@@ -1,5 +1,15 @@
+##
+# Strategy for convolving two arrays of numbers
+# This is an O(n^2) operation, it is more time efficient
+# to use FFT to perform this calculation
 class Dsp::Strategies::BFConvolutionStrategy
 
+    ##
+    # == Input Args
+    # data1:: Array[Numeric]
+    # data2:: Array[Numeric]
+    # == Output 
+    # convolution:: Numeric
     def self.conv(data1, data2)
         dynamic_data = data1.dup
         static_data = data2.dup
@@ -20,7 +30,8 @@ class Dsp::Strategies::BFConvolutionStrategy
 
       private
     
-      #Gives start and stop values of overlap inclusive
+      ##
+      # Gives start and stop values of overlap inclusive
       def self.conv_overlap_area(static_len, dynamic_len, n)
           dynamic_lo = transform_to_global_index(dynamic_len - 1, n)
           dynamic_hi = transform_to_global_index(0, n)

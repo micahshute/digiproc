@@ -2,7 +2,13 @@ class Dsp::Strategies::PSK
 
     attr_accessor :m, :modulating_signal , :carrier_signal_eqn, :coding_strategy, :phase_shift_eqn, :signal_to_phase, :coded_signal, :phase_signal, :carrier_frequency, :pulse_length
 
-    #modulating_signal takes an array; each element is a symbol (should be strings)
+    ##
+    # == Initialize Args
+    # modulating_signal:: Array[String]; each element is a "symbol" (should be a string reprisenting bits), where a symnbol is a number of bits symbolizing a single character (ie symbol means character)
+    # carrier_signal_eqn (optional):: Lambda (or Proc) default value is: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }
+    # coding_strategy (optional):: Protocol, see Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy, default value is nil
+    # carrier_frequency (optional)::Numeric (in Hz), defaults to 10000
+    # pulse_length (optional):: Float (in seconds), defaults to 0.00015 determines how long to apply a phase shift
     def initialize(carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: nil, carrier_frequency: 10000, pulse_length: 0.00015)
         @carrier_signal_eqn, @modulating_signal, @coding_strategy, @carrier_frequency, @pulse_length = carrier_signal_eqn, modulating_signal, coding_strategy, carrier_frequency, pulse_length
         @m = 2 ** modulating_signal.first.length 
@@ -22,6 +28,10 @@ class Dsp::Strategies::PSK
 
     end
 
+    ##
+    # == Input Args
+    # a (optional):: Numeric for amplitude of the signal (default value = 1)
+    # Return Dsp::AnalogSignal of the Phase Shift Keyed signal
     def output(a: 1)
         eqn = Proc.new do |t|
             theta_index = (t.to_f / @pulse_length.to_f).floor
@@ -32,6 +42,8 @@ class Dsp::Strategies::PSK
         Dsp::AnalogSignal.new(eqn: eqn, sample_rate: sample_rate, size: size)
     end 
 
+    ##
+    # Apply inverse of the PSK strategy to decode the PSK signal
     def decode
         eqn = coding_strategy.nil? ? decode_eqn : coding_strategy.phase_to_sym(@m)
         sym = @phase_signal.map{ |phase| eqn[phase] }

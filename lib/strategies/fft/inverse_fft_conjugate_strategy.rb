@@ -1,12 +1,23 @@
+##
+# Strategy for calculating the Inverse Fast Fourier Transform (IFFT)
+# O(nlgn) runtime, depends on the FFT strategy to calculate thie IFFT
+# Uses "conjugate strategy"
 class Dsp::Strategies::IFFTConjugateStrategy
 
     attr_accessor :data, :strategy
 
+    ##
+    # == Input args:
+    # data:: Array[Numeric] (DFT values)
+    # fft_strategy(Optional):: See Dsp::Strategies::Radix2Strategy for required protocol (This is the default value)
     def initialize(data, fft_strategy = Dsp::Strategies::Radix2Strategy)
         @data = data
         @strategy = fft_strategy.new
     end
 
+    ##
+    # No input args
+    # Calculate the IFFT given Discrete Fourier Transform (DFT) values
     def calculate
         strategy.data = conjugate(data)
         fft_out = strategy.calculate

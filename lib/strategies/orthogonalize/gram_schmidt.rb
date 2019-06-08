@@ -1,8 +1,12 @@
+##
+# Class to orthonormalize a set of numbers
 class Dsp::Strategies::GramSchmidtOrthonormalize
 
     attr_reader :original_matrix, :orthonormalized_matrix
 
-    #requires a 2D array 
+    ##
+    # == Input Args
+    # matrix:: 2D array, each row is a set of numbers that should be orthogonalized
     def initialize(matrix)
         @original_vectors = matrix
         # if matrix.is_a? Array
@@ -12,6 +16,9 @@ class Dsp::Strategies::GramSchmidtOrthonormalize
         @orthonormalized_matrix = gram_schmidt(vector_matrix)
     end
 
+    ##
+    # No input arguments
+    # Output is a 2D array of Orthonormalized sets of numbers corresponding to the input set of numbers
     def output
         @orthonormalized_matrix.map{|vector| vector.to_a } 
     end

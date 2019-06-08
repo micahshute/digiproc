@@ -1,4 +1,11 @@
+## 
+# kaiser Window
+# Used to improve digital filters by using a non-retangular frequency domain window 
+# NOT COMPLETE
+# TODO: Finish this Window
 class Dsp::KaiserWindow < Dsp::WindowStrategy
+    
+    
     def initialize(size: , stopband_db: nil, beta: nil)
         raise ArgumentError.new("Must have a stopband or a beta") if stopband_db.nil? && beta.nil?
         super(size: size)
