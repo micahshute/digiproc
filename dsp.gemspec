@@ -11,14 +11,14 @@ Gem::Specification.new do |spec|
   spec.email         = ["micah.shute@gmail.com"]
 
   spec.summary       = %q{Perform basic Digital Signal Processing tasks, including convolution, fft, filtering.}
-  spec.description   = %q{Allows design of Digital Filters using the Windowing Method, creation of Digital Signals or Analog Signals sampled at a certain interval, convolution, cross-correlation, and visualization of the data. .}
+  spec.description   = %q{Allows design of digital signals using the FFT, design of Digital Filters using the Windowing Method, creation of Digital Signals or Analog Signals sampled at a certain interval, convolution, cross-correlation, and visualization of the data. .}
   spec.homepage      = "https://rubygems.org/gems/dsp"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+    # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
     spec.metadata["homepage_uri"] = spec.homepage
     spec.metadata["source_code_uri"] = "https://github.com/micahshute/dsp"
