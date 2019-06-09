@@ -1,8 +1,25 @@
+##
+# Class for quickly plotting data
 class Dsp::QuickPlot
 
     extend Dsp::Plottable::ClassMethods
 
 
+
+    ##
+    # Quickly plot data. Either data OR x AND y are required. If just data is inputted, x values will be the index of the value in the data array
+    # == Input Args
+    # x:: Array[Numeric] (required if data is not included)
+    # y:: Array[Numeric] (required if data is not included)
+    # data:: Array[Numeric] (required if x and y are not included)
+    # title (Optional):: String
+    # x_label (Optional):: String
+    # y_label (Optional):: String
+    # labels (Optional):: Array[String] x value labels
+    # data_name (Optional):: name of data for legend
+    # label_map (Optional):: Lambda - mapping data index to an x label for that index
+    # dark (Optional):: Boolean - whether or not to use dark mode (defaults to false)
+    # path (Optional):: Path to save plot picture to. Defauilts to "./plots"
     def self.plot(x: nil,y: nil, data: nil, title: nil, x_label: nil, y_label: nil, labels: nil, data_name: "data", label_map: nil, dark: false, path: "./plots/")
         xyname, dataname = nil, nil
         if not x.nil?
@@ -25,6 +42,8 @@ class Dsp::QuickPlot
     def self.step()
     end
 
+    ##
+    # Plots a pi plot
     def self.pi_plot(label ="0.5")
         z = Dsp::Functions.zeros(26)
         o = Dsp::Functions.ones(50)
@@ -33,12 +52,23 @@ class Dsp::QuickPlot
         plot(x: x, y: y, title: "PI fn" ,labels: {-1 => "-#{label}", 0 => "0", 1 => label}) 
     end
     
+
+    ##
+    # Plots a lambda plot
     def self.lambda_plot(label = "1")
         eqn = ->(t){ t.abs <= 1 ? (1 - t.abs) : 0}
         x = Dsp::Functions.linspace(-2, 2, 102)
         plot(data: x.map{|t| eqn.call(t)},title: "Lambda fn" ,labels: {26 => "-#{label}", 51 => 0 ,76 => label}) 
     end
 
+    ##
+    # Plots an input equation (lambda)
+    # == Input args
+    # eqn:: lambda, equation to pe plotted
+    # sample_times:: Array[Numeric] input values to lambda equation
+    # title (Optional):: String
+    # x_label (Optional):: String
+    # y_label (Optional):: String
     def self.plot_eq(eqn: , sample_times: ,title: nil, x_label: nil, y_label: nil)
         data = process(eqn, sample_times)
         plot(data: data, title: title, x_label: x_label, y_label: y_label)
