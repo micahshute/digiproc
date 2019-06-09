@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Perform basic Digital Signal Processing tasks, including convolution, fft, filtering.}
   spec.description   = %q{Allows design of Digital Filters using the Windowing Method, creation of Digital Signals or Analog Signals sampled at a certain interval, convolution, cross-correlation, and visualization of the data. .}
-  spec.homepage      = "https://github.com/micahshute/dsp"
+  spec.homepage      = "https://rubygems.org/gems/dsp"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
