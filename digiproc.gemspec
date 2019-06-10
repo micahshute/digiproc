@@ -44,6 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'gruff', "~> 0.7.0" 
   spec.add_runtime_dependency "gruff", "~> 0.7.0"
+  spec.add_runtime_dependency "bundler"
   # spec.add_dependency "gruff"
 end
 
