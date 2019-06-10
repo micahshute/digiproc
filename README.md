@@ -1,15 +1,17 @@
-# Dsp
+# Digiproc
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dsp`. To experiment with that code, run `bin/console` for an interactive prompt.
+Use Digiproc to perform a number of digital signal processing calculations. Easily represent digital and analog signals, find their Discrete Fourier Transform in O(n*lgn) time, and create various systems from filtering, modulation, encoding, etc. Digiproc also enables you to easily solve a wide range of probability and linear algebra-based problems. 
 
-TODO: Delete this and the text above, and describe your gem
+Easily visualize data in a graphing API built on top of gruff.
+
+See the `examples` folder as well as the `spec`s. 
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'dsp'
+gem 'digiproc'
 ```
 
 And then execute:
@@ -18,7 +20,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install dsp
+    $ gem install digiproc
 
 If you are having trouble downloading the rmagick gem on OSX, try the following:
 
@@ -42,7 +44,7 @@ __Limitations to be aware of__:
  - All filter data and windows must have an even number of datapoints. If not, this will be done automatically. This is to facilitate the ability to create any type of filter using the windowing method. (Odd numbers of values can preclude certain types of filters)
  - All filters are FIR and are implemented via the windowing method. Although you can get pretty good results depending on your application, this is an older method compared to the optimal Parks-McClellan algorithm.
  - IIR Filter design is not included
- - The quantization process in Dsp::AnalogSignal maps an analog signal to -1 to 1 before quantizing the result. A floating point number is accurate up to 7 decimal places, so this process will cause unwanted ACTUAL quantization errors (not simulated quantization errors) for an amplitude range greater than $2 x 10^16$ (ie 20 Quadrillion)
+ - The quantization process in Digiproc::AnalogSignal maps an analog signal to -1 to 1 before quantizing the result. A floating point number is accurate up to 7 decimal places, so this process will cause unwanted ACTUAL quantization errors (not simulated quantization errors) for an amplitude range greater than $2 x 10^16$ (ie 20 Quadrillion)
 
 This is still a work in progress. There are many usuable functions, and many that still require tuning. Functions tested in the `spec` file are very reliable.
 
@@ -61,7 +63,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/micahshute/dsp. 
+Bug reports and pull requests are welcome on GitHub at https://github.com/micahshute/digiproc. 
 
 There is a long list of intended actions in the `TODO.md` file. Tests (rspec) covers many core capabilities, but more need to be written to cover the entire gem.
 
@@ -73,4 +75,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Dsp project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/dsp/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Digiproc project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/digiproc/blob/master/CODE_OF_CONDUCT.md).

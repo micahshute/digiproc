@@ -3,9 +3,9 @@
 a = [[10,4,0,0],[0,7,0,3],[9,0,8,1],[1,0,0,1]]
 b = [52,24,61,5]
 
-js = Dsp::Strategies::JacobiStrategy.new(a,b)
-gs = Dsp::Strategies::GaussSeidelStrategy.new(a,b)
-sor = Dsp::Strategies::SorStrategy.new(a,b)
+js = Digiproc::Strategies::JacobiStrategy.new(a,b)
+gs = Digiproc::Strategies::GaussSeidelStrategy.new(a,b)
+sor = Digiproc::Strategies::SorStrategy.new(a,b)
 
 puts js.calculate
 puts gs.calculate
@@ -23,5 +23,5 @@ a = [
 
     b = [-4,1,5,8,10,11]
 
-    sor = Dsp::Strategies::SorStrategy.new(a,b)
+    sor = Digiproc::Strategies::SorStrategy.new(a,b)
     puts sor.calculate(w: 0.5, threshold: 0.000001)

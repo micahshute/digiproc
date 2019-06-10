@@ -2,7 +2,7 @@
 ## only change by one bit. This reduced errors in the whole number when you 
 ## there is an error decoding a single bit
 
-gc_gen = Dsp::Strategies::GrayCode
+gc_gen = Digiproc::Strategies::GrayCode
 
 
 three_bit_gray_code = gc_gen.generate(3)

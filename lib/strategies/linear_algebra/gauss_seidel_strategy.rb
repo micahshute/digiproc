@@ -4,11 +4,11 @@
 #
 ## a = [[4,1,-1],[2,7,1],[1,-3,12]]
 ## b = [3,19,31]
-## gs = Dsp::Strategies::GaussSeidelStrategy.new(a,b)
+## gs = Digiproc::Strategies::GaussSeidelStrategy.new(a,b)
 ## x = gs.calculate # => Matrix[[0.9998668946614292], [2.000021547671973], [3.000054218557957]]
 
 
-class Dsp::Strategies::GaussSeidelStrategy
+class Digiproc::Strategies::GaussSeidelStrategy
 
 
     ##

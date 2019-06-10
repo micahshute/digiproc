@@ -1,4 +1,4 @@
-binomial_dist = Dsp::Probability::TheoreticalBinomialDistribution
+binomial_dist = Digiproc::Probability::TheoreticalBinomialDistribution
 
 six_die_roll = binomial_dist.new(n: 6, p: (1.0/6))
 

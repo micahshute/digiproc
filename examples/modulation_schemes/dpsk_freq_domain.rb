@@ -1,18 +1,18 @@
 # Show that PSK and DPSK modulated signals have the same bandwidth
 
 # Define DPSK encoding/decoding strategy
-dpsk_strategy = Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy
+dpsk_strategy = Digiproc::Strategies::XORDifferentialEncodingZeroAngleStrategy
 
-# *********** NOTE: Dsp::Strategies::DifferentialEncodingStrategy encodes for an M-ary PSK signal, requires decoding
+# *********** NOTE: Digiproc::Strategies::DifferentialEncodingStrategy encodes for an M-ary PSK signal, requires decoding
 # via reciever in figure 4-15 of INTRODUCITON TO DIGITAL COMMUNICATION, ZIEMER, PETERSON which has not been implemented.
 
 # Not adding a coding strategy into PSK causes bit to phase mapping to not be differentially encoded
 
 # Make a 100-bit stream, make one PSK (Phase Shift Keying) and one DPSK (Differential PSK) signal, plot the frequency domians
 
-signal2 = Dsp::Probability::RandomBitGenerator.new_bitstream.generate(600).split('')
-psk2 = Dsp::Strategies::PSK.new(modulating_signal: signal2, carrier_frequency: 10, pulse_length: 0.05)
-dpsk2 = Dsp::Strategies::PSK.new(modulating_signal: signal2, coding_strategy: dpsk_strategy, carrier_frequency: 10, pulse_length: 0.05)
+signal2 = Digiproc::Probability::RandomBitGenerator.new_bitstream.generate(600).split('')
+psk2 = Digiproc::Strategies::PSK.new(modulating_signal: signal2, carrier_frequency: 10, pulse_length: 0.05)
+dpsk2 = Digiproc::Strategies::PSK.new(modulating_signal: signal2, coding_strategy: dpsk_strategy, carrier_frequency: 10, pulse_length: 0.05)
 
 puts "PSK Signal"
 puts "Coded"
@@ -47,7 +47,7 @@ puts signal2 == psk2.decode.map{ |i| i.to_i.to_s }
 
 #Example below fails, if you have time and want to help troubleshoot, please contribute! First
 # 200 samples are showing up, and the rest seem to be wrapped in the front of the ifft. See 
-# Dsp::Strategies::PSK#reciever_out for troubleshooting
+# Digiproc::Strategies::PSK#reciever_out for troubleshooting
 
 puts "Simulated DPSK reciever output:"
 receiver_out = dpsk2.reciever_decode
@@ -78,13 +78,13 @@ end
 
 path = "./examples/modulation_schemes/"
 
-Dsp::QuickPlot.plot(data: psk2.output.to_ds.fft.magnitude, title: "PSK 2", path: path)
-Dsp::QuickPlot.plot(data: dpsk2.output.to_ds.fft.magnitude, title: "DPSK 2", path: path)
+Digiproc::QuickPlot.plot(data: psk2.output.to_ds.fft.magnitude, title: "PSK 2", path: path)
+Digiproc::QuickPlot.plot(data: dpsk2.output.to_ds.fft.magnitude, title: "DPSK 2", path: path)
 
 # Make 75 8-bit symbols, make one PSK and one DPSK signal, plot the frequency domians
-signal256 = Dsp::Probability::RandomBitGenerator.new_symbol_stream(bits_per_symbol: Math.log(256,2).to_i).generate 75
-psk256 = Dsp::Strategies::PSK.new(modulating_signal: signal256, carrier_frequency: 10, pulse_length: 0.4)
-dpsk256 = Dsp::Strategies::PSK.new(modulating_signal: signal256, coding_strategy: dpsk_strategy ,carrier_frequency: 10, pulse_length: 0.4)
+signal256 = Digiproc::Probability::RandomBitGenerator.new_symbol_stream(bits_per_symbol: Math.log(256,2).to_i).generate 75
+psk256 = Digiproc::Strategies::PSK.new(modulating_signal: signal256, carrier_frequency: 10, pulse_length: 0.4)
+dpsk256 = Digiproc::Strategies::PSK.new(modulating_signal: signal256, coding_strategy: dpsk_strategy ,carrier_frequency: 10, pulse_length: 0.4)
 s = signal256.map{|a| a.to_i(2)}
 
 puts "Original signal"
@@ -102,8 +102,8 @@ puts psk256.coded_signal.to_s
 puts "Phase"
 puts psk256.phase_signal.to_s
 
-Dsp::QuickPlot.plot(data: psk256.output.to_ds.fft.magnitude, title: "PSK 256", path: path)
-Dsp::QuickPlot.plot(data: dpsk256.output.to_ds.fft.magnitude, title: "DPSK 256", path: path)
+Digiproc::QuickPlot.plot(data: psk256.output.to_ds.fft.magnitude, title: "PSK 256", path: path)
+Digiproc::QuickPlot.plot(data: dpsk256.output.to_ds.fft.magnitude, title: "DPSK 256", path: path)
 
 puts "Original Signal"
 puts "#{signal256}"

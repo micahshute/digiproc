@@ -7,7 +7,7 @@
 # The Differentially Encoded Signal => Cn = Dn ⨁ Cn−1
 # is the signal mapped to phase as described above.
 # The XOR operation in seeded with a 1
-class Dsp::Strategies::XORDifferentialEncodingStrategy
+class Digiproc::Strategies::XORDifferentialEncodingStrategy
 
     ##
     # Accept an int reprisenting a bit stream. Encode the

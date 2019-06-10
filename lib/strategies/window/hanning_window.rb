@@ -1,7 +1,7 @@
 ## 
 # Hanning Window
 # Used to improve digital filters by using a non-retangular frequency domain window 
-class Dsp::HanningWindow < Dsp::WindowStrategy
+class Digiproc::HanningWindow < Digiproc::WindowStrategy
 
     ##
     # == Input Args

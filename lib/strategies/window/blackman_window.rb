@@ -1,7 +1,7 @@
 ## 
 # Blackman Window
 # Used to improve digital filters by using a non-retangular frequency domain window 
-class Dsp::BlackmanWindow < Dsp::WindowStrategy
+class Digiproc::BlackmanWindow < Digiproc::WindowStrategy
 
     ##
     # == Input Args

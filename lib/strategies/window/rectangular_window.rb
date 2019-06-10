@@ -1,6 +1,6 @@
 ##
 # A basic ReactangularWindow used when making a digital filter
-class Dsp::RectangularWindow < Dsp::WindowStrategy
+class Digiproc::RectangularWindow < Digiproc::WindowStrategy
 
     # Initialize with a size: Integer
     # Number of datapoints

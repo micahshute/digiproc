@@ -1,18 +1,18 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "dsp/version"
+require "digiproc/version"
 
 
 Gem::Specification.new do |spec|
-  spec.name          = "dsp"
-  spec.version       = Dsp::VERSION
+  spec.name          = "digiproc"
+  spec.version       = Digiproc::VERSION
   spec.authors       = ["micahshute"]
   spec.email         = ["micah.shute@gmail.com"]
 
   spec.summary       = %q{Perform basic Digital Signal Processing tasks, including convolution, fft, filtering.}
   spec.description   = %q{Allows design of digital signals using the FFT, design of Digital Filters using the Windowing Method, creation of Digital Signals or Analog Signals sampled at a certain interval, convolution, cross-correlation, and visualization of the data. .}
-  spec.homepage      = "https://rubygems.org/gems/dsp"
+  spec.homepage      = "https://rubygems.org/gems/digiproc"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -21,8 +21,8 @@ Gem::Specification.new do |spec|
     spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "https://github.com/micahshute/dsp"
-    spec.metadata["changelog_uri"] = "https://github.com/micahshute/dsp"
+    spec.metadata["source_code_uri"] = "https://github.com/micahshute/digiproc"
+    spec.metadata["changelog_uri"] = "https://github.com/micahshute/digiproc"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."

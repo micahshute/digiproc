@@ -6,7 +6,7 @@
 # with a variance of 1/9:
 
 
-bd = Dsp::Probability::TheoreticalBinomialDistribution.new(n: 10, p: 0.00135)
+bd = Digiproc::Probability::TheoreticalBinomialDistribution.new(n: 10, p: 0.00135)
 puts "Probability of no errors: #{bd.probability(0)}"
 puts "Probability of one error: #{bd.probability(1)}"
 puts "Probability of one or more errors(if no code fix): #{bd.probability(1..10)}"

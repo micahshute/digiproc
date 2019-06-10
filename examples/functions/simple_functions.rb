@@ -1,8 +1,8 @@
-# ***** Simple functions examples from Dsp::Functions and Dsp::Probability *****
+# ***** Simple functions examples from Digiproc::Functions and Digiproc::Probability *****
 
 
 #Gaussian random number generator
-pfuncs = Dsp::Probability
+pfuncs = Digiproc::Probability
 nums = []
 10.times do 
     nums << pfuncs.nrand
@@ -12,11 +12,11 @@ puts "Numbers from gaussian distribution:"
 puts nums.to_s
 puts
 
-# Pearson's Correlation Coefficient from Dsp::Probability
-dist1 = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
-dist2 = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
+# Pearson's Correlation Coefficient from Digiproc::Probability
+dist1 = Digiproc::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
+dist2 = Digiproc::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
 corr_coeff = pfuncs.correlation_coefficient(dist1, dist2)
-corr_coeff_2 = pfuncs.correlation_coefficient(dist1, Dsp::Functions.process(dist1, ->(x){x * -2 + 3} ))
+corr_coeff_2 = pfuncs.correlation_coefficient(dist1, Digiproc::Functions.process(dist1, ->(x){x * -2 + 3} ))
 
 puts "Correlation coefficient, different random distributions: #{corr_coeff}"
 puts "Correlation coefficient, gain and shifted from same distribution #{corr_coeff_2}"
@@ -24,7 +24,7 @@ puts
 
 # stddev, mean, variance, covariance, cdf, q, pdf
 
-distribution = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
+distribution = Digiproc::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
 
 mean = pfuncs.mean(distribution)
 stddev = pfuncs.stddev(distribution)
@@ -47,14 +47,14 @@ puts
 
 # linspace(start, stop, num_points)
 
-t = Dsp::Functions.linspace(0, 5, 10)
+t = Digiproc::Functions.linspace(0, 5, 10)
 puts "Linspace from 0 to 5, 10 numbers"
 puts t.to_s
 puts
 
 # factorial (includes memoization, you can build memory to allow fact of larger numbers by incrementing fact size) 
 
-fns = Dsp::Functions
+fns = Digiproc::Functions
 puts "Factorial of 23: #{fns.fact(23)}"
 puts
 

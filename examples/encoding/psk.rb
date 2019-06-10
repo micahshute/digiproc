@@ -6,28 +6,28 @@
  
 sig_str = "110100010110"
 sig = sig_str.split('')
-# diff_sig = Dsp::Strategies::XORDifferentialEncodingStrategy.encode(sig, 2, "0")
+# diff_sig = Digiproc::Strategies::XORDifferentialEncodingStrategy.encode(sig, 2, "0")
  
 # System 1: 
 #Use XOR to encode original signal with a delayed version of itself
 # Map bits 0 => 0 rad, 1 => pi rad
-bpsk = Dsp::Strategies::PSK.new(modulating_signal: sig, coding_strategy: Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy)
+bpsk = Digiproc::Strategies::PSK.new(modulating_signal: sig, coding_strategy: Digiproc::Strategies::XORDifferentialEncodingZeroAngleStrategy)
 
 # System 2:
 # Use XOR to encode original signal with a delayed version of itself
 # Map bits 0 => pi, 1 => 3pi/2
-bdpsk = Dsp::Strategies::PSK.new(modulating_signal: sig, coding_strategy: Dsp::Strategies::XORDifferentialEncodingStrategy)
+bdpsk = Digiproc::Strategies::PSK.new(modulating_signal: sig, coding_strategy: Digiproc::Strategies::XORDifferentialEncodingStrategy)
 
 # System 3: 
 # Do not XOR the bits but instead map them directly into frequencies which then are added to dealyed versions
 # of themselves modulo 2pi (see the strategy used for more details)
-dpsk = Dsp::Strategies::PSK.new(modulating_signal: sig, coding_strategy:Dsp::Strategies::DifferentialEncodingStrategy)
+dpsk = Digiproc::Strategies::PSK.new(modulating_signal: sig, coding_strategy:Digiproc::Strategies::DifferentialEncodingStrategy)
 
 #System 4:
 # Directly maps bits to phase without XORing and does not alter phase angles at all for transmission
-dpsk2 = Dsp::Strategies::PSK.new(modulating_signal: sig) 
+dpsk2 = Digiproc::Strategies::PSK.new(modulating_signal: sig) 
 
-xvals = Dsp::Functions.linspace(1,sig_str.length, sig_str.length + 1)
+xvals = Digiproc::Functions.linspace(1,sig_str.length, sig_str.length + 1)
 
 
 puts "System 1 Differential Signal: #{bpsk.coded_signal}"
@@ -36,14 +36,14 @@ puts "System 1 Decoded: #{bpsk.decode}"
 
 dpskvals = bpsk.phase_signal.map{ |p| p / Math::PI}
 path = "./examples/encoding/"
-plt = Dsp::Rbplot.line(xvals, dpskvals)
+plt = Digiproc::Rbplot.line(xvals, dpskvals)
 plt.xlabel("sample number")
 plt.ylabel("phase ( *pi rad )")
 plt.title("XOR DPSK Phase Signal (Sys1)")
 plt.legend("DPSK angle")
 plt.show(path)
 
-qplt = Dsp::QuickPlot
+qplt = Digiproc::QuickPlot
 puts "\n\n"
 puts "System 2 Differential Signal: #{bdpsk.coded_signal}"
 puts "System 2 Coded Phase: #{bdpsk.phase_signal.map{ |ps| ps / Math::PI}} * pi"
@@ -67,8 +67,8 @@ puts "\n\n"
 
 
 yvals = bpsk.output.digitize 
-xvals = Dsp::Functions.linspace(1,yvals.length, yvals.length)
-plt = Dsp::Rbplot.line(xvals, yvals)
+xvals = Digiproc::Functions.linspace(1,yvals.length, yvals.length)
+plt = Digiproc::Rbplot.line(xvals, yvals)
 plt.title("XOR DPSK Xmit Signal (Sys 1)")
 plt.xlabel("Sample number")
 plt.ylabel("Signal Amplitude")

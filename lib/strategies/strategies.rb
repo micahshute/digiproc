@@ -1,3 +1,3 @@
-module Dsp::Strategies
+module Digiproc::Strategies
 
 end

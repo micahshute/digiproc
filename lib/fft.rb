@@ -1,6 +1,6 @@
 ##
 # Class to calculate and store the Discrete Fourier Transform of a siugnal
-class Dsp::FFT
+class Digiproc::FFT
 
     ##
     # Calculate the FFT of given time data
@@ -16,7 +16,7 @@ class Dsp::FFT
     # == Input arg
     # data:: Array[Numeric]
     def self.new_from_spectrum(data)
-        time_data = Dsp::Strategies::IFFTConjugateStrategy.new(data)
+        time_data = Digiproc::Strategies::IFFTConjugateStrategy.new(data)
         new(freq_data: data, time_data: time_data)
     end
 
@@ -29,21 +29,21 @@ class Dsp::FFT
     end
 
     attr_accessor :strategy, :window, :processed_time_data, :time_data_size, :inverse_strategy
-    include Dsp::Convolvable::InstanceMethods, Dsp::Plottable::InstanceMethods
+    include Digiproc::Convolvable::InstanceMethods, Digiproc::Plottable::InstanceMethods
 
 
     ##
     # == Input Args
-    # strategy:: FFT Strategy, see Dsp::Strategies::Radix2Strategy to see required Protocol
+    # strategy:: FFT Strategy, see Digiproc::Strategies::Radix2Strategy to see required Protocol
     # time_data:: Array[Numeric] time data to be transformed to the frequency domain via the FFT strategy
     # size (Optional):: Integer, defaults to nil. If not set, your data will be zero padded to the closest higher power of 2 (for Radix2Strategy), or not changed at all
-    # window (Optional):: Dsp::Window, defaults to Dsp::RectangularWindow. Changes the window used during #process_with_window method
+    # window (Optional):: Digiproc::Window, defaults to Digiproc::RectangularWindow. Changes the window used during #process_with_window method
     # freq_data (Optional):: Array[Niumeric], required if time_data not given
-    # inverse_strategy (Optional):: Dsp::Strategies::IFFTConjugateStrategy is the default value and shows the required protocol
+    # inverse_strategy (Optional):: Digiproc::Strategies::IFFTConjugateStrategy is the default value and shows the required protocol
     # Note: Using size with a Radix2Strategy will only ensure a minimum amount of 
     # zero-padding, it will mostly likely not determine the final size of the time_data
     # You need to have EITHER time_data or freq_data, but not both.
-    def initialize(strategy: Dsp::Strategies::Radix2Strategy, time_data: nil, size: nil, window: Dsp::RectangularWindow, freq_data: nil, inverse_strategy: Dsp::Strategies::IFFTConjugateStrategy)
+    def initialize(strategy: Digiproc::Strategies::Radix2Strategy, time_data: nil, size: nil, window: Digiproc::RectangularWindow, freq_data: nil, inverse_strategy: Digiproc::Strategies::IFFTConjugateStrategy)
         raise ArgumentError.new("Either time or frequency data must be given") if time_data.nil? and freq_data.nil?
         raise ArgumentError.new('Size must be an integer') if not size.nil? and not size.is_a?(Integer) 
         raise ArguemntError.new('Size must be greater than zero') if not size.nil? and size <= 0 
@@ -101,9 +101,9 @@ class Dsp::FFT
     end
 
     ##
-    # Calculate the IFFT and return it as a Dsp::DigitalSignal
+    # Calculate the IFFT and return it as a Digiproc::DigitalSignal
     def ifft_ds
-        Dsp::DigitalSignal.new(data: ifft)
+        Digiproc::DigitalSignal.new(data: ifft)
     end
 
 
@@ -186,18 +186,18 @@ class Dsp::FFT
     # == Input arg
     # num (Optional):: The number of maxima desired, defaults to 1
     def maxima(num = 1)
-        Dsp::DataProperties.maxima(self.magnitude, num)
+        Digiproc::DataProperties.maxima(self.magnitude, num)
     end
 
     ##
     # Returns the local maximum value(s) of the  magnitude of the frequency signal as an Array of  OpenStructs with 
     # an index and value property. 
-    # Local maxima are determined by Dsp::DataProperties.local_maxima, and the returned maxima are determined based off of 
+    # Local maxima are determined by Digiproc::DataProperties.local_maxima, and the returned maxima are determined based off of 
     # their relative hight to adjacent maxima. This is useful for looking for spikes in frequency data
     # == Input arg
     # num (Optional):: The number of maxima desired, defaults to 1
     def local_maxima(num = 1)
-        Dsp::DataProperties.local_maxima(self.magnitude, num)
+        Digiproc::DataProperties.local_maxima(self.magnitude, num)
     end
 
     ##

@@ -1,8 +1,8 @@
-plt = Dsp::QuickPlot
-fns = Dsp::Functions
-prob = Dsp::Probability
-norm_dist = Dsp::Probability::RealizedGaussianDistribution
-factory = Dsp::Factories::FilterFactory
+plt = Digiproc::QuickPlot
+fns = Digiproc::Functions
+prob = Digiproc::Probability
+norm_dist = Digiproc::Probability::RealizedGaussianDistribution
+factory = Digiproc::Factories::FilterFactory
 
 # Make a signal with gaussian noise:
 # Create "white" Gaussian noise, 0 mean
@@ -10,10 +10,10 @@ dist = norm_dist.new(mean: 0, stddev: 1, size: 16384)
 
 # Create a bandpass filter, make FT dimensions match
 bpfilter = factory.filter_for(type: "bandpass", wo: Math::PI / 2, bw: Math::PI / 5, transition_width: 0.0001, stopband_attenuation: 80)
-filter_dft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384 * 4)
+filter_dft = Digiproc::FFT.new(time_data: bpfilter.weights, size: 16384 * 4)
 
 # Get FT of White noise, calculate No 
-dist_fft = Dsp::FFT.new(time_data: dist.data, size: 16384 * 4)
+dist_fft = Digiproc::FFT.new(time_data: dist.data, size: 16384 * 4)
 n_o = 2 *  (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
 
 # Multiply freq domain of noise and filter to get output spectra

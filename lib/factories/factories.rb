@@ -1,3 +1,3 @@
-module Dsp::Factories
+module Digiproc::Factories
 
 end

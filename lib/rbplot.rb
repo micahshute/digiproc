@@ -1,6 +1,6 @@
 ##
 # Plotting API built on top of Gruff meant to have similar characterstics to matplotlib
-class Dsp::Rbplot
+class Digiproc::Rbplot
 
     MIDNIGHT = {
         :colors => [
@@ -50,9 +50,9 @@ class Dsp::Rbplot
 
     ##
     # Constuctor for a line plot instnace
-    ## x = Dsp::Functions.linspace(1,100,100)
-    ## y = Dsp::Probability.nrand(100)
-    ## plt = Dsp::Rbplot.line(x, y, "random vals")
+    ## x = Digiproc::Functions.linspace(1,100,100)
+    ## y = Digiproc::Probability.nrand(100)
+    ## plt = Digiproc::Rbplot.line(x, y, "random vals")
     def self.line(x = nil, y = nil, label="data")
         LinePlot.new(x, y, label)
     end
@@ -60,7 +60,7 @@ class Dsp::Rbplot
     ##
     # Class for a line plot
     class LinePlot
-        include Dsp::OS
+        include Digiproc::OS
         def initialize(x, y, label = "data 1")
             @methods = {
                 line_width: 2.5, 
@@ -121,7 +121,7 @@ class Dsp::Rbplot
 
         ##
         # Add another line to the plot
-        # y2 = Dsp::Probability.nrand(100)
+        # y2 = Digiproc::Probability.nrand(100)
         ## plt.add_line(x, y2, "Data 2")
         def add_line(x, y, label="data #{@dataxy.length + 1}")
             @dataxy << [label, x, y]

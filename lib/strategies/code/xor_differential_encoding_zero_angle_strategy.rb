@@ -8,7 +8,7 @@
 # is the signal mapped to phase as described above.
 # The XOR operation in seeded with a 1
 
-class Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy
+class Digiproc::Strategies::XORDifferentialEncodingZeroAngleStrategy
 
     ##
     # Accept an int reprisenting a bit stream. Encode the

@@ -1,4 +1,4 @@
-RSpec.describe Dsp::FFT do
+RSpec.describe Digiproc::FFT do
 
     let(:eqn1) do
         ->(n){ Math.cos(n * (1.0/10) * Math::PI)}
@@ -109,19 +109,19 @@ RSpec.describe Dsp::FFT do
     end
 
     let(:fft) do
-        Dsp::FFT.new(time_data: data)
+        Digiproc::FFT.new(time_data: data)
     end
 
     it "#calculate correctly calculates the fft" do 
         data = range.map{ |n| eqn1.call(n) }
-        expect(Dsp::FFT.new(time_data: data).calculate.map do |val|
+        expect(Digiproc::FFT.new(time_data: data).calculate.map do |val|
             val.is_a?(Complex) ? Complex(val.real.round(5), val.imag.round(5)) : val.round(5)
         end
             ).to eq(eqn1_fft)
     end
 
     it "#process_with window can process data through a window before fft" do
-        expect(Dsp::FFT.new(time_data: data).process_with_window.map do |val|
+        expect(Digiproc::FFT.new(time_data: data).process_with_window.map do |val|
             val.is_a?(Complex) ? Complex(val.real.round(5), val.imag.round(5)) : val.round(5)
         end
             ).to eq(false)
@@ -147,7 +147,7 @@ RSpec.describe Dsp::FFT do
         e1 = range_zero_start.map{ |n| eqn3.call(n) }
         e2 = range_zero_start.map{ |n| eqn2.call(n) }
         eqn = e1.plus e2
-        eqnft = Dsp::FFT.new(time_data: eqn)
+        eqnft = Digiproc::FFT.new(time_data: eqn)
         eqnft.calculate
         expect(eqnft.fft.length).to eq(64)
         expect(eqnft.maxima(4).map{ |os| os.index }.sort).to eq([4, 10, 54, 60])
@@ -158,7 +158,7 @@ RSpec.describe Dsp::FFT do
         e1 = range_zero_start.map{ |n| eqn3.call(n) }
         e2 = range_zero_start.map{ |n| eqn2.call(n) }
         eqn = e1.plus e2
-        eqnft = Dsp::FFT.new(time_data: eqn)
+        eqnft = Digiproc::FFT.new(time_data: eqn)
         eqnft.calculate
         expect(eqnft.fft.length).to eq(64)
         expect(eqnft.local_maxima(4).map{ |os| os.index }.sort).to eq([4, 10, 54, 60])
@@ -167,22 +167,22 @@ RSpec.describe Dsp::FFT do
     it "#* can multiply two FTs" do
         ft_squared = fft * fft 
         expect(ft_squared.data).to eq(fft.data.times fft.data)
-        expect(ft_squared.is_a? Dsp::FFT).to eq(true)
+        expect(ft_squared.is_a? Digiproc::FFT).to eq(true)
     end
 
     it "#multiplication of fft is the same as convolution in the time domain" do
-        noise_data1 = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
-        noise_data2 = Dsp::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 5, size: 50).data
+        noise_data1 = Digiproc::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 10, size: 100).data
+        noise_data2 = Digiproc::Probability::RealizedGaussianDistribution.new(mean: 0, stddev: 5, size: 50).data
         # noise_data1 = [1,2,3,4]
         # noise_data2 = [2,3,4,5]
-        dft1 = Dsp::FFT.new(time_data: noise_data1, size: 200)
-        dft2 = Dsp::FFT.new(time_data: noise_data2, size: 200)
+        dft1 = Digiproc::FFT.new(time_data: noise_data1, size: 200)
+        dft2 = Digiproc::FFT.new(time_data: noise_data2, size: 200)
         dftout = dft1 * dft2
         timeout = dftout.ifft
         time_real = timeout.map(&:real)
         time_imag = timeout.map(&:imaginary)
         expect(time_imag.sum < 0.0001).to equal(true)
-        expect(time_real).to eq(Dsp::Functions.conv(noise_data1, noise_data2))
+        expect(time_real).to eq(Digiproc::Functions.conv(noise_data1, noise_data2))
     end
 
     # TODO

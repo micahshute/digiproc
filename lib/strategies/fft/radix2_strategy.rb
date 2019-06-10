@@ -7,7 +7,7 @@
 # dataset. Zero-padding causes the "sample locations" of the DFT to
 # be at different locations than if it was not zero padded, but 
 # The resolution of the DFT will INCREASE due to zero padding
-class Dsp::Strategies::Radix2Strategy 
+class Digiproc::Strategies::Radix2Strategy 
 
     E = Math::E
     PI = Math::PI

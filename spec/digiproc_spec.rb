@@ -1,6 +1,6 @@
-RSpec.describe Dsp do
+RSpec.describe Digiproc do
   it "has a version number" do
-    expect(Dsp::VERSION).not_to be nil
+    expect(Digiproc::VERSION).not_to be nil
   end
 
   let(:dataset1) do
@@ -20,8 +20,8 @@ RSpec.describe Dsp do
   end
 
   it "performs convolution correctly" do
-    expect(Dsp::Functions.conv(dataset1, dataset2)).to eq(d1d2_conv)
-    expect(Dsp::Functions.conv(dataset2, dataset1)).to eq(d1d2_conv)
+    expect(Digiproc::Functions.conv(dataset1, dataset2)).to eq(d1d2_conv)
+    expect(Digiproc::Functions.conv(dataset2, dataset1)).to eq(d1d2_conv)
   end
 
   it "performs convolution the same regardless of arg input order" do
@@ -38,12 +38,12 @@ RSpec.describe Dsp do
       d2 << r.rand(100)
     end
 
-    expect(Dsp::Functions.conv(d1,d2)).to eq(Dsp::Functions.conv(d2,d1))
+    expect(Digiproc::Functions.conv(d1,d2)).to eq(Digiproc::Functions.conv(d2,d1))
   end
 
   it "performs cross correlation correctly" do
-    expect(Dsp::Functions.cross_correlation(dataset1, dataset2)).to eq(d1d2_xcorr)
-    expect(Dsp::Functions.cross_correlation(dataset2, dataset1)).to eq(d1d2_xcorr.reverse)
+    expect(Digiproc::Functions.cross_correlation(dataset1, dataset2)).to eq(d1d2_xcorr)
+    expect(Digiproc::Functions.cross_correlation(dataset2, dataset1)).to eq(d1d2_xcorr.reverse)
   end
 
   it "cross correlation is reversed if inputs are put in reversed order" do
@@ -61,7 +61,7 @@ RSpec.describe Dsp do
       d2 << r.rand(100)
     end
 
-    expect(Dsp::Functions.cross_correlation(d1,d2)).to eq(Dsp::Functions.cross_correlation(d2,d1).reverse)
+    expect(Digiproc::Functions.cross_correlation(d1,d2)).to eq(Digiproc::Functions.cross_correlation(d2,d1).reverse)
 
   end
 

@@ -22,19 +22,19 @@
 - [x] Add #process to digitalSignal and FFT which accepts a block and iterates through each item in `data`
     - [ ] Consider making this a module `processible`, which `requires_data`
 - [x] Look into using a better quantization strategy (right now mapping max <-> min to -1 <-> +1 is limited by floating point accuraccy for large ranges)
-- [x] Move `#map_to` method from AnalogSignal and put it in Dsp::Functions
-- [ ] Investigate changing Dsp to DSP
-- [ ] Review / cleanup / investigate proper scope of methods in Dsp::Functions
-    - [ ] If the `#map_to` methods are kept in Dsp::Functions, remove them from `AnalogSignal`
+- [x] Move `#map_to` method from AnalogSignal and put it in Digiproc::Functions
+- [ ] Investigate changing Digiproc to Digiproc
+- [ ] Review / cleanup / investigate proper scope of methods in Digiproc::Functions
+    - [ ] If the `#map_to` methods are kept in Digiproc::Functions, remove them from `AnalogSignal`
 - [x] Add IFFT, make FFT class multiplyable, 
 - [ ] test to ensure FFT multiplication equals convolution in the time domain
-- [ ] Add Decorators to Dsp::QuickPlot to allow vertical lines being added, and maybe color schemes too 
+- [ ] Add Decorators to Digiproc::QuickPlot to allow vertical lines being added, and maybe color schemes too 
 - [x] Make an alternative name to `dot` which is confusing because it is not the dot product (it does not sum at the end)
 - [ ] Add power_spectral_density, etc to FourierTransformable module
 - [ ] Figure out why convolution in matlab runs as slow as here, but cross-correlation is much faster
 - [ ] Make transition_width and bandwidth, wo, etc consistant in the filter part of the project (ie right now some are normalized frequencies from 0 to 1 and some are normalized frequencies in radians)
 - [ ] Ensure both Arrays and Vectors are supported for all `data` properties
-- [ ] Dsp::AnalogSignal => sample_rate: to sample_interval:
+- [ ] Digiproc::AnalogSignal => sample_rate: to sample_interval:
 - [ ] Fix Strategies for DifferentialEncoding (change psk to the one in the PSK class)
     - [ ] Find out why the PSK Differnetial Decoder starts at time != 0 
     - [ ] Put the differential decoder in a different class (ie a decoding strategy)
@@ -44,7 +44,7 @@
 - [ ] Fix output of ifft (ie small imaginary numbers)
 - [ ] Ensure no freq domain inconsitancies with radian vs cycle^-1 units (ie inputs in functions should all be radians or hz)
 - [ ] "INTRODUCTION TO DIGITAL COMMUNICATIONS, ZIEMER, PETERSON" -> pg 239 Figure 4-16 add reciever for M-ary PSK decoding
-- [ ] Put DigitalSignal and Windows (and any other necessary functions not currently in) inside of the Dsp Module
+- [ ] Put DigitalSignal and Windows (and any other necessary functions not currently in) inside of the Digiproc Module
 - [ ] Make a working VerticalLine (and other) plot decorators
 - [ ] Make graphs visually similar across all APIs, make easier custom visual changes
 

@@ -4,7 +4,7 @@
 # don't want to work within the parameters of a Radix2 strategy 
 # (ie data points of DFT size will be a power of 2). This strategy does
 # not have those parameters
-class Dsp::BFDFTStrategy
+class Digiproc::BFDFTStrategy
 
     attr_accessor :data
 

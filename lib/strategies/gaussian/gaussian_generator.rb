@@ -1,7 +1,7 @@
 ##
 # Class for generating random numbers from a Gaussin Population
 # of a given mean or standard deviation
-class Dsp::Strategies::GaussianGeneratorBoxMullerStrategy
+class Digiproc::Strategies::GaussianGeneratorBoxMullerStrategy
     
     ##
     # No input args

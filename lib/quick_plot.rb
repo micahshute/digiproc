@@ -1,8 +1,8 @@
 ##
 # Class for quickly plotting data
-class Dsp::QuickPlot
+class Digiproc::QuickPlot
 
-    extend Dsp::Plottable::ClassMethods
+    extend Digiproc::Plottable::ClassMethods
 
 
 
@@ -24,7 +24,7 @@ class Dsp::QuickPlot
         xyname, dataname = nil, nil
         if not x.nil?
             if evenly_spaced?(x)
-                label_map = Dsp::Functions.map_to_eqn(0, x.length, x.min, x.max)
+                label_map = Digiproc::Functions.map_to_eqn(0, x.length, x.min, x.max)
                 data = y
                 y, x = nil, nil
             end
@@ -35,7 +35,7 @@ class Dsp::QuickPlot
             g.x_axis_label = x_label if not x_label.nil?
             g.y_axis_label = y_label if not y_label.nil?
             g.labels = labels if not labels.nil?
-            g.theme = Dsp::Plottable::Styles::MIDNIGHT if dark
+            g.theme = Digiproc::Plottable::Styles::MIDNIGHT if dark
         end
     end
 
@@ -45,10 +45,10 @@ class Dsp::QuickPlot
     ##
     # Plots a pi plot
     def self.pi_plot(label ="0.5")
-        z = Dsp::Functions.zeros(26)
-        o = Dsp::Functions.ones(50)
+        z = Digiproc::Functions.zeros(26)
+        o = Digiproc::Functions.ones(50)
         y = z + o + z
-        x = Dsp::Functions.linspace(-2, 2, 102)
+        x = Digiproc::Functions.linspace(-2, 2, 102)
         plot(x: x, y: y, title: "PI fn" ,labels: {-1 => "-#{label}", 0 => "0", 1 => label}) 
     end
     
@@ -57,7 +57,7 @@ class Dsp::QuickPlot
     # Plots a lambda plot
     def self.lambda_plot(label = "1")
         eqn = ->(t){ t.abs <= 1 ? (1 - t.abs) : 0}
-        x = Dsp::Functions.linspace(-2, 2, 102)
+        x = Digiproc::Functions.linspace(-2, 2, 102)
         plot(data: x.map{|t| eqn.call(t)},title: "Lambda fn" ,labels: {26 => "-#{label}", 51 => 0 ,76 => label}) 
     end
 

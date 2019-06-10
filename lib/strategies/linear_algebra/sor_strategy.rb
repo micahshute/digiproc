@@ -4,11 +4,11 @@
 #
 ## a = [[4,1,-1],[2,7,1],[1,-3,12]]
 ## b = [3,19,31]
-## sorm = Dsp::Strategies::SorStrategy.new(a,b)
+## sorm = Digiproc::Strategies::SorStrategy.new(a,b)
 ## x = sorm.calculate # => Matrix[[0.9998668946614292], [2.000021547671973], [3.000054218557957]]
 
 
-class Dsp::Strategies::SorStrategy
+class Digiproc::Strategies::SorStrategy
 
 
     ##
@@ -80,7 +80,7 @@ class Dsp::Strategies::SorStrategy
                 x_n_i = ( Matrix[[(1-w) * x_n[i,0]]] ) + w * (c.row(i).to_matrix + t.row(i).to_matrix.transpose * x_n_plus_1)
                 # puts "#{Matrix[[(1-w) * x_n[0,0]]]} + #{w} * #{c.row(i).to_matrix} + #{t.row(i).to_matrix.transpose} * #{x_n_plus_1} = #{x_n_i}"
                 x_n_plus_1[i,0] = x_n_i[0,0]
-                puts x_n_plus_1[0,0]
+                # puts x_n_plus_1[0,0]
             end
             x_difference = (x_n_plus_1 - x_n).map{ |el| el.abs }
             should_break = euclid_norm ? break_euclid?(x_difference, threshold) : break_threshold?(x_difference, threshold)

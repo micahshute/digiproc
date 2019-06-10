@@ -6,19 +6,19 @@ Bundler.require(:default)
 require 'matrix'
 require 'ostruct'
 #Namespace
-require 'dsp'
+require 'digiproc'
 
 
 #Extensions
 require './lib/extensions/core_extensions'
 
-Array.include Dsp::CoreExtensions::ArrayExtension::DotProduct
-Array.include Dsp::CoreExtensions::ArrayExtension::Sum 
-Array.include Dsp::CoreExtensions::ArrayExtension::Multiply
-Math.extend Dsp::CoreExtensions::MathExtension::Decible
-Vector.include Dsp::CoreExtensions::VectorExtension::Projection::InstanceMethods
-Vector.extend Dsp::CoreExtensions::VectorExtension::Projection::ClassMethods
-# Float.include Dsp::CoreExtensions::FloatExtension::OddPatch
+Array.include Digiproc::CoreExtensions::ArrayExtension::DotProduct
+Array.include Digiproc::CoreExtensions::ArrayExtension::Sum 
+Array.include Digiproc::CoreExtensions::ArrayExtension::Multiply
+Math.extend Digiproc::CoreExtensions::MathExtension::Decible
+Vector.include Digiproc::CoreExtensions::VectorExtension::Projection::InstanceMethods
+Vector.extend Digiproc::CoreExtensions::VectorExtension::Projection::ClassMethods
+# Float.include Digiproc::CoreExtensions::FloatExtension::OddPatch
 class Gruff::Base
 
     def draw_label(x_offset, index)

@@ -1,6 +1,6 @@
 ## 
 # Deternine the OS for classes which need to perform system commands
-module Dsp::OS
+module Digiproc::OS
 
 
     ## 

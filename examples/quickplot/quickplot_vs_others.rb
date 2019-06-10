@@ -1,6 +1,6 @@
 # Use gruff directly
 g = Gruff::Line.new('1000x1000')
-distr = Dsp::Probability::GaussianDistribution.new(mean: 0, stddev: 3, size: 100)
+distr = Digiproc::Probability::GaussianDistribution.new(mean: 0, stddev: 3, size: 100)
 g.data("Random data", distr.data)
 g.write('./examples/quickplot/direct_gruff.png')
 
@@ -9,7 +9,7 @@ path = "./examples/quickplot/"
 
 # Using QuickPlot
 
-plt = Dsp::QuickPlot
+plt = Digiproc::QuickPlot
 plt.plot(title: "Random data QuickPlot", data: distr.data, path: path, data_name: "Random distr.")
 plt.plot(title: "Random data QuickPlot, dark", data: distr.data, path: path, x_label: "x axis", y_label: "y axis",dark: true)
 
@@ -23,8 +23,8 @@ plt.plot(title: "Random data QuickPlot, dark", data: distr.data, path: path, x_l
     # interval on the x axis of the plot
 class PlottableClass 
 
-    extend Dsp::Plottable::ClassMethods
-    include Dsp::Plottable::InstanceMethods
+    extend Digiproc::Plottable::ClassMethods
+    include Digiproc::Plottable::InstanceMethods
 
     def initialize(distr)
         @distr = distr
@@ -58,17 +58,17 @@ plot_instance.plot(method: :data, xsteps: 10, path: path) do |g|
 end
 
 
-## You can use Dsp::Plottable class methods as well: (TODO)
+## You can use Digiproc::Plottable class methods as well: (TODO)
 
 
 
 ## Using Rbplot
 
-x = Dsp::Functions.linspace(1,100,100)
-y1 = Dsp::Probability.nrand(100)
-y2 = Dsp::Probability.nrand(100)
+x = Digiproc::Functions.linspace(1,100,100)
+y1 = Digiproc::Probability.nrand(100)
+y2 = Digiproc::Probability.nrand(100)
 
-plt = Dsp::Rbplot.line(x,y1)
+plt = Digiproc::Rbplot.line(x,y1)
 plt.size(2000,2000)
 plt.title('Test title')
 plt.xlabel('x axis')

@@ -1,10 +1,10 @@
-# Use Dsp::Probability to calculate a QAM equation and find SNR
+# Use Digiproc::Probability to calculate a QAM equation and find SNR
 
 
 qam_eqn = Proc.new do |db|
     peb_no = 10 ** (db / 10.0)
     pes_no = peb_no * Math.log(256,2)
-    pq = Dsp::Probability.normal_q( Math.sqrt(pes_no * 3.0 / 255))
+    pq = Digiproc::Probability.normal_q( Math.sqrt(pes_no * 3.0 / 255))
     psmo2 = (Math.sqrt(256) - 2)
     ppc1 = (1 - 2 * pq) ** 2
     ppc2 = (1 - 2 * pq) * (1 - pq)

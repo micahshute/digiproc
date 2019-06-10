@@ -1,7 +1,7 @@
 ##
 # Class for performing actions upon an Analog, Continuous Time signal defined by an equation
-# Initialized with a lambda or proc, the signal is sampled, companded, quantized, and can be turned into a `Dsp::DigitalSignal`
-class Dsp::AnalogSignal
+# Initialized with a lambda or proc, the signal is sampled, companded, quantized, and can be turned into a `Digiproc::DigitalSignal`
+class Digiproc::AnalogSignal
 
     attr_accessor :sample_rate, :size, :companding_strategy, :signal, :quantization_bits, :quant_max, :quant_min
     attr_reader :raw_samples, :quantized_samples, :eqn
@@ -9,7 +9,7 @@ class Dsp::AnalogSignal
     ##
     # See examples/analog_signals/companding for full options in initializer
     ## fn = ->(x){ Math.sin(x) }
-    ## asig = Dsp::AnalogSignal.new(eqn: fn) 
+    ## asig = Digiproc::AnalogSignal.new(eqn: fn) 
     def initialize(eqn: ,sample_rate: 0.0001, size: 100, companding_strategy: nil, quantization_bits: Float::INFINITY, quant_max: nil, quant_min: nil)
         @eqn, @sample_rate, @size, @quantization_bits, @quant_max, @quant_min = eqn, sample_rate, size, quantization_bits, quant_max, quant_min
         @signal = eqn
@@ -31,9 +31,9 @@ class Dsp::AnalogSignal
     end
 
     ##
-    # Returns a Dsp::DigitalSignal of the digital signals
+    # Returns a Digiproc::DigitalSignal of the digital signals
     def to_ds
-        Dsp::DigitalSignal.new(data: digitize)
+        Digiproc::DigitalSignal.new(data: digitize)
     end
 
     ##

@@ -3,7 +3,7 @@
 # Does not simulate a problem, but calculates probabilities based off of the binomial distribution equation
 # See examples/binomial_distribution/dice.rb
 
-class Dsp::Probability::TheoreticalBinomialDistribution
+class Digiproc::Probability::TheoreticalBinomialDistribution
 
     attr_accessor :n, :k, :p
 
@@ -20,7 +20,7 @@ class Dsp::Probability::TheoreticalBinomialDistribution
 
     ##
     # Returns the Expected Value of a binomial distributed random variable (n * p)
-    ## bd = Dsp::Probability::TheoreticalBinomialDistribution.new(n:10, p: 0.5)
+    ## bd = Digiproc::Probability::TheoreticalBinomialDistribution.new(n:10, p: 0.5)
     ## bd.expect # => 5
     # ie in above example, expect 5 successes (heads) in 10 flips of a coin
     def expect
@@ -74,9 +74,9 @@ class Dsp::Probability::TheoreticalBinomialDistribution
     # Can take an argument of `k`, which defaults to `self.k`
     ## bd.coefficient(4) # => 210.0
     def coefficient(k = self.k)
-        n_fact = Dsp::Functions.fact(self.n)
-        k_fact = Dsp::Functions.fact(k)
-        n_fact / (k_fact.to_f * (Dsp::Functions.fact(self.n - k)))
+        n_fact = Digiproc::Functions.fact(self.n)
+        k_fact = Digiproc::Functions.fact(k)
+        n_fact / (k_fact.to_f * (Digiproc::Functions.fact(self.n - k)))
     end
 
     

@@ -3,7 +3,7 @@
 # classInstance1 * classInstance2 and the two data vectors will be multiplied on an element-by-element basis
 # Note: the data vectors must be the same length
 
-module Dsp::Multipliable
+module Digiproc::Multipliable
 
     def self.included(base)
         base.class_eval do 

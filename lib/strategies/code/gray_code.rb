@@ -5,7 +5,7 @@
 # one bit. This will reduce errors caused by a transmission/recieving process
 # For information on Gray Code, try looking at https://www.allaboutcir- cuits.com/technical-articles/gray-code-basics/
 
-class Dsp::Strategies::GrayCode
+class Digiproc::Strategies::GrayCode
 
     ##
     # Input argument = integer indicating how many bits you want 

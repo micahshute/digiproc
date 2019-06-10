@@ -2,9 +2,9 @@ require 'gruff'
 
 ##
 # Defines plotting helpers using the `gruff` library.
-# See `examples/quickplot/quickplot_vs_others.rb for good examples of this module and Quickplot (which extends Dsp::Plottable::InstanceMethods)
+# See `examples/quickplot/quickplot_vs_others.rb for good examples of this module and Quickplot (which extends Digiproc::Plottable::InstanceMethods)
 
-module Dsp::Plottable
+module Digiproc::Plottable
 
     ##
     # Defines custom plot styles to be used
@@ -57,8 +57,8 @@ module Dsp::Plottable
 
     ## 
     # Contains generic plotting helpers which can be extended to make more specific plotting helpers, or can be used
-    # in another class to extend their functionality. Dsp::Plottable does extend self::ClassMethods, so they can be used
-    # as standalone plotting functions using Dsp::Plottable.iplot() { |g| ... } or Dsp::Plottable.qplot(...)
+    # in another class to extend their functionality. Digiproc::Plottable does extend self::ClassMethods, so they can be used
+    # as standalone plotting functions using Digiproc::Plottable.iplot() { |g| ... } or Digiproc::Plottable.qplot(...)
 
     module ClassMethods
 
@@ -75,7 +75,7 @@ module Dsp::Plottable
 
         def iplot(xsteps: 4)
             g = Gruff::Line.new('1000x1000')
-            g.theme = Dsp::Plottable::Styles::BLUESCALE
+            g.theme = Digiproc::Plottable::Styles::BLUESCALE
             g.line_width = 2
             g.dot_radius = 0.1
             yield g 
@@ -95,7 +95,7 @@ module Dsp::Plottable
 
 
         ##
-        # Used by Dsp::QuickPlot.
+        # Used by Digiproc::QuickPlot.
         ## qplot(x: Array[Numeric], y: Array[Numeric], data: Array[Numeric], data_name: String, xyname: String, filename: String, path: String, xsteps: Integer, label_map: ->(Float) returns Float)  #=> returns a plot at the entered directory or './plots' by default (ensure directory exists)
         # x and y OR data must exist to make a plot.
         # `label_map` is used to map the index of the data (or the x value at that point if using xy) to an appropriate label. For example if the x values are between 1 and 10 but data.length is 10000, your label_map could be:
@@ -187,12 +187,12 @@ module Dsp::Plottable
         ##
         ## plot(method: Symbol, filename: String [default = "plot_#{self.class}"], path: String [default = "./"], xmax: Integer [default = 1], xmin: Integer [default = 0], xsteps: Integer [default = 4])
         # Can be used to plot the output of a specific method. By specifying the name of the method when you call plot, if the output of that method is a Numeric Array, then a plot will be made.
-        # An example can be seen in Dsp::FFT #plot_db
+        # An example can be seen in Digiproc::FFT #plot_db
         def plot(method:, filename: "plot_#{self.class}", path: "./", xmax: 1, xmin: 0, xsteps: 4)
             data = self.send(method)
             raise TypeError.new('Data must be an array, not a #{data.class}') if not data.is_a? Array
             g = Gruff::Line.new('1000x1000')
-            g.theme = Dsp::Plottable::Styles::MIDNIGHT
+            g.theme = Digiproc::Plottable::Styles::MIDNIGHT
             g.line_width = 1
             g.dot_radius = 1
             g.minimum_x_value = 0
@@ -212,7 +212,7 @@ module Dsp::Plottable
         end
 
         ##
-        # Same as qplot in Dsp::Plottable::InstanceMethods
+        # Same as qplot in Digiproc::Plottable::InstanceMethods
         
         def qplot(x: nil ,y: nil , data: nil, data_name: "data", xyname: "data",filename: "#{self}_plot", path: "./plots/", xsteps: 4, label_map: nil)
           raise ArgumentError.new("Either x and y or data must exist") if data.nil? and (x.nil? or y.nil?)

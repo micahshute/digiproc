@@ -1,6 +1,6 @@
-plt = Dsp::QuickPlot
-prob = Dsp::Probability
-norm_dist = Dsp::Probability::RealizedGaussianDistribution
+plt = Digiproc::QuickPlot
+prob = Digiproc::Probability
+norm_dist = Digiproc::Probability::RealizedGaussianDistribution
 window = BlackmanWindow.new(size: 16384)
 
 #************ Find a signal in noise with FFT ****************
@@ -9,7 +9,7 @@ window = BlackmanWindow.new(size: 16384)
 sample_rate = 0.001
 datapoints = 16384 # use a power of 2 because FFT uses Radix 2 algorithm
 #300Hz and 500Hz signals
-signal = Dsp::AnalogSignal.new(eqn: ->(t){0.2 * Math.cos(2*Math::PI * 300 * t) + 0.3 * Math.cos(2 * Math::PI * 400 * t)}, sample_rate: sample_rate, size: datapoints).to_ds
+signal = Digiproc::AnalogSignal.new(eqn: ->(t){0.2 * Math.cos(2*Math::PI * 300 * t) + 0.3 * Math.cos(2 * Math::PI * 400 * t)}, sample_rate: sample_rate, size: datapoints).to_ds
 data = signal.data
 noise = norm_dist.new(mean: 0, stddev: 1, size: datapoints)
 #Add signal to noise data
@@ -18,7 +18,7 @@ recieved_signal = data.plus(noise.data)
 #process signal with a blackman window (below shows that this is an optional step)
 processed_signal_data = recieved_signal.times window.data
 
-processed_signal = Dsp::DigitalSignal.new(data: processed_signal_data)
+processed_signal = Digiproc::DigitalSignal.new(data: processed_signal_data)
 
 fft = processed_signal.fft
 
@@ -44,4 +44,4 @@ plt.plot(data: recieved_signal, title: "Recieved data (time domain)", path: './e
 #Signal easily viewed in frequency domain (dB plot)
 fft.plot_db(path: "./examples/fft/")
 #plot unprocessed signal dB
-plt.plot(data: Dsp::DigitalSignal.new(data: recieved_signal).fft.dB , title: "Unprocessed FFT", path: './examples/fft/')
+plt.plot(data: Digiproc::DigitalSignal.new(data: recieved_signal).fft.dB , title: "Unprocessed FFT", path: './examples/fft/')

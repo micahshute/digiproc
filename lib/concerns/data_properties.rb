@@ -1,9 +1,9 @@
 ## 
 # Module which can perform basic operations on 1D data arrays
 # This module extends itself so all methods can be called via:
-## Dsp::DataProperties.method_i_want_to_call
+## Digiproc::DataProperties.method_i_want_to_call
 
-module Dsp::DataProperties
+module Digiproc::DataProperties
 
     extend self 
     ##
@@ -30,7 +30,7 @@ module Dsp::DataProperties
     ##
     # maxima(data [Array], num = 1 [Integer]) returns `num` number of largest maxima from the data array returned in #all_maxima
     ## arr = [1,2,3,4,5,4,3,2,6,7,8,7,6,5]
-    ## Dsp::DataProperties.maxima(arr, 1) # => [#<OpenStruct index=10, value=8>]
+    ## Digiproc::DataProperties.maxima(arr, 1) # => [#<OpenStruct index=10, value=8>]
     def maxima(data, num = 1)
         all_maxima(data).sort{ |a, b| b.value <=> a.value }.take num
     end
@@ -41,7 +41,7 @@ module Dsp::DataProperties
     # are to any directly adjacent maxima. It then takes `num` answer and returns an array of `OpenStruct`s with #index and #value
     # This is particularly useful to use when looking for local maxima in a FFT dB or magnitude plot.
     ##  arr = [50,45,40,30,35,30,29,28,29,20,15,10,19,9,8,7,9,8,7,6,5,9,6,5,4,9,6,3,2,7,5,4,3,2,1,9,1,2,3,4]
-    ##  Dsp::DataProperties.local_maxima(arr, 3)  #=> [#<OpenStruct index=35, value=9>, #<OpenStruct index=0, value=50>, #<OpenStruct index=12, value=19>]
+    ##  Digiproc::DataProperties.local_maxima(arr, 3)  #=> [#<OpenStruct index=35, value=9>, #<OpenStruct index=0, value=50>, #<OpenStruct index=12, value=19>]
     def local_maxima(data, num=1)
         all_maxima = all_maxima(data)
         all_maxima.sort do |a, b|
@@ -69,7 +69,7 @@ module Dsp::DataProperties
     ##
     # slope(a: Numeric, b: Numeric, range=1: Numeric ) => float
     # returns the slope of these two y values, given a change in x values by `range` which defualts to 1. Returns a float
-    ## Dsp::DataProperties.slope(0.5, 1.2, 0.5) #=> 1.4
+    ## Digiproc::DataProperties.slope(0.5, 1.2, 0.5) #=> 1.4
     def slope(a,b, range=1)
         return (b - a) / range.to_f
     end
@@ -125,9 +125,9 @@ module Dsp::DataProperties
 
             ##
             # Can test equality in multiple ways:
-            ## Dsp::DataProperties::Slope::Negative == OpenStruct.new(type: :negative) # true
-            ## Dsp::DataProperties::Slope::Negative == :negative # true
-            ## Dsp::DataProperties::Slope::Negative == "negative" # true
+            ## Digiproc::DataProperties::Slope::Negative == OpenStruct.new(type: :negative) # true
+            ## Digiproc::DataProperties::Slope::Negative == :negative # true
+            ## Digiproc::DataProperties::Slope::Negative == "negative" # true
             def self.==(val)
                 if val.respond_to? :type
                     return true if val.type == :negative
@@ -142,9 +142,9 @@ module Dsp::DataProperties
             ##
             # Alias to ==
             # Can test equality in multiple ways:
-            ## Dsp::DataProperties::Slope::Negative.is? OpenStruct.new(type: :negative) # true
-            ## Dsp::DataProperties::Slope::Negative.is? :negative # true
-            ## Dsp::DataProperties::Slope::Negative.is? "negative" # true, not case sensitive
+            ## Digiproc::DataProperties::Slope::Negative.is? OpenStruct.new(type: :negative) # true
+            ## Digiproc::DataProperties::Slope::Negative.is? :negative # true
+            ## Digiproc::DataProperties::Slope::Negative.is? "negative" # true, not case sensitive
             def self.is?(val)
                 self.==(val)
             end
@@ -160,9 +160,9 @@ module Dsp::DataProperties
 
             ##
             # Can test equality in multiple ways:
-            ## Dsp::DataProperties::Slope::Positive == OpenStruct.new(type: :positive) # true
-            ## Dsp::DataProperties::Slope::Positive == :positive # true
-            ## Dsp::DataProperties::Slope::Negative == "positive" # true, not case-sensitive
+            ## Digiproc::DataProperties::Slope::Positive == OpenStruct.new(type: :positive) # true
+            ## Digiproc::DataProperties::Slope::Positive == :positive # true
+            ## Digiproc::DataProperties::Slope::Negative == "positive" # true, not case-sensitive
             def self.==(val)
                 if val.respond_to? :type
                     return true if val.type == :positive
@@ -177,9 +177,9 @@ module Dsp::DataProperties
             ##
             # Alias to ==
             # Can test equality in multiple ways:
-            ## Dsp::DataProperties::Slope::Piositive.is? OpenStruct.new(type: :negative) # true
-            ## Dsp::DataProperties::Slope::Positive.is? :positive # true
-            ## Dsp::DataProperties::Slope::Positive.is? "positive" # true, not case-sensitive
+            ## Digiproc::DataProperties::Slope::Piositive.is? OpenStruct.new(type: :negative) # true
+            ## Digiproc::DataProperties::Slope::Positive.is? :positive # true
+            ## Digiproc::DataProperties::Slope::Positive.is? "positive" # true, not case-sensitive
             def self.is?(val)
                 self.==(val)
             end
@@ -195,9 +195,9 @@ module Dsp::DataProperties
 
             ##
             # Can test equality in multiple ways:
-            ## Dsp::DataProperties::Slope::Zero == OpenStruct.new(type: :zero) # true
-            ## Dsp::DataProperties::Slope::Zero == :zero # true
-            ## Dsp::DataProperties::Slope::Zero == "zero" # true, not case sensitive
+            ## Digiproc::DataProperties::Slope::Zero == OpenStruct.new(type: :zero) # true
+            ## Digiproc::DataProperties::Slope::Zero == :zero # true
+            ## Digiproc::DataProperties::Slope::Zero == "zero" # true, not case sensitive
             def self.==(val)
                 if val.respond_to? :type
                     return true if val.type == :zero
@@ -212,9 +212,9 @@ module Dsp::DataProperties
             ##
             # Alias to ==
             # Can test equality in multiple ways:
-            ## Dsp::DataProperties::Slope::Zero.is? OpenStruct.new(type: :zero) # true
-            ## Dsp::DataProperties::Slope::Zero.is? :zero # true
-            ## Dsp::DataProperties::Slope::Zero.is? "zero" # true, not case sensitive
+            ## Digiproc::DataProperties::Slope::Zero.is? OpenStruct.new(type: :zero) # true
+            ## Digiproc::DataProperties::Slope::Zero.is? :zero # true
+            ## Digiproc::DataProperties::Slope::Zero.is? "zero" # true, not case sensitive
             def self.is?(val)
                 self.==(val)
             end

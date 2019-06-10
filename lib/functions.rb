@@ -1,8 +1,8 @@
 ##
 # Contains many class methods which perform useful functions 
-module Dsp::Functions
+module Digiproc::Functions
 
-    extend Dsp::Convolvable::ClassMethods, Dsp::FourierTransformable::GenericMethods, Dsp::DataProperties
+    extend Digiproc::Convolvable::ClassMethods, Digiproc::FourierTransformable::GenericMethods, Digiproc::DataProperties
 
     ##
     # Performs cross correlation cacluatlino for two arrays of numerics
@@ -163,7 +163,7 @@ module Dsp::Functions
     # Transform a binary number represented in string form into an integer
     # == Input Arg
     # bin_str:: String
-    ## Dsp::Functions.bin_str_to_i("101101") # => 45
+    ## Digiproc::Functions.bin_str_to_i("101101") # => 45
     def self.bin_str_to_i(bin_str)
         str_arr = bin_str.split("").reverse
         sum = 0
@@ -175,7 +175,7 @@ module Dsp::Functions
 
     ##
     # XOR two strings representing binary numbers, return the XOR of them in decimal
-    ## Dsp::Functions.str_xor("1011","1001") # => 2
+    ## Digiproc::Functions.str_xor("1011","1001") # => 2
     def self.str_xor(str1, str2)
         bin_str_to_i(str1) ^ bin_str_to_i(str2)
     end

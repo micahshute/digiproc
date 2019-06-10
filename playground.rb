@@ -1,8 +1,8 @@
-plt = Dsp::QuickPlot
-fns = Dsp::Functions
-prob = Dsp::Probability
-norm_dist = Dsp::Probability::RealizedGaussianDistribution
-factory = Dsp::Factories::FilterFactory
+plt = Digiproc::QuickPlot
+fns = Digiproc::Functions
+prob = Digiproc::Probability
+norm_dist = Digiproc::Probability::RealizedGaussianDistribution
+factory = Digiproc::Factories::FilterFactory
 e = Math::E
 pi = Math::PI
 
@@ -14,10 +14,10 @@ pi = Math::PI
 
 # # Create a bandpass filter, make FT dimensions match
 # bpfilter = factory.filter_for(type: "bandpass", wo: Math::PI / 2, bw: Math::PI / 5, transition_width: 0.0001, stopband_attenuation: 80)
-# filter_dft = Dsp::FFT.new(time_data: bpfilter.weights, size: 16384 * 4)
+# filter_dft = Digiproc::FFT.new(time_data: bpfilter.weights, size: 16384 * 4)
 
 # # Get FT of White noise, calculate No 
-# dist_fft = Dsp::FFT.new(time_data: dist.data, size: 16384 * 4)
+# dist_fft = Digiproc::FFT.new(time_data: dist.data, size: 16384 * 4)
 # n_o = 2 *  (dist_fft.magnitude.map{ |val| val ** 2}.sum.to_f / dist_fft.data.length)
 
 # # Multiply freq domain of noise and filter to get output spectra
@@ -47,7 +47,7 @@ pi = Math::PI
 # #Generate white noise
 # noise = norm_dist.new(mean: 0, stddev: 1, size: 4096)
 # #Generate signal
-# sys = Dsp::DigitalSignal.new(data: [1,-2,1])
+# sys = Digiproc::DigitalSignal.new(data: [1,-2,1])
 
 # #Put noise through system, autocorrelate output
 # output = sys.ds_conv noise
@@ -55,14 +55,14 @@ pi = Math::PI
 
 # n_o = 2 * noise.data.dot(noise.data)
 # #Display results
-# expanded_sys = Dsp::FFT.new(time_data: sys.data, size: 4096)
+# expanded_sys = Digiproc::FFT.new(time_data: sys.data, size: 4096)
 # calculated_system_equation = ->(w){ (1 - 2 * e ** (Complex(0,-1) * w) + e ** (Complex(0,-2) * w)).abs}
 
 # # f = fns.linspace(0,1,4096)
 # # w = fns.linspace(0,2*pi, 4096)
 # # calculated_system_spectra = w.map{|value| calculated_system_equation.call(value)}
 # # plt.plot(x: f, y: expanded_sys.magnitude, title: "System Spectra")
-# # plt.plot(x: f, y: (Dsp::FFT.new(time_data: noise.data) * expanded_sys).magnitude, title: "Output Spectra")
+# # plt.plot(x: f, y: (Digiproc::FFT.new(time_data: noise.data) * expanded_sys).magnitude, title: "Output Spectra")
 # # plt.plot(x: w, y: calculated_system_spectra, title: "Expected System Spectra", data_name: "1 - 2exp(jw) + exp(j2w)")
 # # plt.plot(data: output_autocorrelation[4093..4101], title: "Autocorrelation of output")
 
@@ -76,7 +76,7 @@ pi = Math::PI
 #----------------------------------------------------
 
 # eqn = ->(t){ (t >= 0 and t <= 0.1) ? (100 * t * Math.cos(2*Math::PI*2.5*t)) : 0 }
-# analog_signal = Dsp::AnalogSignal.new(eqn: eqn, sample_rate: 0.0001, size: 10000)
+# analog_signal = Digiproc::AnalogSignal.new(eqn: eqn, sample_rate: 0.0001, size: 10000)
 # digital_signal = analog_signal.to_ds
 
 # sample_time_zero = digital_signal.data.dot digital_signal.data
@@ -92,7 +92,7 @@ pi = Math::PI
 # for i in 0...a_vals.length do
 #     a = a_vals[i]
 #     stddev = stddev_vals[i]
-#     tgauss = Dsp::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: stddev)
+#     tgauss = Digiproc::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: stddev)
 #     #Build system from a gaussian distribution
 #     p_b = 0.5 * (0.25 * tgauss.cdf(a - 0.5) + 0.5 * tgauss.cdf(a - 1) + 0.25 * tgauss.cdf(a - 1.5)) + 0.5 * (0.25 * tgauss.q(a + 1.5) + 0.5 * tgauss.q(a + 1) + 0.25 * tgauss.q(a + 0.5))
 #     #Test with simplified equation
@@ -148,9 +148,9 @@ pi = Math::PI
 
 # noise = norm_dist.new(mean: 0, stddev: 10, size: 50000)
 
-# rc_circuit = Dsp::DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
+# rc_circuit = Digiproc::DigitalSignal.new_from_eqn(eqn: impulse_resp, size: noise.size)
 
-# noise_signal = Dsp::DigitalSignal.new(data: noise.data)
+# noise_signal = Digiproc::DigitalSignal.new(data: noise.data)
 # output_spectra = rc_circuit.fft(noise.data.length * 2) * noise_signal.fft(noise.data.length * 2)
 
 # output_signal = output_spectra.ifft.map(&:real).take(noise.size - 1)

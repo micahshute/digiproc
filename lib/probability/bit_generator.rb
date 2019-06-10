@@ -1,7 +1,7 @@
 ##
 # Create random bit for testing purposes
 #
-class Dsp::Probability::RandomBitGenerator
+class Digiproc::Probability::RandomBitGenerator
 
     ##
     # Returns a string representing a bitstream
@@ -11,7 +11,7 @@ class Dsp::Probability::RandomBitGenerator
     # p_1:: [Float] (between 0 and 1) probability of a bit 1 occurring (default value: 0.5)
     # random_generator:: Any random generator that follows the prototype of ruby's `Random` class. Defaults to `Random.new`
     #
-    ## bitgen = Dsp::Probability::RandomBitGenerator
+    ## bitgen = Digiproc::Probability::RandomBitGenerator
     ## bitgen.bitstream(size: 10) # => "1000010010"
     def self.bitstream(size: , p_0: 0.5, p_1: 0.5, random_generator: Random.new)
         stream = ''
@@ -74,8 +74,8 @@ class Dsp::Probability::RandomBitGenerator
     ##
     # == Arguments
     # size:: [Integer] number of symbols to be generated (or bits if self.bits_per_symbol is 1)
-    ## bistream = Dsp::Probability::RandomBitGenerator.new_bitstream
-    ## symstream = Dsp::Probability::RandomBitGenerator.new_symbol_stream(bits_per_symbol: 8)
+    ## bistream = Digiproc::Probability::RandomBitGenerator.new_bitstream
+    ## symstream = Digiproc::Probability::RandomBitGenerator.new_symbol_stream(bits_per_symbol: 8)
     ## bitstream.generate(10) # => "0001110010"
     ## symstream.generate(4) # => ["10100111", "00111100", "00111010", "10000100"]
     def generate(size)

@@ -2,13 +2,13 @@
 ## 
 # Creates a bandstop filter via the Windowing Method
 
-class Dsp::BandstopFilter < Dsp::DigitalFilter
+class Digiproc::BandstopFilter < Digiproc::DigitalFilter
     attr_accessor :equation
 
     ##
     # == Inputs
     # size:: [Integer] number of datapoints window should be 
-    # window:: [Dsp::WindowStrategy] desired window strategy
+    # window:: [Digiproc::WindowStrategy] desired window strategy
     # wo:: [Float] center frequency in radians
     # bw:: [Float] bandwidth in radians
     # wlp_upper:: [Float] Upper frequency limit (radians) of the lowpass passband
@@ -18,7 +18,7 @@ class Dsp::BandstopFilter < Dsp::DigitalFilter
     # Must have either `wo` and `bw` or `wlp_upper` and `whp_lower`
     # For wo and bw, include the "don't care" areas in the bandstop area
     #
-    ## Dsp::BandpassFilter.new(size: 1000, wo: Math::PI / 4, bw: Math::PI / 10) 
+    ## Digiproc::BandpassFilter.new(size: 1000, wo: Math::PI / 4, bw: Math::PI / 10) 
     def initialize(size:, window: RectangularWindow, wo: nil, bw: nil, wlp_upper: nil , whp_lower: nil, correct: true )
 
         super(size: size, window: window)

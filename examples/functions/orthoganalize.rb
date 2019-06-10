@@ -1,12 +1,12 @@
 
-gs = Dsp::Strategies::GramSchmidtOrthonormalize
+gs = Digiproc::Strategies::GramSchmidtOrthonormalize
 eqn1 = ->(t){Math::E ** (-t)}
 eqn2 = ->(t){Math::E ** (-2*t)}
 eqn3 = ->(t){Math::E ** (-3*t)}
 
-set1 = Dsp::AnalogSignal.new(eqn: eqn1, size: 10000, sample_rate:0.1).digitize
-set2 = Dsp::AnalogSignal.new(eqn: eqn2, size: 10000, sample_rate:0.1).digitize
-set3 = Dsp::AnalogSignal.new(eqn: eqn3, size: 10000, sample_rate:0.1).digitize
+set1 = Digiproc::AnalogSignal.new(eqn: eqn1, size: 10000, sample_rate:0.1).digitize
+set2 = Digiproc::AnalogSignal.new(eqn: eqn2, size: 10000, sample_rate:0.1).digitize
+set3 = Digiproc::AnalogSignal.new(eqn: eqn3, size: 10000, sample_rate:0.1).digitize
 
 out1, out2, out3 = gs.new([set1,set2,set3]).output
 

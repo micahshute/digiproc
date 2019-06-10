@@ -1,10 +1,10 @@
 ##
 # Class to calculate probabilities based off of a gaussian distributed random variable. 
-class Dsp::Probability::TheoreticalGaussianDistribution
+class Digiproc::Probability::TheoreticalGaussianDistribution
 
     attr_reader :mean, :stddev, :variance
     
-    def initialize(mean: , stddev: , generator_strategy: Dsp::Strategies::GaussianGeneratorBoxMullerStrategy)
+    def initialize(mean: , stddev: , generator_strategy: Digiproc::Strategies::GaussianGeneratorBoxMullerStrategy)
         @mean, @stddev = mean, stddev
         @variance = stddev ** 2
         @generator_strategy = generator_strategy.new(mean, stddev)
@@ -12,7 +12,7 @@ class Dsp::Probability::TheoreticalGaussianDistribution
 
     ## 
     # Return the cdf [Float] of an input x [Float]
-    ## gd = Dsp::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
+    ## gd = Digiproc::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
     ## gd.cdf(0.3) # => 0.6179114221889526
     def cdf(x)
         1 - q(x)
@@ -20,7 +20,7 @@ class Dsp::Probability::TheoreticalGaussianDistribution
 
     ##
     # Return the q value [Float] of an input x [Float]
-    ## gd = Dsp::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
+    ## gd = Digiproc::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
     ## gd.q(0.3) # => 0.3820885778110474
     def q(x)
         xform_x = xform_x_to_standard(x)
@@ -29,7 +29,7 @@ class Dsp::Probability::TheoreticalGaussianDistribution
 
     ##
     # Return the probability [Float] of the random variable being between an upper [Float] and lower [Float] value 
-    ## gd = Dsp::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
+    ## gd = Digiproc::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
     ## gd.p_between(-1, 1) # => 0.6826894921370859
     def p_between(lower, upper)
         cdf(upper) - cdf(lower)
@@ -37,7 +37,7 @@ class Dsp::Probability::TheoreticalGaussianDistribution
 
     ##
     # Return the probability [Float] of the random variable being outside an upper [Float] and lower [Float] value 
-    ## gd = Dsp::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
+    ## gd = Digiproc::Probability::TheoreticalGaussianDistribution.new(mean: 0, stddev: 1)
     ## gd.p_outside(-1, 1) # => 0.31731050786291415
     def p_outside(lower, upper)
         cdf(lower) + q(upper)

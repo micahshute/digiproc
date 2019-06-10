@@ -2,16 +2,16 @@ eqn1 = ->(t){ 8 * Math.cos(20 * Math::PI * t) }
 eqn2 = ->(t){ Math.cos(20 * Math::PI * t) }
 rate = 1.0 / 51.0
 
-x1 = Dsp::AnalogSignal.new(eqn: eqn1, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
-x2 = Dsp::AnalogSignal.new(eqn: eqn2, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
+x1 = Digiproc::AnalogSignal.new(eqn: eqn1, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
+x2 = Digiproc::AnalogSignal.new(eqn: eqn2, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
 
 compression_eqn = ->(n){ n < 0 ? (-4 * ((-n) ** (1.0 / 3))) : (4 * n ** (1.0 / 3))}
 expansion_eqn =->(n){ n < 0 ? ((-1.0 / 64) * ((-n) ** 3)) : ((1.0 / 64) * n ** 3)}
 
-compander = Dsp::Strategies::CustomCompandingStrategy.new(compression_eqn, expansion_eqn)
+compander = Digiproc::Strategies::CustomCompandingStrategy.new(compression_eqn, expansion_eqn)
 
-x3 = Dsp::AnalogSignal.new(eqn: eqn1, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
-x4 = Dsp::AnalogSignal.new(eqn: eqn2, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
+x3 = Digiproc::AnalogSignal.new(eqn: eqn1, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
+x4 = Digiproc::AnalogSignal.new(eqn: eqn2, sample_rate: rate, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
 
 puts "x(1): "
 puts x1.digitize.to_s
@@ -43,13 +43,13 @@ for k in 0...data.length do
     ft << tot
 end
 
-fft = Dsp::FFT.new(time_data: data)
-t = Dsp::Functions.linspace(0,1,fft.size)
+fft = Digiproc::FFT.new(time_data: data)
+t = Digiproc::Functions.linspace(0,1,fft.size)
 
 
 
 
-plt = Dsp::Rbplot.line(t, fft.dB, "discrete frequency")
+plt = Digiproc::Rbplot.line(t, fft.dB, "discrete frequency")
 plt.title('FFT Plot')
 plt.path('./examples/analog_signals/')
 plt.xlabel('Radians')
@@ -57,8 +57,8 @@ plt.ylabel('Decibles')
 plt.xsteps(10)
 plt.show
 
-x = Dsp::Functions.linspace(0, 6.0/51, 6)
-plt = Dsp::Rbplot.line(x, x1.digitize, 'x1')
+x = Digiproc::Functions.linspace(0, 6.0/51, 6)
+plt = Digiproc::Rbplot.line(x, x1.digitize, 'x1')
 plt.add_line(x, x2.digitize, 'x2')
 plt.add_line(x, x3.digitize, 'x1 companded')
 plt.add_line(x, x4.digitize, 'x2 companded')

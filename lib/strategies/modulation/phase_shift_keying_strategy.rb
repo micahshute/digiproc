@@ -1,4 +1,4 @@
-class Dsp::Strategies::PSK
+class Digiproc::Strategies::PSK
 
     attr_accessor :m, :modulating_signal , :carrier_signal_eqn, :coding_strategy, :phase_shift_eqn, :signal_to_phase, :coded_signal, :phase_signal, :carrier_frequency, :pulse_length
 
@@ -6,7 +6,7 @@ class Dsp::Strategies::PSK
     # == Initialize Args
     # modulating_signal:: Array[String]; each element is a "symbol" (should be a string reprisenting bits), where a symnbol is a number of bits symbolizing a single character (ie symbol means character)
     # carrier_signal_eqn (optional):: Lambda (or Proc) default value is: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }
-    # coding_strategy (optional):: Protocol, see Dsp::Strategies::XORDifferentialEncodingZeroAngleStrategy, default value is nil
+    # coding_strategy (optional):: Protocol, see Digiproc::Strategies::XORDifferentialEncodingZeroAngleStrategy, default value is nil
     # carrier_frequency (optional)::Numeric (in Hz), defaults to 10000
     # pulse_length (optional):: Float (in seconds), defaults to 0.00015 determines how long to apply a phase shift
     def initialize(carrier_signal_eqn: ->(a, fo, t, theta){ a * Math.cos(2*Math::PI * fo * t + theta) }, modulating_signal: ,coding_strategy: nil, carrier_frequency: 10000, pulse_length: 0.00015)
@@ -31,7 +31,7 @@ class Dsp::Strategies::PSK
     ##
     # == Input Args
     # a (optional):: Numeric for amplitude of the signal (default value = 1)
-    # Return Dsp::AnalogSignal of the Phase Shift Keyed signal
+    # Return Digiproc::AnalogSignal of the Phase Shift Keyed signal
     def output(a: 1)
         eqn = Proc.new do |t|
             theta_index = (t.to_f / @pulse_length.to_f).floor
@@ -39,7 +39,7 @@ class Dsp::Strategies::PSK
         end
         sample_rate = 0.01 / @carrier_frequency
         size = @pulse_length.to_f * @phase_signal.length / sample_rate
-        Dsp::AnalogSignal.new(eqn: eqn, sample_rate: sample_rate, size: size)
+        Digiproc::AnalogSignal.new(eqn: eqn, sample_rate: sample_rate, size: size)
     end 
 
     ##
@@ -61,8 +61,8 @@ class Dsp::Strategies::PSK
         max_freq = 1.0 / ts
         normalized_target = @carrier_frequency / max_freq.to_f
         bw = (0.57 / ts) / max_freq.to_f
-        plt = Dsp::QuickPlot
-        factory = Dsp::Factories::FilterFactory
+        plt = Digiproc::QuickPlot
+        factory = Digiproc::Factories::FilterFactory
         bpf = factory.filter_for(type: "bandpass", wo: normalized_target * Math::PI * 2, bw: bw * Math::PI * 2, transition_width: 0.0001, stopband_attenuation: 80)
         bpf.fft.calculate_at_size(2 ** 16)
 
@@ -73,7 +73,7 @@ class Dsp::Strategies::PSK
             output << (filtered[i] * filtered[i-sample_interval]) 
         end
         lpf = factory.filter_for(type: "lowpass", wc: 2 * Math::PI / 4, transition_width: 0.0001, stopband_attenuation: 80)
-        outft = Dsp::FFT.new(time_data: output, size: 2 ** 16)
+        outft = Digiproc::FFT.new(time_data: output, size: 2 ** 16)
         
         # TODO FIND WHERE SIGNAL BEGINS AND OUTPUT THE SIGNAL BASED OFF OF 
         # SIGNAL SIZE. ALSO, THERE SHOULD BE A RECIEVER METHOD OR SEPERATE CLASS

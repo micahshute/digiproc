@@ -2,7 +2,7 @@
 # Strategy for convolving two arrays of numbers
 # This is an O(n^2) operation, it is more time efficient
 # to use FFT to perform this calculation
-class Dsp::Strategies::BFConvolutionStrategy
+class Digiproc::Strategies::BFConvolutionStrategy
 
     ##
     # == Input Args

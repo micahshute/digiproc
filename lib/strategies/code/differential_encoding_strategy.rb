@@ -5,7 +5,7 @@
 # the phase mapping, and M then the differential signal will be 
 # created by saying our transmitted bit will be αn = αn−1 + βn
 
-class Dsp::Strategies::DifferentialEncodingStrategy
+class Digiproc::Strategies::DifferentialEncodingStrategy
 
     
     ##

@@ -1,7 +1,7 @@
 ##
 # Parent class to all types of windows
 
-class Dsp::WindowStrategy
+class Digiproc::WindowStrategy
 
     PI = Math::PI
 
@@ -34,9 +34,9 @@ class Dsp::WindowStrategy
         num.odd? ? num : num + 1
     end
 
-    # Return window values as a Dsp::DigitalSignal
+    # Return window values as a Digiproc::DigitalSignal
     def to_signal
-        Dsp::DigitalSignal.new(data: values)
+        Digiproc::DigitalSignal.new(data: values)
     end
 
 end

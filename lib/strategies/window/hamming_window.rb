@@ -1,7 +1,7 @@
 ##
 # Hamming Window
 # Used to improve digital filters by using a non-retangular frequency domain window 
-class Dsp::HammingWindow < Dsp::WindowStrategy
+class Digiproc::HammingWindow < Digiproc::WindowStrategy
 
     ##
     # == Input Args

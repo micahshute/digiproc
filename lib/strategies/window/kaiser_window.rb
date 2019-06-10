@@ -3,7 +3,7 @@
 # Used to improve digital filters by using a non-retangular frequency domain window 
 # NOT COMPLETE
 # TODO: Finish this Window
-class Dsp::KaiserWindow < Dsp::WindowStrategy
+class Digiproc::KaiserWindow < Digiproc::WindowStrategy
     
     
     def initialize(size: , stopband_db: nil, beta: nil)

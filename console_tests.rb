@@ -1,12 +1,12 @@
-# x1 = Dsp::AnalogSignal.new(eqn: ->(t){ 8 * Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
-# x2 = Dsp::AnalogSignal.new(eqn: ->(t){  Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
+# x1 = Digiproc::AnalogSignal.new(eqn: ->(t){ 8 * Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
+# x2 = Digiproc::AnalogSignal.new(eqn: ->(t){  Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8)
 
 # compression_eqn = ->(n){ n < 0 ? (-4 * ((-n) ** (1.0 / 3))) : (4 * n ** (1.0 / 3))}
 # expansion_eqn =->(n){ n < 0 ? ((-1.0 / 64) * ((-n) ** 3)) : ((1.0 / 64) * n ** 3)}
 # compander = CustomCompandingStrategy.new(compression_eqn, expansion_eqn)
 
-# x3 = Dsp::AnalogSignal.new(eqn: ->(t){ 8 * Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
-# x4 = Dsp::AnalogSignal.new(eqn: ->(t){  Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
+# x3 = Digiproc::AnalogSignal.new(eqn: ->(t){ 8 * Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
+# x4 = Digiproc::AnalogSignal.new(eqn: ->(t){  Math.cos(20 * Math::PI * t) }, sample_rate: 1.0 / 51.0, size: 6, quantization_bits: 4, quant_max: 8, quant_min: -8, companding_strategy: compander)
 
 # puts "x(1): "
 # puts x1.digitize.to_s
@@ -38,7 +38,7 @@
 #     ft << tot
 # end
 
-# fft = Dsp::FFT.new(data: data).calculate
+# fft = Digiproc::FFT.new(data: data).calculate
 
 
 binding.pry

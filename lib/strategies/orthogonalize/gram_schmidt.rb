@@ -1,6 +1,6 @@
 ##
 # Class to orthonormalize a set of numbers
-class Dsp::Strategies::GramSchmidtOrthonormalize
+class Digiproc::Strategies::GramSchmidtOrthonormalize
 
     attr_reader :original_matrix, :orthonormalized_matrix
 

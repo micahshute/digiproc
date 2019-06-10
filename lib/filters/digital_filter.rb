@@ -1,6 +1,6 @@
 ##
 # Parent class to BandpassFilter, HighpassFilter, LowpassFilter, and BandstopFilter
-class Dsp::DigitalFilter
+class Digiproc::DigitalFilter
     PI = Math::PI
 
     attr_accessor :size, :window, :fft, :weights
@@ -8,7 +8,7 @@ class Dsp::DigitalFilter
     ##
     # == Inputs
     # size:: [Integer] number of window datapoints
-    # window:: [Dsp::WindowStrategy] 
+    # window:: [Digiproc::WindowStrategy] 
     def initialize(size: , window: )
         #TODO: allow size to be even
         @size = size.even? ? size + 1 : size
@@ -30,21 +30,21 @@ class Dsp::DigitalFilter
 
     ##
     # Zero pad @weights  to achieve a size of the input value. 
-    # set @fft to a new Dsp::FFT, and calculate with the new padded data.
+    # set @fft to a new Digiproc::FFT, and calculate with the new padded data.
     ## .set_fft_size(size [Integer])
     def set_fft_size(size)
         if size > @weights.length
             zeros = Array.new(size - @weights.length, 0)
             padded = @weights.concat(zeros)
-            @fft = Dsp::FFT.new(data: padded)
+            @fft = Digiproc::FFT.new(data: padded)
             @fft.calculate
         end
     end
 
     ##
-    # return a Dsp::DigitalSignal whose values are the weights of the filter
+    # return a Digiproc::DigitalSignal whose values are the weights of the filter
     def to_ds
-        Dsp::DigitalSignal.new(data: self.weights)
+        Digiproc::DigitalSignal.new(data: self.weights)
     end
 
     #TODO: Inorder to implement, must separately recalculate for weight at n = 0

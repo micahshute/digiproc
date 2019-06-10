@@ -1,12 +1,12 @@
 ##
 # Class for performing actions on Digital Signals easily
-class Dsp::DigitalSignal
+class Digiproc::DigitalSignal
     attr_accessor :data
-    include Dsp::Convolvable::InstanceMethods, Dsp::FourierTransformable
+    include Digiproc::Convolvable::InstanceMethods, Digiproc::FourierTransformable
 
     ##
     # Construct an instance from a Proc (or a Lambda) and a size
-    ## ds = Dsp::DigitalSignal.new_from_eqn(eqn: ->(t){ Math.sin(t) }, size: 100)
+    ## ds = Digiproc::DigitalSignal.new_from_eqn(eqn: ->(t){ Math.sin(t) }, size: 100)
     def self.new_from_eqn(eqn: , size: )
         rng = (0...size)
         self.new(data: rng.map{ |n| eqn.call(n) })
@@ -16,7 +16,7 @@ class Dsp::DigitalSignal
     # Make a digital signal which is defined by one equation in one range, and another eqn in another range
     ## eqn1 = ->(t){ (1 - Math::E ** (-0.08*t)) } 
     ## eqn2 = ->(t){ Math::E ** (-0.002*(t - 100)) }
-    ## ds = Dsp::DigitalSignal.new_from_equations(eqns: [eqn1, eqn2], ranges: [0...100, 100...1000])
+    ## ds = Digiproc::DigitalSignal.new_from_equations(eqns: [eqn1, eqn2], ranges: [0...100, 100...1000])
     def self.new_from_equations(eqns: , ranges: )
         data = []
         eqns.each_with_index do |eqn, i|
@@ -32,7 +32,7 @@ class Dsp::DigitalSignal
     ##
     # Make a new digital signal from fft data
     def new_from_spectra(fft)
-        self.new(data: Dsp::Functions.ifft(fft))
+        self.new(data: Digiproc::Functions.ifft(fft))
     end
     
     ##
@@ -40,12 +40,12 @@ class Dsp::DigitalSignal
     def initialize(data: )
         raise ArgumentError.new("Data must be an Array, not a #{data.class}") if not data.is_a? Array
         @data = data
-        initialize_modules(Dsp::FourierTransformable => {time_data: data})
+        initialize_modules(Digiproc::FourierTransformable => {time_data: data})
     end
 
     ##
     # Helper method to allow user to process a ds data using a block
-    ## ds = Dsp::DigitalSignal.new_from_eqn(eqn: ->(t){ Math.sin(t) }, size: 100)
+    ## ds = Digiproc::DigitalSignal.new_from_eqn(eqn: ->(t){ Math.sin(t) }, size: 100)
     ## ds.process { |el| el * 10 } # Change signal gain from 1 to 10.
     # Does not change @data, just returns processed array
     def process 
@@ -87,7 +87,7 @@ class Dsp::DigitalSignal
 
     ##
     # Get data values from @data by index
-    ## ds = Dsp::DigitalSignal.new_from_eqn(eqn: ->(t){ Math.sin(t) }, size: 100)
+    ## ds = Digiproc::DigitalSignal.new_from_eqn(eqn: ->(t){ Math.sin(t) }, size: 100)
     ## vals = ds.i(10..12) # => [-0.5440211108893699, -0.9999902065507035, -0.5365729180004349]
     def i(*n)
         indices = n.map{ |input| input.respond_to?(:to_a) ? input.to_a : input}
@@ -110,21 +110,21 @@ class Dsp::DigitalSignal
     end
 
     ##
-    # Convolves data with incoming signal, returns a new Dsp::DigitalSignal whose data is the result of the convolution
+    # Convolves data with incoming signal, returns a new Digiproc::DigitalSignal whose data is the result of the convolution
     def ds_convolve(signal)
-        Dsp::DigitalSignal.new(data: self.conv(signal))
+        Digiproc::DigitalSignal.new(data: self.conv(signal))
     end
 
     ##
     # Alias to ds_convolve
     def ds_conv(signal)
-        Dsp::DigitalSignal.new(data: self.conv(signal))
+        Digiproc::DigitalSignal.new(data: self.conv(signal))
     end
 
     ## 
-    # Performs cross correlation with an incoming signal, returns a Dsp::DigitalSignal whose data is the result of the cross correlation
+    # Performs cross correlation with an incoming signal, returns a Digiproc::DigitalSignal whose data is the result of the cross correlation
     def ds_cross_correlation(signal)
-        Dsp::DigitalSignal.new(data: self.cross_correlation(signal))
+        Digiproc::DigitalSignal.new(data: self.cross_correlation(signal))
     end
 
     ##
@@ -134,9 +134,9 @@ class Dsp::DigitalSignal
     end
 
     ##
-    # Performs an autocorrelation of the `data` array and retursn a Dsp::DigitalSignal whose data is the result of the autocorrelation
+    # Performs an autocorrelation of the `data` array and retursn a Digiproc::DigitalSignal whose data is the result of the autocorrelation
     def ds_auto_correlation
-        Dsp::DigitalSignal.new(data: self.auto_correlation)
+        Digiproc::DigitalSignal.new(data: self.auto_correlation)
     end
 
     ##
@@ -147,7 +147,7 @@ class Dsp::DigitalSignal
 
     ##
     # Returns the Power Spectral Density (PSD) of the signal by multiplying the signal's FFT by the conjugate of the FFT (ie squaring the FFT)
-    # The result is in the frequency spectrum (as a Dsp::FFT object)
+    # The result is in the frequency spectrum (as a Digiproc::FFT object)
     def power_spectral_density
         self.fft * self.fft.conjugate
     end
@@ -160,9 +160,9 @@ class Dsp::DigitalSignal
 
     ##
     # Returns the cross_spectral_density of the digital signal with an incoming signal (accepts an array of numeric data)
-    # Returns a Dsp::FFT object 
+    # Returns a Digiproc::FFT object 
     def cross_spectral_density(signal)
-        ft = Dsp::FFT.new(time_data: self.xcorr(signal))
+        ft = Digiproc::FFT.new(time_data: self.xcorr(signal))
         ft.calculate
         ft
     end

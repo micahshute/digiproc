@@ -1,12 +1,12 @@
-plt = Dsp::QuickPlot
+plt = Digiproc::QuickPlot
 
 sig_str = "110100010110"
 sig = sig_str.split('')
-diff_sig = Dsp::Strategies::XORDifferentialEncodingStrategy.encode(sig, 2, "0")
+diff_sig = Digiproc::Strategies::XORDifferentialEncodingStrategy.encode(sig, 2, "0")
 
-bpsk = Dsp::Strategies::PSK.new(modulating_signal: diff_sig, coding_strategy: nil)
-bdpsk = Dsp::Strategies::PSK.new(modulating_signal: sig)
-dpsk = Dsp::Strategies::PSK.new(modulating_signal: sig, coding_strategy: Dsp::Strategies::DifferentialEncodingStrategy)
+bpsk = Digiproc::Strategies::PSK.new(modulating_signal: diff_sig, coding_strategy: nil)
+bdpsk = Digiproc::Strategies::PSK.new(modulating_signal: sig)
+dpsk = Digiproc::Strategies::PSK.new(modulating_signal: sig, coding_strategy: Digiproc::Strategies::DifferentialEncodingStrategy)
 
 puts "System 1 Differential Signal: #{bpsk.coded_signal}"
 puts "System 1 Phase: #{bpsk.phase_signal.map{ |ps| ps / Math::PI }} * pi"
@@ -26,7 +26,7 @@ plt.plot(data: dpsk.phase_signal.map{ |p| p / Math::PI},y_label: "Phase", title:
 puts "\n\n"
 
 # dpsk_output = dpsk.output
-# time_range = Dsp::Functions.linspace(0, dpsk_output.sample_rate * dpsk_output.size, dpsk_output.size)
+# time_range = Digiproc::Functions.linspace(0, dpsk_output.sample_rate * dpsk_output.size, dpsk_output.size)
 path = "./examples/modulation_schemes/"
 plt.plot(data: bpsk.output.digitize, title: "System 1 Xmit Signal", y_label: "Magnitude", dark: true, path: path)
 plt.plot(data: bdpsk.output.digitize, title: "System 2 Xmit Signal", y_label: "Magnitude", dark: true, path: path)

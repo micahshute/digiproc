@@ -2,7 +2,7 @@
 # A class which allows a custom companding strategy to be used via a lambda function 
 # inputted into the initilizer. 
 
-class Dsp::Strategies::CustomCompandingStrategy
+class Digiproc::Strategies::CustomCompandingStrategy
 
     attr_accessor :eqn, :inverse
 

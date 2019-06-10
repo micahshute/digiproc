@@ -1,8 +1,8 @@
 # Define required objects and constants
 r = Random.new
 pulse_lens = [1,2]
-plt = Dsp::QuickPlot
-fns = Dsp::Functions
+plt = Digiproc::QuickPlot
+fns = Digiproc::Functions
 a = 1
 
 # Random signal generator functions
@@ -21,7 +21,7 @@ pulse_lens.each do |pulse_len|
     size = (1.0 / sample_rate) * signal_size * pulse_len
     # Correct for sample rate so it can be compared to CT equation
     signal_eqn = ->(t){ signal_arr[(t / pulse_len.to_f).floor] * sample_rate }
-    signal = Dsp::AnalogSignal.new(eqn: signal_eqn, sample_rate: sample_rate, size: size)
+    signal = Digiproc::AnalogSignal.new(eqn: signal_eqn, sample_rate: sample_rate, size: size)
     freq_of_interest1 = 1.0 / (2 * pulse_len)
     freq_of_interest2 = 1.0 / ( pulse_len)
     # Test calculated equation 
@@ -64,7 +64,7 @@ end
 pulse_lens.each do |pulse_len|
     size = (1.0 / sample_rate) * signal_size * pulse_len
     signal_eqn = ->(t){ coded_arr[(t / pulse_len.to_f).floor] * sample_rate }
-    signal = Dsp::AnalogSignal.new(eqn: signal_eqn, sample_rate: sample_rate, size: size)
+    signal = Digiproc::AnalogSignal.new(eqn: signal_eqn, sample_rate: sample_rate, size: size)
     freq_of_interest1 = 1.0 / (2 * pulse_len)
     freq_of_interest2 = 1.0 / ( pulse_len)
 

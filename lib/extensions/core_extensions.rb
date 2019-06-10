@@ -1,6 +1,6 @@
 ## 
 # Add extensions to certain Ruby Classes for easy use of the library without using too many custom classes
-module Dsp::CoreExtensions
+module Digiproc::CoreExtensions
     module ArrayExtension
         module DotProduct
             ##
