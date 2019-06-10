@@ -1,7 +1,7 @@
 
 require "bundler/setup"
 
-Bundler.require(:default)
+require 'gruff'
 
 require 'matrix'
 require 'ostruct'
