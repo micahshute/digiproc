@@ -13,9 +13,9 @@ class Digiproc::Probability::TheoreticalBinomialDistribution
     # k:: [Integer] (optional at initialization) Number of successes
     # p:: [Numeric] Probability of success
     def initialize(n: ,k: nil , p: )
-        @n = n.to_f
-        @k = k.to_f
-        @p = p.to_f
+        @n = n
+        @k = k
+        @p = p
     end
 
     ##
@@ -66,17 +66,18 @@ class Digiproc::Probability::TheoreticalBinomialDistribution
         karr.each do |k_val| 
             sum += self.coefficient(k_val) * ((self.p) ** (k_val)) * (1 - self.p) ** (n - k_val)
         end
-        sum
+        sum.to_f
     end
 
     ##
     # Returns the binomial equation coefficient for a given number of wins, ie returns n! / (k! * (n - k)!)
     # Can take an argument of `k`, which defaults to `self.k`
+    # Returns a BigDecimal
     ## bd.coefficient(4) # => 210.0
     def coefficient(k = self.k)
-        n_fact = Digiproc::Functions.fact(self.n)
-        k_fact = Digiproc::Functions.fact(k)
-        n_fact / (k_fact.to_f * (Digiproc::Functions.fact(self.n - k)))
+        n_fact = BigDecimal(Digiproc::Functions.fact(self.n))
+        k_fact = BigDecimal(Digiproc::Functions.fact(k))
+        n_fact / (k_fact * BigDecimal((Digiproc::Functions.fact(self.n - k))))
     end
 
     
