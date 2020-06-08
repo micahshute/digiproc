@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    digiproc (0.2.3)
+    digiproc (0.2.4)
       bigdecimal
       bundler
       gruff (~> 0.7.0)
