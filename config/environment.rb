@@ -1,6 +1,6 @@
 
 require "bundler/setup"
-require 'BigDecimal'
+require 'bigdecimal'
 require 'gruff'
 
 require 'matrix'
